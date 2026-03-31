@@ -22,6 +22,8 @@ tables/
   docs/
     PROJECT_STRUCTURE.md
     DATA_MODEL.md
+    OPERATIONS.md
+    AGENT_ONBOARDING.md
     PIPELINE.md
     runbooks/
       experiment_checklist.md

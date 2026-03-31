@@ -17,12 +17,49 @@ Each table is a JSON object:
 - The position of a bit inside `bits` defines its position inside each row mask.
 - `rows` stores allowed assignments for those bits.
 - Each row is treated as an unsigned integer mask.
+- A table represents the set of allowed local assignments for exactly the bits listed in `bits`.
+- Rows are local to the table. The same integer value means different assignments if the `bits` arrays differ.
 
 For bit `bits[i]`, its value inside row `row` is:
 
 ```text
 (row >> i) & 1
 ```
+
+Example:
+
+```json
+{
+  "bits": [10, 25, 40],
+  "rows": [0, 3, 5]
+}
+```
+
+Interpretation:
+
+- row `0` means `10=0, 25=0, 40=0`
+- row `3` means `10=1, 25=1, 40=0`
+- row `5` means `10=1, 25=0, 40=1`
+
+## Projection
+
+Many reductions project a row from a larger table onto a subset of its bits.
+
+If a table uses local order `[b0, b1, b2, b3]` and we project to `[b1, b3]`, the projected row is rebuilt in the new local order:
+
+- projected bit `0` comes from original position of `b1`
+- projected bit `1` comes from original position of `b3`
+
+This is why projection must remap positions, not simply mask by global bit id.
+
+## Equality Of Tables
+
+Two tables are considered schema-equal only if they have the same canonical ordered `bits` array.
+
+When schema-equal tables are merged:
+
+- their `rows` are intersected;
+- they do not get unioned.
 
 ## Normal Form
 
@@ -37,3 +74,9 @@ For bit `bits[i]`, its value inside row `row` is:
 - pair reduction rewrites equivalent or opposite bits to one representative;
 - node filtering only removes rows;
 - every persisted stage must remain logically equivalent to the previous stage.
+
+## Implementation Guidance
+
+- prefer integer bit operations over per-bit boxed structures when possible;
+- use `uint32`-style row handling for active steps unless arity grows beyond that assumption;
+- keep persisted artifacts deterministic: sorted bits, sorted rows, stable artifact names.
