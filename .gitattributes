@@ -1,0 +1,11 @@
+* text=auto
+
+*.py text eol=lf
+*.rs text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+
+data/derived/** linguist-generated=true
+data/reports/** linguist-generated=true
+archive/** linguist-vendored=true
