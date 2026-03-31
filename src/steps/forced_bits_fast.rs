@@ -21,6 +21,15 @@ struct SystemSummary {
 }
 
 #[derive(Clone, Debug, Default)]
+struct RankSummary {
+    table_count: usize,
+    min_rank: f64,
+    max_rank: f64,
+    mean_rank: f64,
+    median_rank: f64,
+}
+
+#[derive(Clone, Debug, Default)]
 struct PropagationStats {
     affected_tables: usize,
     changed_tables: usize,
@@ -358,6 +367,40 @@ fn summarize_system(tables: &[Table]) -> SystemSummary {
 
     summary.bit_count = seen.into_iter().filter(|value| *value).count();
     summary
+}
+
+fn summarize_ranks(tables: &[Table]) -> RankSummary {
+    let mut ranks = Vec::with_capacity(tables.len());
+    for table in tables {
+        let arity = table.bits.len();
+        let row_count = table.rows.len();
+        if arity == 0 || row_count == 0 {
+            continue;
+        }
+        let rank = (row_count as f64).powf(1.0 / arity as f64);
+        ranks.push(rank);
+    }
+
+    if ranks.is_empty() {
+        return RankSummary::default();
+    }
+
+    ranks.sort_by(|left, right| left.partial_cmp(right).unwrap_or(std::cmp::Ordering::Equal));
+    let table_count = ranks.len();
+    let sum: f64 = ranks.iter().sum();
+    let median = if table_count % 2 == 0 {
+        (ranks[(table_count / 2) - 1] + ranks[table_count / 2]) / 2.0
+    } else {
+        ranks[table_count / 2]
+    };
+
+    RankSummary {
+        table_count,
+        min_rank: ranks[0],
+        max_rank: ranks[table_count - 1],
+        mean_rank: sum / table_count as f64,
+        median_rank: median,
+    }
 }
 
 fn intersect_sorted(left: &[u32], right: &[u32]) -> Vec<u32> {
@@ -738,6 +781,24 @@ fn write_round_json(output: &mut String, round: &RoundInfo, indent: usize) {
     output.push('}');
 }
 
+fn write_rank_summary_json(output: &mut String, summary: &RankSummary, indent: usize) {
+    output.push_str("{\n");
+    push_indent(output, indent + 2);
+    writeln!(output, "\"metric\": \"rank = row_count ** (1 / bit_count)\",").unwrap();
+    push_indent(output, indent + 2);
+    writeln!(output, "\"table_count\": {},", summary.table_count).unwrap();
+    push_indent(output, indent + 2);
+    writeln!(output, "\"min_rank\": {:.15},", summary.min_rank).unwrap();
+    push_indent(output, indent + 2);
+    writeln!(output, "\"max_rank\": {:.15},", summary.max_rank).unwrap();
+    push_indent(output, indent + 2);
+    writeln!(output, "\"mean_rank\": {:.15},", summary.mean_rank).unwrap();
+    push_indent(output, indent + 2);
+    writeln!(output, "\"median_rank\": {:.15}", summary.median_rank).unwrap();
+    push_indent(output, indent);
+    output.push('}');
+}
+
 fn write_report_json(
     path: &str,
     input_path: &str,
@@ -745,6 +806,8 @@ fn write_report_json(
     forced_path: &str,
     initial: &SystemSummary,
     final_summary: &SystemSummary,
+    initial_rank_summary: &RankSummary,
+    final_rank_summary: &RankSummary,
     rounds: &[RoundInfo],
     forced: &BTreeMap<u32, u8>,
 ) -> Result<(), String> {
@@ -773,9 +836,15 @@ fn write_report_json(
     writeln!(output, "  \"initial_table_count\": {},", initial.table_count).unwrap();
     writeln!(output, "  \"initial_bit_count\": {},", initial.bit_count).unwrap();
     writeln!(output, "  \"initial_row_count\": {},", initial.row_count).unwrap();
+    output.push_str("  \"initial_rank_summary\": ");
+    write_rank_summary_json(&mut output, initial_rank_summary, 2);
+    output.push_str(",\n");
     writeln!(output, "  \"final_table_count\": {},", final_summary.table_count).unwrap();
     writeln!(output, "  \"final_bit_count\": {},", final_summary.bit_count).unwrap();
     writeln!(output, "  \"final_row_count\": {},", final_summary.row_count).unwrap();
+    output.push_str("  \"final_rank_summary\": ");
+    write_rank_summary_json(&mut output, final_rank_summary, 2);
+    output.push_str(",\n");
     writeln!(output, "  \"productive_round_count\": {},", productive_rounds).unwrap();
     writeln!(
         output,
@@ -839,6 +908,7 @@ fn run() -> Result<(), String> {
     let mut tables = parser.parse_tables()?;
 
     let initial_summary = summarize_system(&tables);
+    let initial_rank_summary = summarize_ranks(&tables);
     let mut all_forced: BTreeMap<u32, u8> = BTreeMap::new();
     let mut rounds = Vec::new();
     let mut round_number = 1usize;
@@ -888,6 +958,7 @@ fn run() -> Result<(), String> {
     }
 
     let final_summary = summarize_system(&tables);
+    let final_rank_summary = summarize_ranks(&tables);
     write_tables_json(&output_path, &tables)?;
     write_forced_bits_json(&forced_path, &all_forced)?;
     write_report_json(
@@ -897,6 +968,8 @@ fn run() -> Result<(), String> {
         &forced_path,
         &initial_summary,
         &final_summary,
+        &initial_rank_summary,
+        &final_rank_summary,
         &rounds,
         &all_forced,
     )?;

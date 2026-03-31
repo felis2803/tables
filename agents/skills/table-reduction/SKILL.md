@@ -22,6 +22,7 @@ Before editing code or interpreting data, read:
 - Table rows are local masks, not global bit assignments.
 - Equal-schema tables merge by row intersection.
 - The active baseline pipeline is a fixed-point loop, not a one-pass reducer.
+- `rank` is defined as `row_count ** (1 / bit_count)`.
 
 ## Operations You Must Know
 
@@ -42,6 +43,7 @@ Do not change or describe these operations loosely. Use the project docs termino
    - table count;
    - bit count;
    - row count;
+   - rank summary;
    - arity distribution.
 6. Name new artifacts and reports consistently by stage.
 
@@ -60,6 +62,7 @@ Do not change or describe these operations loosely. Use the project docs termino
 - If a step exposes a tautology, remove it and report it.
 - If a step only removes rows, state that explicitly in the report.
 - If a step rewrites bits, preserve a mapping back to original bits.
+- Stage reports must include input and output rank summaries.
 
 ## Safety Rules
 

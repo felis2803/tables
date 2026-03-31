@@ -127,6 +127,13 @@ Reports and summaries only:
 - `report.<stage>.json`
 - `summary.<stage>.md`
 
+Stage reports should include:
+
+- input and output counts for tables, bits, and rows;
+- input and output rank summaries;
+- arity distributions;
+- step-specific statistics.
+
 Current active stages:
 
 - `subset_merged`

@@ -132,8 +132,14 @@ Every new step or variant should report at least:
 - input and output table count;
 - input and output bit count;
 - input and output row count;
+- input and output rank summaries;
 - arity distribution before and after;
 - number of changed tables;
 - number of removed rows;
 - any removed or rewritten bits;
 - whether the step removes rows only, bits only, tables only, or a mix.
+
+Recommended rank fields:
+
+- `input_rank_summary`
+- `final_rank_summary` or `output_rank_summary`

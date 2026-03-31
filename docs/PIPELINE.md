@@ -72,6 +72,12 @@ The common pipeline should keep these outputs in sync:
 - node subtables;
 - machine-readable run report.
 
+Each stage report is also expected to include rank data for the table system it transforms:
+
+- input rank summary;
+- output or final rank summary;
+- rank-by-arity breakdown when available.
+
 ## Agent Rule
 
 If you add or modify a reduction step, also update:

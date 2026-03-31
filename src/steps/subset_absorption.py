@@ -17,7 +17,8 @@ from src.utils.artifacts import (
     subset_pairs_artifact,
     table_artifact,
 )
-from src.utils.paths import DERIVED_DIR, RAW_DIR, REPORTS_DIR
+from src.utils.paths import RAW_DIR
+from src.utils.rank_stats import summarize_table_ranks, summarize_tables_by_bits_ranks
 
 
 def canonicalize_table(table: dict) -> tuple[tuple[int, ...], set[int]]:
@@ -154,6 +155,7 @@ def prune_included_tables(
 
 def write_report(
     path: Path,
+    input_tables: list[dict],
     original_count: int,
     duplicate_count: int,
     canonical_count_before_prune: int,
@@ -177,6 +179,8 @@ def write_report(
         "emptied_tables": merge_stats["emptied_tables"],
         "min_rows_after_merge": min(row_counts) if row_counts else 0,
         "max_rows_after_merge": max(row_counts) if row_counts else 0,
+        "input_rank_summary": summarize_table_ranks(input_tables),
+        "final_rank_summary": summarize_tables_by_bits_ranks(tables_by_bits),
     }
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as fh:
@@ -229,6 +233,7 @@ def main() -> None:
     write_tables(output_path, tables_by_bits)
     write_report(
         report_path,
+        input_tables=tables,
         original_count=len(tables),
         duplicate_count=duplicate_count,
         canonical_count_before_prune=canonical_count_before_prune,

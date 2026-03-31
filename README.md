@@ -19,6 +19,11 @@ A table is a constraint over an ordered local set of bit identifiers:
 
 The active system is reduced by repeatedly applying semantic operations such as subset absorption, forced-bit propagation, pair reduction, and node filtering until a fixed point is reached.
 
+The repository also uses the derived metric `rank` for tables:
+
+- `rank = row_count ** (1 / bit_count)`
+- equivalently, `rank ** bit_count = row_count`
+
 ## What Should Stay In Root
 
 Only a small set of files should remain in the root:
@@ -67,6 +72,8 @@ Active artifacts use a stage-based scheme:
 - `pairs.<stage>.relations.json`
 - `nodes.<stage>.json`
 - `report.<stage>.json`
+
+Stage reports should also include rank summaries for the input and output table systems.
 
 ## Run Examples
 

@@ -48,3 +48,11 @@ def subset_pairs_artifact(stage: str) -> Path:
 
 def dropped_tables_artifact(stage: str) -> Path:
     return DERIVED_DIR / f"tables.{stage}.dropped_included.json"
+
+
+def ranks_artifact(stage: str) -> Path:
+    return DERIVED_DIR / f"ranks.{stage}.json"
+
+
+def rank_report_artifact(stage: str) -> Path:
+    return REPORTS_DIR / f"report.{stage}.ranks.json"

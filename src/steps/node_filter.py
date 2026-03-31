@@ -17,6 +17,7 @@ from src.utils.artifacts import (
     report_artifact,
     table_artifact,
 )
+from src.utils.rank_stats import summarize_table_ranks
 
 
 def arity_distribution(tables: list[dict]) -> dict[str, int]:
@@ -276,6 +277,7 @@ def main() -> None:
     initial_bit_count = len(collect_bits(tables))
     initial_row_count = total_rows(tables)
     initial_arity = arity_distribution(tables)
+    initial_rank_summary = summarize_table_ranks(tables)
 
     tables = [
         {"bits": table["bits"], "rows": set(table["rows"])}
@@ -304,6 +306,8 @@ def main() -> None:
         "final_row_count": total_rows(output_tables),
         "initial_arity_distribution": initial_arity,
         "final_arity_distribution": arity_distribution(output_tables),
+        "initial_rank_summary": initial_rank_summary,
+        "final_rank_summary": summarize_table_ranks(output_tables),
         "node_build": node_build_stats,
         "filter": filter_stats,
     }

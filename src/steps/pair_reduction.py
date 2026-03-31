@@ -18,6 +18,7 @@ from src.utils.artifacts import (
     rewrite_map_artifact,
     table_artifact,
 )
+from src.utils.rank_stats import summarize_table_ranks
 
 
 EQUAL_MASKS = {1, 8, 9}
@@ -309,6 +310,7 @@ def main() -> None:
     args = parser.parse_args()
 
     tables = load_tables(Path(args.input))
+    initial_rank_summary = summarize_table_ranks(tables)
     original_bits = sorted({bit for table in tables for bit in table["bits"]})
     original_mapping = {bit: (bit, 0) for bit in original_bits}
     all_relations = []
@@ -404,6 +406,8 @@ def main() -> None:
         "output": args.output,
         "iteration_count": len(iterations),
         "iterations": iterations,
+        "initial_rank_summary": initial_rank_summary,
+        "final_rank_summary": summarize_table_ranks(tables),
         "final_table_count": len(tables),
         "final_arity_distribution": dict(sorted(Counter(len(table["bits"]) for table in tables).items())),
         "rewritten_original_bits": len(mapping_rows),

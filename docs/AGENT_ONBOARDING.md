@@ -15,13 +15,14 @@ If you are a new agent on this repository, read these files in order before edit
 - Projection and rewriting always operate relative to local bit order.
 - Persisted artifacts should use canonical ascending bit order.
 - The active pipeline is a fixed-point loop over multiple reduction steps, not a single pass.
+- `rank` is a derived metric: `row_count ** (1 / bit_count)`.
 
 ## Before You Change Anything
 
 - identify whether the change is a new reduction step, a faster implementation of an existing step, or documentation only;
 - verify artifact names through [artifacts.py](C:/projects/tables/src/utils/artifacts.py);
 - preserve logical equivalence unless the task explicitly asks for a new semantics-changing operation;
-- produce before/after counts for tables, bits, and rows.
+- produce before/after counts for tables, bits, rows, and rank summaries.
 
 ## When Adding A New Step
 

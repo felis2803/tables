@@ -61,6 +61,26 @@ When schema-equal tables are merged:
 - their `rows` are intersected;
 - they do not get unioned.
 
+## Rank Metric
+
+The project uses a derived table metric called `rank`:
+
+```text
+rank = row_count ** (1 / bit_count)
+```
+
+Equivalently:
+
+```text
+rank ** bit_count = row_count
+```
+
+Interpretation:
+
+- `rank` is the per-bit growth factor implied by the number of rows;
+- for fixed arity, larger `rank` means a less restrictive table;
+- `rank` is a summary metric only and does not replace semantic checks based on actual row sets.
+
 ## Normal Form
 
 - `bits` should be sorted in ascending order in persisted artifacts unless a step explicitly needs a transient order.
@@ -80,3 +100,4 @@ When schema-equal tables are merged:
 - prefer integer bit operations over per-bit boxed structures when possible;
 - use `uint32`-style row handling for active steps unless arity grows beyond that assumption;
 - keep persisted artifacts deterministic: sorted bits, sorted rows, stable artifact names.
+- when writing reports, include rank summaries for input and output systems.

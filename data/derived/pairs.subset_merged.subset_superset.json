@@ -1,0 +1,10718 @@
+[
+  {
+    "subset_bits": [
+      28
+    ],
+    "superset_bits": [
+      28,
+      7917
+    ],
+    "rows_removed": 1
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      7776
+    ],
+    "rows_removed": 1
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      7862
+    ],
+    "rows_removed": 1
+  },
+  {
+    "subset_bits": [
+      8
+    ],
+    "superset_bits": [
+      8,
+      10064,
+      10920
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      10
+    ],
+    "superset_bits": [
+      10,
+      10457,
+      11391
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      15
+    ],
+    "superset_bits": [
+      15,
+      9732,
+      9733
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      17
+    ],
+    "superset_bits": [
+      17,
+      11843,
+      11844
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      23
+    ],
+    "superset_bits": [
+      23,
+      15562,
+      15563
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      25
+    ],
+    "superset_bits": [
+      25,
+      14142,
+      14143
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      28
+    ],
+    "superset_bits": [
+      28,
+      7915,
+      7916
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7915,
+      7916
+    ],
+    "superset_bits": [
+      28,
+      7915,
+      7916
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      28
+    ],
+    "superset_bits": [
+      28,
+      7917,
+      87771
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      28,
+      7917
+    ],
+    "superset_bits": [
+      28,
+      7917,
+      87771
+    ],
+    "rows_removed": 1
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      7607,
+      85141
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      29,
+      7776
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844
+    ],
+    "rows_removed": 1
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      7782,
+      80000
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      7865,
+      87432
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      7931,
+      7932
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      29,
+      7931,
+      7932
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      83318,
+      84392
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7587,
+      7923
+    ],
+    "superset_bits": [
+      7587,
+      7923,
+      7924
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7750,
+      7925
+    ],
+    "superset_bits": [
+      7750,
+      7925,
+      7926
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7754,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7927
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7770,
+      7930
+    ],
+    "superset_bits": [
+      7768,
+      7770,
+      7930
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7841,
+      7929
+    ],
+    "superset_bits": [
+      7841,
+      7898,
+      7929
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      7862,
+      7931,
+      7932
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7911,
+      7912
+    ],
+    "superset_bits": [
+      7876,
+      7911,
+      7912
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7913,
+      7914
+    ],
+    "superset_bits": [
+      7880,
+      7913,
+      7914
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7905,
+      7906
+    ],
+    "superset_bits": [
+      7905,
+      7906,
+      7907
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908
+    ],
+    "superset_bits": [
+      7907,
+      7908,
+      87776
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7909,
+      7910
+    ],
+    "superset_bits": [
+      7909,
+      7910,
+      7911
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7919,
+      7920
+    ],
+    "superset_bits": [
+      7919,
+      7920,
+      7921
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      0
+    ],
+    "superset_bits": [
+      0,
+      8227,
+      87946,
+      87947
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      2
+    ],
+    "superset_bits": [
+      2,
+      8804,
+      88052,
+      88202
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      3
+    ],
+    "superset_bits": [
+      3,
+      7941,
+      8455,
+      8805
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7941,
+      8455,
+      8805
+    ],
+    "superset_bits": [
+      3,
+      7941,
+      8455,
+      8805
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      3
+    ],
+    "superset_bits": [
+      3,
+      7941,
+      8455,
+      88053
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      4
+    ],
+    "superset_bits": [
+      4,
+      8979,
+      8981,
+      9449
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      8979,
+      8981,
+      9449
+    ],
+    "superset_bits": [
+      4,
+      8979,
+      8981,
+      9449
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      4
+    ],
+    "superset_bits": [
+      4,
+      8979,
+      8981,
+      88282
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      4
+    ],
+    "superset_bits": [
+      4,
+      8987,
+      9449,
+      87898
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7
+    ],
+    "superset_bits": [
+      7,
+      94,
+      8812,
+      9754
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      94,
+      8812,
+      9754
+    ],
+    "superset_bits": [
+      7,
+      94,
+      8812,
+      9754
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      7
+    ],
+    "superset_bits": [
+      7,
+      94,
+      8812,
+      11432
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      10
+    ],
+    "superset_bits": [
+      10,
+      9725,
+      10456,
+      10457
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      9725,
+      10456,
+      10457
+    ],
+    "superset_bits": [
+      10,
+      9725,
+      10456,
+      10457
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      10
+    ],
+    "superset_bits": [
+      10,
+      9725,
+      10456,
+      88573
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      11
+    ],
+    "superset_bits": [
+      11,
+      9749,
+      10488,
+      10489
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      9749,
+      10488,
+      10489
+    ],
+    "superset_bits": [
+      11,
+      9749,
+      10488,
+      10489
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      11
+    ],
+    "superset_bits": [
+      11,
+      9749,
+      10488,
+      88714
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      12
+    ],
+    "superset_bits": [
+      12,
+      88818,
+      89229,
+      89230
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      12
+    ],
+    "superset_bits": [
+      12,
+      88818,
+      89229,
+      89231
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      13
+    ],
+    "superset_bits": [
+      13,
+      11393,
+      14968,
+      89507
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      14
+    ],
+    "superset_bits": [
+      14,
+      10869,
+      11841,
+      11842
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      10869,
+      11841,
+      11842
+    ],
+    "superset_bits": [
+      14,
+      10869,
+      11841,
+      11842
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      14
+    ],
+    "superset_bits": [
+      14,
+      10869,
+      11841,
+      89246
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      14
+    ],
+    "superset_bits": [
+      14,
+      11842,
+      89739,
+      89740
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      16
+    ],
+    "superset_bits": [
+      16,
+      10938,
+      11855,
+      12960
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      10938,
+      11855,
+      12960
+    ],
+    "superset_bits": [
+      16,
+      10938,
+      11855,
+      12960
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      16
+    ],
+    "superset_bits": [
+      16,
+      10938,
+      11855,
+      89751
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      19
+    ],
+    "superset_bits": [
+      19,
+      90855,
+      92100,
+      92101
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      20
+    ],
+    "superset_bits": [
+      20,
+      9458,
+      16910,
+      18406
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      9458,
+      16910,
+      18406
+    ],
+    "superset_bits": [
+      20,
+      9458,
+      16910,
+      18406
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      20
+    ],
+    "superset_bits": [
+      20,
+      9458,
+      16910,
+      92091
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      21
+    ],
+    "superset_bits": [
+      21,
+      19872,
+      93489,
+      93490
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      22
+    ],
+    "superset_bits": [
+      22,
+      92093,
+      93492,
+      93493
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      22
+    ],
+    "superset_bits": [
+      22,
+      92093,
+      93492,
+      93494
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      25
+    ],
+    "superset_bits": [
+      25,
+      14143,
+      17112,
+      24729
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      14143,
+      17112,
+      24729
+    ],
+    "superset_bits": [
+      25,
+      14143,
+      17112,
+      24729
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      25
+    ],
+    "superset_bits": [
+      25,
+      17112,
+      24729,
+      95800
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      27
+    ],
+    "superset_bits": [
+      27,
+      16909,
+      26486,
+      30481
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      27
+    ],
+    "superset_bits": [
+      27,
+      16909,
+      28273,
+      30481
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      28
+    ],
+    "superset_bits": [
+      28,
+      7917,
+      7918,
+      87771
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      28,
+      7917
+    ],
+    "superset_bits": [
+      28,
+      7917,
+      7918,
+      87771
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      28,
+      7917,
+      87771
+    ],
+    "superset_bits": [
+      28,
+      7917,
+      7918,
+      87771
+    ],
+    "rows_removed": 1
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7902
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      29,
+      7776
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7902
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      29,
+      7776,
+      7844
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7902
+    ],
+    "rows_removed": 1
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      87772
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      29,
+      7776
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      87772
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      29,
+      7776,
+      7844
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      87772
+    ],
+    "rows_removed": 1
+  },
+  {
+    "subset_bits": [
+      108,
+      109
+    ],
+    "superset_bits": [
+      108,
+      109,
+      7971,
+      8888
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      110,
+      111
+    ],
+    "superset_bits": [
+      110,
+      111,
+      8165,
+      87834
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      162,
+      163
+    ],
+    "superset_bits": [
+      162,
+      163,
+      8230,
+      9241
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      332,
+      333
+    ],
+    "superset_bits": [
+      332,
+      333,
+      8994,
+      88288
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      2090,
+      11744,
+      11745
+    ],
+    "superset_bits": [
+      526,
+      2090,
+      11744,
+      11745
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      8330,
+      9727,
+      10458
+    ],
+    "superset_bits": [
+      527,
+      8330,
+      9727,
+      10458
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      534,
+      535
+    ],
+    "superset_bits": [
+      534,
+      535,
+      7954,
+      88717
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      604,
+      605
+    ],
+    "superset_bits": [
+      604,
+      605,
+      10894,
+      88289
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      676,
+      677
+    ],
+    "superset_bits": [
+      676,
+      677,
+      7998,
+      12459
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      752,
+      753
+    ],
+    "superset_bits": [
+      752,
+      753,
+      11873,
+      89224
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      866,
+      867
+    ],
+    "superset_bits": [
+      866,
+      867,
+      8080,
+      89527
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      928,
+      929
+    ],
+    "superset_bits": [
+      928,
+      929,
+      13021,
+      15476
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      930,
+      931
+    ],
+    "superset_bits": [
+      930,
+      931,
+      8128,
+      15484
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      1144,
+      1145
+    ],
+    "superset_bits": [
+      1144,
+      1145,
+      8600,
+      90284
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      3193,
+      22707,
+      22708
+    ],
+    "superset_bits": [
+      1444,
+      3193,
+      22707,
+      22708
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      1540,
+      1541
+    ],
+    "superset_bits": [
+      1540,
+      1541,
+      15558,
+      91438
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      3593,
+      20704,
+      20705
+    ],
+    "superset_bits": [
+      1644,
+      3593,
+      20704,
+      20705
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      3387,
+      22656,
+      22657
+    ],
+    "superset_bits": [
+      1650,
+      3387,
+      22656,
+      22657
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      3389,
+      23712,
+      23713
+    ],
+    "superset_bits": [
+      1852,
+      3389,
+      23712,
+      23713
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      18438,
+      19891,
+      19892
+    ],
+    "superset_bits": [
+      1937,
+      18438,
+      19891,
+      19892
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      3801,
+      27898,
+      27899
+    ],
+    "superset_bits": [
+      2086,
+      3801,
+      27898,
+      27899
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      3803,
+      27598,
+      27599
+    ],
+    "superset_bits": [
+      2100,
+      3803,
+      27598,
+      27599
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      3805,
+      25803,
+      25804
+    ],
+    "superset_bits": [
+      2234,
+      3805,
+      25803,
+      25804
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      4159,
+      29734,
+      29735
+    ],
+    "superset_bits": [
+      2478,
+      4159,
+      29734,
+      29735
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      4161,
+      31013,
+      31014
+    ],
+    "superset_bits": [
+      2484,
+      4161,
+      31013,
+      31014
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      4547,
+      29418,
+      29419
+    ],
+    "superset_bits": [
+      2705,
+      4547,
+      29418,
+      29419
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      3725,
+      25834,
+      25835
+    ],
+    "superset_bits": [
+      2735,
+      3725,
+      25834,
+      25835
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      4163,
+      30927,
+      30928
+    ],
+    "superset_bits": [
+      2921,
+      4163,
+      30927,
+      30928
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      4545,
+      38184,
+      38185
+    ],
+    "superset_bits": [
+      2949,
+      4545,
+      38184,
+      38185
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      4727,
+      34606,
+      34607
+    ],
+    "superset_bits": [
+      3123,
+      4727,
+      34606,
+      34607
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      4549,
+      36264,
+      36265
+    ],
+    "superset_bits": [
+      3145,
+      4549,
+      36264,
+      36265
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5151,
+      37400,
+      37401
+    ],
+    "superset_bits": [
+      3415,
+      5151,
+      37400,
+      37401
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5017,
+      42196,
+      42197
+    ],
+    "superset_bits": [
+      3513,
+      5017,
+      42196,
+      42197
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5119,
+      39976,
+      39977
+    ],
+    "superset_bits": [
+      3575,
+      5119,
+      39976,
+      39977
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      4995,
+      36880,
+      36881
+    ],
+    "superset_bits": [
+      3661,
+      4995,
+      36880,
+      36881
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5121,
+      40958,
+      40959
+    ],
+    "superset_bits": [
+      3775,
+      5121,
+      40958,
+      40959
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5469,
+      36246,
+      36247
+    ],
+    "superset_bits": [
+      3781,
+      5469,
+      36246,
+      36247
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5273,
+      41092,
+      41093
+    ],
+    "superset_bits": [
+      3793,
+      5273,
+      41092,
+      41093
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5351,
+      41896,
+      41897
+    ],
+    "superset_bits": [
+      3863,
+      5351,
+      41896,
+      41897
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5207,
+      41972,
+      41973
+    ],
+    "superset_bits": [
+      3923,
+      5207,
+      41972,
+      41973
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      4911,
+      36307,
+      36308
+    ],
+    "superset_bits": [
+      4005,
+      4911,
+      36307,
+      36308
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5667,
+      44798,
+      44799
+    ],
+    "superset_bits": [
+      4189,
+      5667,
+      44798,
+      44799
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5831,
+      42876,
+      42877
+    ],
+    "superset_bits": [
+      4285,
+      5831,
+      42876,
+      42877
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5471,
+      44552,
+      44553
+    ],
+    "superset_bits": [
+      4309,
+      5471,
+      44552,
+      44553
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6081,
+      45488,
+      45489
+    ],
+    "superset_bits": [
+      4359,
+      6081,
+      45488,
+      45489
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5733,
+      44103,
+      44104
+    ],
+    "superset_bits": [
+      4375,
+      5733,
+      44103,
+      44104
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5929,
+      43698,
+      43699
+    ],
+    "superset_bits": [
+      4399,
+      5929,
+      43698,
+      43699
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5301,
+      41752,
+      41753
+    ],
+    "superset_bits": [
+      4433,
+      5301,
+      41752,
+      41753
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6027,
+      46366,
+      46367
+    ],
+    "superset_bits": [
+      4529,
+      6027,
+      46366,
+      46367
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6029,
+      51212,
+      51213
+    ],
+    "superset_bits": [
+      4537,
+      6029,
+      51212,
+      51213
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5713,
+      43878,
+      43879
+    ],
+    "superset_bits": [
+      4627,
+      5713,
+      43878,
+      43879
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6268,
+      52077,
+      52078
+    ],
+    "superset_bits": [
+      4649,
+      6268,
+      52077,
+      52078
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6099,
+      50370,
+      50371
+    ],
+    "superset_bits": [
+      4675,
+      6099,
+      50370,
+      50371
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6362,
+      46091,
+      46092
+    ],
+    "superset_bits": [
+      4753,
+      6362,
+      46091,
+      46092
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      5803,
+      42898,
+      42899
+    ],
+    "superset_bits": [
+      4781,
+      5803,
+      42898,
+      42899
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6123,
+      48402,
+      48403
+    ],
+    "superset_bits": [
+      4867,
+      6123,
+      48402,
+      48403
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6198,
+      50903,
+      50904
+    ],
+    "superset_bits": [
+      4949,
+      6198,
+      50903,
+      50904
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6360,
+      56129,
+      56130
+    ],
+    "superset_bits": [
+      4977,
+      6360,
+      56129,
+      56130
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6779,
+      52187,
+      52188
+    ],
+    "superset_bits": [
+      5171,
+      6779,
+      52187,
+      52188
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6885,
+      54660,
+      54661
+    ],
+    "superset_bits": [
+      5335,
+      6885,
+      54660,
+      54661
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6101,
+      50220,
+      50221
+    ],
+    "superset_bits": [
+      5349,
+      6101,
+      50220,
+      50221
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6847,
+      51478,
+      51479
+    ],
+    "superset_bits": [
+      5397,
+      6847,
+      51478,
+      51479
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6550,
+      53693,
+      53694
+    ],
+    "superset_bits": [
+      5425,
+      6550,
+      53693,
+      53694
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6849,
+      56164,
+      56165
+    ],
+    "superset_bits": [
+      5451,
+      6849,
+      56164,
+      56165
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6851,
+      60250,
+      60251
+    ],
+    "superset_bits": [
+      5457,
+      6851,
+      60250,
+      60251
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6777,
+      56999,
+      57000
+    ],
+    "superset_bits": [
+      5501,
+      6777,
+      56999,
+      57000
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6616,
+      54766,
+      54767
+    ],
+    "superset_bits": [
+      5517,
+      6616,
+      54766,
+      54767
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7024,
+      55805,
+      55806
+    ],
+    "superset_bits": [
+      5653,
+      7024,
+      55805,
+      55806
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6979,
+      61310,
+      61311
+    ],
+    "superset_bits": [
+      5749,
+      6979,
+      61310,
+      61311
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7057,
+      61384,
+      61385
+    ],
+    "superset_bits": [
+      5777,
+      7057,
+      61384,
+      61385
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6939,
+      66674,
+      66675
+    ],
+    "superset_bits": [
+      5849,
+      6939,
+      66674,
+      66675
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6825,
+      51507,
+      51508
+    ],
+    "superset_bits": [
+      5867,
+      6825,
+      51507,
+      51508
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7022,
+      65722,
+      65723
+    ],
+    "superset_bits": [
+      5875,
+      7022,
+      65722,
+      65723
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6971,
+      64062,
+      64063
+    ],
+    "superset_bits": [
+      5965,
+      6971,
+      64062,
+      64063
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7026,
+      62265,
+      62266
+    ],
+    "superset_bits": [
+      6175,
+      7026,
+      62265,
+      62266
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7147,
+      62533,
+      62534
+    ],
+    "superset_bits": [
+      6214,
+      7147,
+      62533,
+      62534
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7427,
+      63779,
+      63780
+    ],
+    "superset_bits": [
+      6248,
+      7427,
+      63779,
+      63780
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7295,
+      66543,
+      66544
+    ],
+    "superset_bits": [
+      6258,
+      7295,
+      66543,
+      66544
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7543,
+      69576,
+      69577
+    ],
+    "superset_bits": [
+      6312,
+      7543,
+      69576,
+      69577
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7297,
+      64187,
+      64188
+    ],
+    "superset_bits": [
+      6412,
+      7297,
+      64187,
+      64188
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7425,
+      68416,
+      68417
+    ],
+    "superset_bits": [
+      6428,
+      7425,
+      68416,
+      68417
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      6907,
+      63866,
+      63867
+    ],
+    "superset_bits": [
+      6442,
+      6907,
+      63866,
+      63867
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7514,
+      73144,
+      73145
+    ],
+    "superset_bits": [
+      6464,
+      7514,
+      73144,
+      73145
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7338,
+      70291,
+      70292
+    ],
+    "superset_bits": [
+      6558,
+      7338,
+      70291,
+      70292
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7512,
+      75109,
+      75110
+    ],
+    "superset_bits": [
+      6646,
+      7512,
+      75109,
+      75110
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7386,
+      60992,
+      60993
+    ],
+    "superset_bits": [
+      6660,
+      7386,
+      60992,
+      60993
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7559,
+      73109,
+      73110
+    ],
+    "superset_bits": [
+      6787,
+      7559,
+      73109,
+      73110
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7485,
+      68603,
+      68604
+    ],
+    "superset_bits": [
+      6917,
+      7485,
+      68603,
+      68604
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7742,
+      74664,
+      74665
+    ],
+    "superset_bits": [
+      7036,
+      7742,
+      74664,
+      74665
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7685,
+      75184,
+      75185
+    ],
+    "superset_bits": [
+      7040,
+      7685,
+      75184,
+      75185
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7687,
+      78337,
+      78338
+    ],
+    "superset_bits": [
+      7048,
+      7687,
+      78337,
+      78338
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7599,
+      76826,
+      76827
+    ],
+    "superset_bits": [
+      7145,
+      7599,
+      76826,
+      76827
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7516,
+      73168,
+      73169
+    ],
+    "superset_bits": [
+      7167,
+      7516,
+      73168,
+      73169
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7740,
+      81425,
+      81426
+    ],
+    "superset_bits": [
+      7173,
+      7740,
+      81425,
+      81426
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7744,
+      84342,
+      84343
+    ],
+    "superset_bits": [
+      7315,
+      7744,
+      84342,
+      84343
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7819,
+      85980,
+      85981
+    ],
+    "superset_bits": [
+      7437,
+      7819,
+      85980,
+      85981
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7823,
+      85739,
+      85740
+    ],
+    "superset_bits": [
+      7443,
+      7823,
+      85739,
+      85740
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7716,
+      78328,
+      78329
+    ],
+    "superset_bits": [
+      7567,
+      7716,
+      78328,
+      78329
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7860,
+      86842,
+      86843
+    ],
+    "superset_bits": [
+      7634,
+      7860,
+      86842,
+      86843
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7863,
+      78332,
+      78333
+    ],
+    "superset_bits": [
+      7746,
+      7863,
+      78332,
+      78333
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7754,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7835,
+      7927
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7835,
+      7927
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7841,
+      7929
+    ],
+    "superset_bits": [
+      7766,
+      7841,
+      7899,
+      7929
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7770,
+      7930
+    ],
+    "superset_bits": [
+      7768,
+      7770,
+      7900,
+      7930
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7768,
+      7770,
+      7930
+    ],
+    "superset_bits": [
+      7768,
+      7770,
+      7900,
+      7930
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7782,
+      7846,
+      87773
+    ],
+    "superset_bits": [
+      7780,
+      7782,
+      7846,
+      87773
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7911,
+      7912
+    ],
+    "superset_bits": [
+      7875,
+      7878,
+      7911,
+      7912
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7913,
+      7914
+    ],
+    "superset_bits": [
+      7879,
+      7882,
+      7913,
+      7914
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7883,
+      7918,
+      87777
+    ],
+    "superset_bits": [
+      7883,
+      7886,
+      7918,
+      87777
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908
+    ],
+    "superset_bits": [
+      7907,
+      7908,
+      87776,
+      125698
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908,
+      87776
+    ],
+    "superset_bits": [
+      7907,
+      7908,
+      87776,
+      125698
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7915,
+      7916
+    ],
+    "superset_bits": [
+      7915,
+      7916,
+      125699,
+      125700
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      8007,
+      12490,
+      12491
+    ],
+    "superset_bits": [
+      8007,
+      8094,
+      12490,
+      12491
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      8058,
+      8225,
+      8456
+    ],
+    "superset_bits": [
+      8029,
+      8058,
+      8225,
+      8456
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      8051,
+      14762,
+      14763
+    ],
+    "superset_bits": [
+      8051,
+      8152,
+      14762,
+      14763
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      8213,
+      8448,
+      8449
+    ],
+    "superset_bits": [
+      8097,
+      8213,
+      8448,
+      8449
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      9989,
+      14759,
+      14760
+    ],
+    "superset_bits": [
+      8176,
+      9989,
+      14759,
+      14760
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      8275,
+      8542,
+      8543
+    ],
+    "superset_bits": [
+      8275,
+      8542,
+      8543,
+      87834
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      11239,
+      20949,
+      20950
+    ],
+    "superset_bits": [
+      8623,
+      11239,
+      20949,
+      20950
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      8665,
+      17546,
+      17547
+    ],
+    "superset_bits": [
+      8665,
+      9065,
+      17546,
+      17547
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      8699,
+      10116,
+      10996
+    ],
+    "superset_bits": [
+      8699,
+      9211,
+      10116,
+      10996
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      9503,
+      15346,
+      15347
+    ],
+    "superset_bits": [
+      8748,
+      9503,
+      15346,
+      15347
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      12472,
+      15343,
+      15344
+    ],
+    "superset_bits": [
+      8865,
+      12472,
+      15343,
+      15344
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      9106,
+      9221,
+      9731
+    ],
+    "superset_bits": [
+      8911,
+      9106,
+      9221,
+      9731
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      11621,
+      12414,
+      13651
+    ],
+    "superset_bits": [
+      9025,
+      11621,
+      12414,
+      13651
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      13452,
+      20953,
+      20954
+    ],
+    "superset_bits": [
+      9534,
+      13452,
+      20953,
+      20954
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      14034,
+      19525,
+      19526
+    ],
+    "superset_bits": [
+      9815,
+      14034,
+      19525,
+      19526
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      10043,
+      26478,
+      28267
+    ],
+    "superset_bits": [
+      10043,
+      16909,
+      26478,
+      28267
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      16980,
+      21412,
+      23016
+    ],
+    "superset_bits": [
+      10063,
+      16980,
+      21412,
+      23016
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      10461,
+      11394,
+      11395
+    ],
+    "superset_bits": [
+      10456,
+      10461,
+      11394,
+      11395
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      10512,
+      10514,
+      11455
+    ],
+    "superset_bits": [
+      10512,
+      10514,
+      11454,
+      11455
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      10952,
+      24761,
+      24762
+    ],
+    "superset_bits": [
+      10952,
+      11936,
+      24761,
+      24762
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      13209,
+      19612,
+      19613
+    ],
+    "superset_bits": [
+      11164,
+      13209,
+      19612,
+      19613
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      19423,
+      20443,
+      20444
+    ],
+    "superset_bits": [
+      11525,
+      19423,
+      20443,
+      20444
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      12937,
+      12983,
+      19873
+    ],
+    "superset_bits": [
+      11841,
+      12937,
+      12983,
+      19873
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      18764,
+      27201,
+      27202
+    ],
+    "superset_bits": [
+      12953,
+      18764,
+      27201,
+      27202
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      13109,
+      14401,
+      14402
+    ],
+    "superset_bits": [
+      13109,
+      14401,
+      14402,
+      70215
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      13678,
+      14993,
+      14994
+    ],
+    "superset_bits": [
+      13678,
+      14992,
+      14993,
+      14994
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      14388,
+      14389,
+      14390
+    ],
+    "superset_bits": [
+      14388,
+      14389,
+      14390,
+      67844
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      18435,
+      19886,
+      19887
+    ],
+    "superset_bits": [
+      15558,
+      18435,
+      19886,
+      19887
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      15594,
+      16972,
+      16973
+    ],
+    "superset_bits": [
+      15594,
+      16971,
+      16972,
+      16973
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      15642,
+      15643,
+      15644
+    ],
+    "superset_bits": [
+      15642,
+      15643,
+      15644,
+      73878
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      21747,
+      28900,
+      28901
+    ],
+    "superset_bits": [
+      15830,
+      21747,
+      28900,
+      28901
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      15942,
+      15943,
+      15944
+    ],
+    "superset_bits": [
+      15942,
+      15943,
+      15944,
+      51062
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      16819,
+      16820,
+      16821
+    ],
+    "superset_bits": [
+      16819,
+      16820,
+      16821,
+      72668
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      24745,
+      33932,
+      33933
+    ],
+    "superset_bits": [
+      16962,
+      24745,
+      33932,
+      33933
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      17126,
+      17127,
+      17128
+    ],
+    "superset_bits": [
+      17126,
+      17127,
+      17128,
+      77150
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      17460,
+      17461,
+      17462
+    ],
+    "superset_bits": [
+      17460,
+      17461,
+      17462,
+      65372
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      17958,
+      19461,
+      19462
+    ],
+    "superset_bits": [
+      17958,
+      19461,
+      19462,
+      65309
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      23279,
+      33936,
+      33937
+    ],
+    "superset_bits": [
+      18532,
+      23279,
+      33936,
+      33937
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      27072,
+      32019,
+      32020
+    ],
+    "superset_bits": [
+      19741,
+      27072,
+      32019,
+      32020
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      19787,
+      32022,
+      32023
+    ],
+    "superset_bits": [
+      19787,
+      21315,
+      32022,
+      32023
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      26628,
+      34092,
+      34093
+    ],
+    "superset_bits": [
+      20054,
+      26628,
+      34092,
+      34093
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      20691,
+      20692,
+      20693
+    ],
+    "superset_bits": [
+      20691,
+      20692,
+      20693,
+      51044
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      21334,
+      21335,
+      21336
+    ],
+    "superset_bits": [
+      21334,
+      21335,
+      21336,
+      75608
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      21588,
+      28750,
+      30506
+    ],
+    "superset_bits": [
+      21588,
+      21589,
+      28750,
+      30506
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      21672,
+      21673,
+      21674
+    ],
+    "superset_bits": [
+      21672,
+      21673,
+      21674,
+      71937
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      21733,
+      21734,
+      21735
+    ],
+    "superset_bits": [
+      21733,
+      21734,
+      21735,
+      70932
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      32212,
+      34089,
+      34090
+    ],
+    "superset_bits": [
+      21899,
+      32212,
+      34089,
+      34090
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      22004,
+      23674,
+      23675
+    ],
+    "superset_bits": [
+      22004,
+      23674,
+      23675,
+      51515
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      22059,
+      29671,
+      29672
+    ],
+    "superset_bits": [
+      22059,
+      22060,
+      29671,
+      29672
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      33526,
+      38931,
+      38932
+    ],
+    "superset_bits": [
+      23073,
+      33526,
+      38931,
+      38932
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      23347,
+      23348,
+      23349
+    ],
+    "superset_bits": [
+      23347,
+      23348,
+      23349,
+      73222
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      30338,
+      38934,
+      38935
+    ],
+    "superset_bits": [
+      23464,
+      30338,
+      38934,
+      38935
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      23472,
+      23473,
+      23474
+    ],
+    "superset_bits": [
+      23472,
+      23473,
+      23474,
+      73673
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      24128,
+      24129,
+      24130
+    ],
+    "superset_bits": [
+      24128,
+      24129,
+      24130,
+      48079
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      24157,
+      24158,
+      24159
+    ],
+    "superset_bits": [
+      24157,
+      24158,
+      24159,
+      55179
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      24319,
+      24320,
+      24321
+    ],
+    "superset_bits": [
+      24319,
+      24320,
+      24321,
+      47282
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      25095,
+      25096,
+      25097
+    ],
+    "superset_bits": [
+      25095,
+      25096,
+      25097,
+      67947
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      25127,
+      25128,
+      25129
+    ],
+    "superset_bits": [
+      25127,
+      25128,
+      25129,
+      70182
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      25923,
+      25924,
+      25925
+    ],
+    "superset_bits": [
+      25923,
+      25924,
+      25925,
+      55888
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      26560,
+      28346,
+      28347
+    ],
+    "superset_bits": [
+      26560,
+      28346,
+      28347,
+      71212
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      26907,
+      26908,
+      26909
+    ],
+    "superset_bits": [
+      26907,
+      26908,
+      26909,
+      74488
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      27176,
+      27177,
+      27178
+    ],
+    "superset_bits": [
+      27176,
+      27177,
+      27178,
+      76347
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      27554,
+      27555,
+      27556
+    ],
+    "superset_bits": [
+      27554,
+      27555,
+      27556,
+      51001
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      27921,
+      27922,
+      27923
+    ],
+    "superset_bits": [
+      27921,
+      27922,
+      27923,
+      49067
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      27982,
+      27983,
+      27984
+    ],
+    "superset_bits": [
+      27982,
+      27983,
+      27984,
+      44898
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      28929,
+      80223,
+      81749
+    ],
+    "superset_bits": [
+      28929,
+      80223,
+      81749,
+      122333
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      29637,
+      29638,
+      29639
+    ],
+    "superset_bits": [
+      29637,
+      29638,
+      29639,
+      51345
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      29685,
+      29686,
+      29687
+    ],
+    "superset_bits": [
+      29685,
+      29686,
+      29687,
+      55085
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      29816,
+      29817,
+      29818
+    ],
+    "superset_bits": [
+      29816,
+      29817,
+      29818,
+      53038
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      30076,
+      30077,
+      30078
+    ],
+    "superset_bits": [
+      30076,
+      30077,
+      30078,
+      72115
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      31584,
+      33322,
+      33323
+    ],
+    "superset_bits": [
+      31584,
+      33322,
+      33323,
+      49134
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      31841,
+      33561,
+      33562
+    ],
+    "superset_bits": [
+      31841,
+      33561,
+      33562,
+      70744
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      32649,
+      32650,
+      32651
+    ],
+    "superset_bits": [
+      32649,
+      32650,
+      32651,
+      49138
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      34412,
+      34413,
+      34414
+    ],
+    "superset_bits": [
+      34412,
+      34413,
+      34414,
+      52903
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      34687,
+      34688,
+      34689
+    ],
+    "superset_bits": [
+      34687,
+      34688,
+      34689,
+      55702
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      34932,
+      34933,
+      34934
+    ],
+    "superset_bits": [
+      34932,
+      34933,
+      34934,
+      53429
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      35421,
+      35422,
+      35423
+    ],
+    "superset_bits": [
+      35421,
+      35422,
+      35423,
+      74260
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      35485,
+      35486,
+      35487
+    ],
+    "superset_bits": [
+      35485,
+      35486,
+      35487,
+      77055
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      36279,
+      36280,
+      36281
+    ],
+    "superset_bits": [
+      36279,
+      36280,
+      36281,
+      53137
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      37385,
+      37386,
+      37387
+    ],
+    "superset_bits": [
+      37385,
+      37386,
+      37387,
+      73148
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      37544,
+      37545,
+      37546
+    ],
+    "superset_bits": [
+      37544,
+      37545,
+      37546,
+      53536
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      38070,
+      38071,
+      38072
+    ],
+    "superset_bits": [
+      38070,
+      38071,
+      38072,
+      53197
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      38100,
+      38101,
+      38102
+    ],
+    "superset_bits": [
+      38100,
+      38101,
+      38102,
+      53205
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      39249,
+      39250,
+      39251
+    ],
+    "superset_bits": [
+      39249,
+      39250,
+      39251,
+      53569
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      39668,
+      39669,
+      39670
+    ],
+    "superset_bits": [
+      39668,
+      39669,
+      39670,
+      49128
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      39917,
+      39918,
+      39919
+    ],
+    "superset_bits": [
+      39917,
+      39918,
+      39919,
+      57305
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      39955,
+      39956,
+      39957
+    ],
+    "superset_bits": [
+      39955,
+      39956,
+      39957,
+      55823
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      40096,
+      40097,
+      40098
+    ],
+    "superset_bits": [
+      40096,
+      40097,
+      40098,
+      70795
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      40126,
+      40661,
+      40662
+    ],
+    "superset_bits": [
+      40126,
+      40661,
+      40662,
+      75592
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      40248,
+      41930,
+      41931
+    ],
+    "superset_bits": [
+      40248,
+      41930,
+      41931,
+      77304
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      40307,
+      48574,
+      48575
+    ],
+    "superset_bits": [
+      40307,
+      40308,
+      48574,
+      48575
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      40816,
+      40817,
+      40818
+    ],
+    "superset_bits": [
+      40816,
+      40817,
+      40818,
+      71497
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      41526,
+      41527,
+      41528
+    ],
+    "superset_bits": [
+      41526,
+      41527,
+      41528,
+      49359
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      41698,
+      41699,
+      41700
+    ],
+    "superset_bits": [
+      41698,
+      41699,
+      41700,
+      49348
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      42270,
+      42271,
+      42272
+    ],
+    "superset_bits": [
+      42270,
+      42271,
+      42272,
+      78480
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      42701,
+      42702,
+      42703
+    ],
+    "superset_bits": [
+      42701,
+      42702,
+      42703,
+      54149
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      43440,
+      43441,
+      43442
+    ],
+    "superset_bits": [
+      43440,
+      43441,
+      43442,
+      74371
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      43455,
+      43456,
+      43457
+    ],
+    "superset_bits": [
+      43455,
+      43456,
+      43457,
+      79228
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      43757,
+      43758,
+      43759
+    ],
+    "superset_bits": [
+      43757,
+      43758,
+      43759,
+      76921
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      43996,
+      43997,
+      43998
+    ],
+    "superset_bits": [
+      43996,
+      43997,
+      43998,
+      73504
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      44038,
+      44039,
+      44040
+    ],
+    "superset_bits": [
+      44038,
+      44039,
+      44040,
+      71988
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      44562,
+      44563,
+      44564
+    ],
+    "superset_bits": [
+      44562,
+      44563,
+      44564,
+      57065
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      44653,
+      44654,
+      44655
+    ],
+    "superset_bits": [
+      44653,
+      44654,
+      44655,
+      62032
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      44713,
+      46247,
+      46248
+    ],
+    "superset_bits": [
+      44713,
+      46247,
+      46248,
+      52773
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      44737,
+      44738,
+      44739
+    ],
+    "superset_bits": [
+      44737,
+      44738,
+      44739,
+      51364
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      45496,
+      45497,
+      45498
+    ],
+    "superset_bits": [
+      45496,
+      45497,
+      45498,
+      73604
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      45885,
+      45886,
+      45887
+    ],
+    "superset_bits": [
+      45885,
+      45886,
+      45887,
+      55321
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      47516,
+      47517,
+      47518
+    ],
+    "superset_bits": [
+      47516,
+      47517,
+      47518,
+      57226
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      47945,
+      49717,
+      49718
+    ],
+    "superset_bits": [
+      47945,
+      49717,
+      49718,
+      50952
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      48156,
+      48157,
+      48158
+    ],
+    "superset_bits": [
+      48156,
+      48157,
+      48158,
+      74222
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      48463,
+      50259,
+      50260
+    ],
+    "superset_bits": [
+      48463,
+      50259,
+      50260,
+      72559
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      48654,
+      48655,
+      48656
+    ],
+    "superset_bits": [
+      48654,
+      48655,
+      48656,
+      70602
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      50069,
+      50070,
+      50071
+    ],
+    "superset_bits": [
+      50069,
+      50070,
+      50071,
+      74613
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      50804,
+      50805,
+      50806
+    ],
+    "superset_bits": [
+      50804,
+      50805,
+      50806,
+      65282
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      50862,
+      50863,
+      50864
+    ],
+    "superset_bits": [
+      50862,
+      50863,
+      50864,
+      53149
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      51627,
+      51628,
+      51629
+    ],
+    "superset_bits": [
+      51627,
+      51628,
+      51629,
+      56262
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      52033,
+      52034,
+      52035
+    ],
+    "superset_bits": [
+      52033,
+      52034,
+      52035,
+      76115
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      52268,
+      52269,
+      52270
+    ],
+    "superset_bits": [
+      52268,
+      52269,
+      52270,
+      72561
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      57765,
+      57766,
+      57767
+    ],
+    "superset_bits": [
+      52728,
+      57765,
+      57766,
+      57767
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      56112,
+      56113,
+      56114
+    ],
+    "superset_bits": [
+      53528,
+      56112,
+      56113,
+      56114
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      53831,
+      53832,
+      53833
+    ],
+    "superset_bits": [
+      53831,
+      53832,
+      53833,
+      57980
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      54450,
+      54451,
+      54452
+    ],
+    "superset_bits": [
+      54450,
+      54451,
+      54452,
+      74419
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      54543,
+      54544,
+      54545
+    ],
+    "superset_bits": [
+      54543,
+      54544,
+      54545,
+      70737
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      54626,
+      54627,
+      54628
+    ],
+    "superset_bits": [
+      54626,
+      54627,
+      54628,
+      72238
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      54724,
+      54725,
+      54726
+    ],
+    "superset_bits": [
+      54724,
+      54725,
+      54726,
+      80234
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      54748,
+      54749,
+      54750
+    ],
+    "superset_bits": [
+      54748,
+      54749,
+      54750,
+      73150
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      55076,
+      55079,
+      57254
+    ],
+    "superset_bits": [
+      55076,
+      55079,
+      57254,
+      110233
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      65670,
+      67805,
+      67806
+    ],
+    "superset_bits": [
+      55365,
+      65670,
+      67805,
+      67806
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      70314,
+      72041,
+      72042
+    ],
+    "superset_bits": [
+      56230,
+      70314,
+      72041,
+      72042
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      59664,
+      59665,
+      59666
+    ],
+    "superset_bits": [
+      56296,
+      59664,
+      59665,
+      59666
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      56429,
+      56430,
+      56431
+    ],
+    "superset_bits": [
+      56429,
+      56430,
+      56431,
+      74660
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      57004,
+      57005,
+      57006
+    ],
+    "superset_bits": [
+      57004,
+      57005,
+      57006,
+      75391
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      65149,
+      67386,
+      67387
+    ],
+    "superset_bits": [
+      57138,
+      65149,
+      67386,
+      67387
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      60188,
+      60189,
+      60190
+    ],
+    "superset_bits": [
+      57209,
+      60188,
+      60189,
+      60190
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      58958,
+      58959,
+      58960
+    ],
+    "superset_bits": [
+      58958,
+      58959,
+      58960,
+      71958
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      73070,
+      73071,
+      73072
+    ],
+    "superset_bits": [
+      59932,
+      73070,
+      73071,
+      73072
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      71296,
+      72999,
+      73000
+    ],
+    "superset_bits": [
+      60336,
+      71296,
+      72999,
+      73000
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      61319,
+      63811,
+      63812
+    ],
+    "superset_bits": [
+      61319,
+      63811,
+      63812,
+      73869
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      61340,
+      61341,
+      61342
+    ],
+    "superset_bits": [
+      61340,
+      61341,
+      61342,
+      75365
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      68015,
+      68016,
+      68017
+    ],
+    "superset_bits": [
+      62000,
+      68015,
+      68016,
+      68017
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      77161,
+      77162,
+      77163
+    ],
+    "superset_bits": [
+      62326,
+      77161,
+      77162,
+      77163
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      63234,
+      63235,
+      63236
+    ],
+    "superset_bits": [
+      62965,
+      63234,
+      63235,
+      63236
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      66641,
+      66642,
+      66643
+    ],
+    "superset_bits": [
+      64694,
+      66641,
+      66642,
+      66643
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      64858,
+      64859,
+      64860
+    ],
+    "superset_bits": [
+      64858,
+      64859,
+      64860,
+      79012
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      66120,
+      66121,
+      66122
+    ],
+    "superset_bits": [
+      66120,
+      66121,
+      66122,
+      79022
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      66321,
+      66322,
+      66323
+    ],
+    "superset_bits": [
+      66321,
+      66322,
+      66323,
+      76317
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      66343,
+      66344,
+      66345
+    ],
+    "superset_bits": [
+      66343,
+      66344,
+      66345,
+      80127
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      67431,
+      69216,
+      69217
+    ],
+    "superset_bits": [
+      67431,
+      69216,
+      69217,
+      116184
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      69956,
+      69957,
+      69958
+    ],
+    "superset_bits": [
+      69956,
+      69957,
+      69958,
+      77532
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      70019,
+      71720,
+      71721
+    ],
+    "superset_bits": [
+      70019,
+      71720,
+      71721,
+      72550
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      71728,
+      71729,
+      71730
+    ],
+    "superset_bits": [
+      71728,
+      71729,
+      71730,
+      73849
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      72597,
+      72601,
+      72602
+    ],
+    "superset_bits": [
+      72597,
+      72598,
+      72601,
+      72602
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      72906,
+      78645,
+      78646
+    ],
+    "superset_bits": [
+      72906,
+      78645,
+      78646,
+      120737
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      73086,
+      73087,
+      73088
+    ],
+    "superset_bits": [
+      73086,
+      73087,
+      73088,
+      78126
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      73669,
+      82456,
+      83719
+    ],
+    "superset_bits": [
+      73669,
+      82456,
+      83719,
+      121884
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      74055,
+      74056,
+      74057
+    ],
+    "superset_bits": [
+      74055,
+      74056,
+      74057,
+      80768
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      74871,
+      75359,
+      75360
+    ],
+    "superset_bits": [
+      74651,
+      74871,
+      75359,
+      75360
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      74998,
+      74999,
+      75000
+    ],
+    "superset_bits": [
+      74998,
+      74999,
+      75000,
+      79098
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      75150,
+      75151,
+      75152
+    ],
+    "superset_bits": [
+      75150,
+      75151,
+      75152,
+      78555
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      83939,
+      84942,
+      84943
+    ],
+    "superset_bits": [
+      76933,
+      83939,
+      84942,
+      84943
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      79667,
+      79668,
+      79669
+    ],
+    "superset_bits": [
+      78158,
+      79667,
+      79668,
+      79669
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      79790,
+      79791,
+      79792
+    ],
+    "superset_bits": [
+      78350,
+      79790,
+      79791,
+      79792
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      81297,
+      81298,
+      81299
+    ],
+    "superset_bits": [
+      81297,
+      81298,
+      81299,
+      82207
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      81625,
+      81626,
+      81627
+    ],
+    "superset_bits": [
+      81625,
+      81626,
+      81627,
+      85755
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      82582,
+      82583,
+      82584
+    ],
+    "superset_bits": [
+      82136,
+      82582,
+      82583,
+      82584
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      82371,
+      83647,
+      83648
+    ],
+    "superset_bits": [
+      82371,
+      83647,
+      83648,
+      84471
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      87343,
+      87483,
+      87484
+    ],
+    "superset_bits": [
+      87343,
+      87483,
+      87484,
+      125529
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      87381,
+      87382,
+      87383
+    ],
+    "superset_bits": [
+      87381,
+      87382,
+      87383,
+      125427
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      87407,
+      87533,
+      87534
+    ],
+    "superset_bits": [
+      87407,
+      87533,
+      87534,
+      125564
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      87419,
+      87420,
+      87421
+    ],
+    "superset_bits": [
+      87419,
+      87420,
+      87421,
+      125462
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      87506,
+      87619,
+      87620
+    ],
+    "superset_bits": [
+      87506,
+      87507,
+      87619,
+      87620
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      87737,
+      87774,
+      87775
+    ],
+    "superset_bits": [
+      87737,
+      87774,
+      87775,
+      125697
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      0
+    ],
+    "superset_bits": [
+      0,
+      8227,
+      9745,
+      87945,
+      87946
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      3
+    ],
+    "superset_bits": [
+      3,
+      8805,
+      88055,
+      88425,
+      125768
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      5
+    ],
+    "superset_bits": [
+      5,
+      9493,
+      9494,
+      10118,
+      89311
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      6
+    ],
+    "superset_bits": [
+      6,
+      9730,
+      9734,
+      10467,
+      12417
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      9
+    ],
+    "superset_bits": [
+      9,
+      10449,
+      10450,
+      10452,
+      88269
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      9
+    ],
+    "superset_bits": [
+      9,
+      10449,
+      10450,
+      10452,
+      89985
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      12
+    ],
+    "superset_bits": [
+      12,
+      12899,
+      88818,
+      89229,
+      125938
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      14
+    ],
+    "superset_bits": [
+      14,
+      11842,
+      11843,
+      89739,
+      89741
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      14
+    ],
+    "superset_bits": [
+      14,
+      11842,
+      14193,
+      16942,
+      89739
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      18
+    ],
+    "superset_bits": [
+      18,
+      15562,
+      18421,
+      125987,
+      126021
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      18
+    ],
+    "superset_bits": [
+      18,
+      15562,
+      125987,
+      126021,
+      126022
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      19
+    ],
+    "superset_bits": [
+      19,
+      19881,
+      90855,
+      92099,
+      92100
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      21
+    ],
+    "superset_bits": [
+      21,
+      19872,
+      23008,
+      26469,
+      93489
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      24
+    ],
+    "superset_bits": [
+      24,
+      16863,
+      23005,
+      90870,
+      125942
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      24
+    ],
+    "superset_bits": [
+      24,
+      16863,
+      23005,
+      125942,
+      125943
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      24
+    ],
+    "superset_bits": [
+      24,
+      23005,
+      23006,
+      28261,
+      125980
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      24
+    ],
+    "superset_bits": [
+      24,
+      23005,
+      23006,
+      125942,
+      125980
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      26
+    ],
+    "superset_bits": [
+      26,
+      15546,
+      15547,
+      19806,
+      90849
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7841,
+      7929
+    ],
+    "superset_bits": [
+      7711,
+      7766,
+      7841,
+      7929,
+      7930
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7770,
+      7930
+    ],
+    "superset_bits": [
+      7713,
+      7768,
+      7770,
+      7901,
+      7930
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7768,
+      7770,
+      7930
+    ],
+    "superset_bits": [
+      7713,
+      7768,
+      7770,
+      7901,
+      7930
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7782,
+      7846,
+      87773
+    ],
+    "superset_bits": [
+      7720,
+      7780,
+      7782,
+      7846,
+      87773
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7780,
+      7782,
+      7846,
+      87773
+    ],
+    "superset_bits": [
+      7720,
+      7780,
+      7782,
+      7846,
+      87773
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7754,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7835,
+      7837,
+      7927
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7835,
+      7837,
+      7927
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7835,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7835,
+      7837,
+      7927
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      7776,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "superset_bits": [
+      7776,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      7777,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "superset_bits": [
+      7777,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7911,
+      7912
+    ],
+    "superset_bits": [
+      7875,
+      7877,
+      7911,
+      7912,
+      7913
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7913,
+      7914
+    ],
+    "superset_bits": [
+      7879,
+      7881,
+      7904,
+      7913,
+      7914
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7883,
+      7918,
+      87777
+    ],
+    "superset_bits": [
+      7883,
+      7885,
+      7918,
+      7919,
+      87777
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908
+    ],
+    "superset_bits": [
+      7907,
+      7908,
+      87776,
+      125690,
+      125698
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908,
+      87776
+    ],
+    "superset_bits": [
+      7907,
+      7908,
+      87776,
+      125690,
+      125698
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908,
+      87776,
+      125698
+    ],
+    "superset_bits": [
+      7907,
+      7908,
+      87776,
+      125690,
+      125698
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7915,
+      7916
+    ],
+    "superset_bits": [
+      7915,
+      7916,
+      7917,
+      125699,
+      125700
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7915,
+      7916,
+      125699,
+      125700
+    ],
+    "superset_bits": [
+      7915,
+      7916,
+      7917,
+      125699,
+      125700
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7915,
+      7916
+    ],
+    "superset_bits": [
+      7915,
+      7916,
+      87770,
+      125699,
+      125700
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7915,
+      7916,
+      125699,
+      125700
+    ],
+    "superset_bits": [
+      7915,
+      7916,
+      87770,
+      125699,
+      125700
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "superset_bits": [
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      8058,
+      8076,
+      8684,
+      88138
+    ],
+    "superset_bits": [
+      8058,
+      8076,
+      8684,
+      8779,
+      88138
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      8097,
+      8214,
+      9718,
+      88050
+    ],
+    "superset_bits": [
+      8097,
+      8214,
+      8689,
+      9718,
+      88050
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      8989,
+      88281,
+      88292,
+      88293
+    ],
+    "superset_bits": [
+      8989,
+      73716,
+      88281,
+      88292,
+      88293
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      10092,
+      10971,
+      88862,
+      88863
+    ],
+    "superset_bits": [
+      10092,
+      10971,
+      11955,
+      88862,
+      88863
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      10496,
+      11442,
+      89044,
+      89045
+    ],
+    "superset_bits": [
+      10496,
+      11442,
+      12448,
+      89044,
+      89045
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      10868,
+      12900,
+      13041,
+      92092
+    ],
+    "superset_bits": [
+      10868,
+      12900,
+      13041,
+      15491,
+      92092
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      14065,
+      90215,
+      90216,
+      90217
+    ],
+    "superset_bits": [
+      14065,
+      51322,
+      90215,
+      90216,
+      90217
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      15699,
+      90234,
+      91433,
+      91434
+    ],
+    "superset_bits": [
+      15699,
+      76215,
+      90234,
+      91433,
+      91434
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      20562,
+      93329,
+      93330,
+      93331
+    ],
+    "superset_bits": [
+      20562,
+      48935,
+      93329,
+      93330,
+      93331
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      26479,
+      94213,
+      95790,
+      95791
+    ],
+    "superset_bits": [
+      26479,
+      73930,
+      94213,
+      95790,
+      95791
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      27912,
+      97180,
+      97181,
+      97182
+    ],
+    "superset_bits": [
+      27912,
+      52846,
+      97180,
+      97181,
+      97182
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      28242,
+      92132,
+      96635,
+      96636
+    ],
+    "superset_bits": [
+      28242,
+      74702,
+      92132,
+      96635,
+      96636
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      28915,
+      96953,
+      96954,
+      96955
+    ],
+    "superset_bits": [
+      28915,
+      74235,
+      96953,
+      96954,
+      96955
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      34920,
+      97152,
+      97153,
+      97154
+    ],
+    "superset_bits": [
+      34920,
+      52700,
+      97152,
+      97153,
+      97154
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      35627,
+      100013,
+      100014,
+      100015
+    ],
+    "superset_bits": [
+      35627,
+      74268,
+      100013,
+      100014,
+      100015
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      41378,
+      100506,
+      103509,
+      103510
+    ],
+    "superset_bits": [
+      41378,
+      49129,
+      100506,
+      103509,
+      103510
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      42261,
+      103672,
+      103673,
+      103674
+    ],
+    "superset_bits": [
+      42261,
+      74345,
+      103672,
+      103673,
+      103674
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      90528,
+      90529,
+      90530,
+      90531
+    ],
+    "superset_bits": [
+      46437,
+      90528,
+      90529,
+      90530,
+      90531
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      89704,
+      89705,
+      89706,
+      89707
+    ],
+    "superset_bits": [
+      47609,
+      89704,
+      89705,
+      89706,
+      89707
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      48250,
+      104649,
+      104650,
+      104651
+    ],
+    "superset_bits": [
+      48250,
+      71869,
+      104649,
+      104650,
+      104651
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      94828,
+      94829,
+      94830,
+      94831
+    ],
+    "superset_bits": [
+      48945,
+      94828,
+      94829,
+      94830,
+      94831
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      95695,
+      95696,
+      95697,
+      95698
+    ],
+    "superset_bits": [
+      49147,
+      95695,
+      95696,
+      95697,
+      95698
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      89854,
+      89855,
+      89856,
+      89857
+    ],
+    "superset_bits": [
+      51098,
+      89854,
+      89855,
+      89856,
+      89857
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      104316,
+      104317,
+      104318,
+      104319
+    ],
+    "superset_bits": [
+      51648,
+      104316,
+      104317,
+      104318,
+      104319
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      51875,
+      106667,
+      106668,
+      106669
+    ],
+    "superset_bits": [
+      51875,
+      55578,
+      106667,
+      106668,
+      106669
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      65256,
+      109405,
+      110554,
+      110555
+    ],
+    "superset_bits": [
+      54919,
+      65256,
+      109405,
+      110554,
+      110555
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      99709,
+      99710,
+      99711,
+      99712
+    ],
+    "superset_bits": [
+      55391,
+      99709,
+      99710,
+      99711,
+      99712
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      56690,
+      106962,
+      111185,
+      111186
+    ],
+    "superset_bits": [
+      56690,
+      72566,
+      106962,
+      111185,
+      111186
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      110147,
+      110148,
+      110149,
+      110150
+    ],
+    "superset_bits": [
+      57789,
+      110147,
+      110148,
+      110149,
+      110150
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      114508,
+      115470,
+      115471,
+      115472
+    ],
+    "superset_bits": [
+      60940,
+      114508,
+      115470,
+      115471,
+      115472
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      96889,
+      96890,
+      96891,
+      96892
+    ],
+    "superset_bits": [
+      68567,
+      96889,
+      96890,
+      96891,
+      96892
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      96592,
+      96593,
+      96594,
+      96595
+    ],
+    "superset_bits": [
+      70223,
+      96592,
+      96593,
+      96594,
+      96595
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      103955,
+      103956,
+      103957,
+      103958
+    ],
+    "superset_bits": [
+      72583,
+      103955,
+      103956,
+      103957,
+      103958
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      101383,
+      101384,
+      101385,
+      101386
+    ],
+    "superset_bits": [
+      73659,
+      101383,
+      101384,
+      101385,
+      101386
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      96899,
+      96900,
+      96901,
+      96902
+    ],
+    "superset_bits": [
+      74723,
+      96899,
+      96900,
+      96901,
+      96902
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      92094,
+      92095,
+      92096,
+      92097
+    ],
+    "superset_bits": [
+      75520,
+      92094,
+      92095,
+      92096,
+      92097
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      107677,
+      107678,
+      107679,
+      107680
+    ],
+    "superset_bits": [
+      77693,
+      107677,
+      107678,
+      107679,
+      107680
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      82019,
+      121689,
+      121690,
+      121691
+    ],
+    "superset_bits": [
+      78315,
+      82019,
+      121689,
+      121690,
+      121691
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      122613,
+      122910,
+      122911,
+      122912
+    ],
+    "superset_bits": [
+      79845,
+      122613,
+      122910,
+      122911,
+      122912
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      87281,
+      124993,
+      124998,
+      124999
+    ],
+    "superset_bits": [
+      80512,
+      87281,
+      124993,
+      124998,
+      124999
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      112506,
+      112507,
+      112508,
+      112509
+    ],
+    "superset_bits": [
+      80738,
+      112506,
+      112507,
+      112508,
+      112509
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      125500,
+      125501,
+      125502,
+      125503
+    ],
+    "superset_bits": [
+      125500,
+      125501,
+      125502,
+      125503,
+      125508
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      0
+    ],
+    "superset_bits": [
+      0,
+      8029,
+      8227,
+      8456,
+      87946,
+      88051
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      1
+    ],
+    "superset_bits": [
+      1,
+      95,
+      8233,
+      8465,
+      9756,
+      87867
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      2
+    ],
+    "superset_bits": [
+      2,
+      8224,
+      8804,
+      10453,
+      11422,
+      88052
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      2
+    ],
+    "superset_bits": [
+      2,
+      8224,
+      8804,
+      10453,
+      88052,
+      125828
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      3
+    ],
+    "superset_bits": [
+      3,
+      8689,
+      8805,
+      88050,
+      88055,
+      88137
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      4
+    ],
+    "superset_bits": [
+      4,
+      467,
+      9449,
+      10041,
+      87898,
+      88834
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      5
+    ],
+    "superset_bits": [
+      5,
+      9493,
+      9494,
+      10118,
+      13178,
+      88573
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      6
+    ],
+    "superset_bits": [
+      6,
+      9730,
+      9734,
+      10467,
+      10479,
+      87942
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7
+    ],
+    "superset_bits": [
+      7,
+      295,
+      9754,
+      11431,
+      87949,
+      87950
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7
+    ],
+    "superset_bits": [
+      7,
+      295,
+      9754,
+      11431,
+      87949,
+      89043
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7
+    ],
+    "superset_bits": [
+      7,
+      295,
+      9754,
+      11431,
+      87949,
+      125744
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      8
+    ],
+    "superset_bits": [
+      8,
+      10064,
+      10071,
+      12945,
+      88557,
+      88838
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      8
+    ],
+    "superset_bits": [
+      8,
+      10064,
+      10071,
+      12945,
+      88557,
+      89752
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      11
+    ],
+    "superset_bits": [
+      11,
+      10489,
+      13648,
+      13649,
+      88715,
+      125766
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      13
+    ],
+    "superset_bits": [
+      13,
+      215,
+      8813,
+      11393,
+      88211,
+      89507
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      13
+    ],
+    "superset_bits": [
+      13,
+      215,
+      8813,
+      11393,
+      89507,
+      125774
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      13
+    ],
+    "superset_bits": [
+      13,
+      215,
+      8813,
+      11393,
+      89507,
+      125801
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      15
+    ],
+    "superset_bits": [
+      15,
+      9733,
+      11390,
+      11621,
+      16364,
+      125873
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      15
+    ],
+    "superset_bits": [
+      15,
+      9733,
+      11390,
+      11621,
+      88698,
+      125873
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      16
+    ],
+    "superset_bits": [
+      16,
+      12960,
+      12983,
+      88555,
+      88556,
+      125943
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      16
+    ],
+    "superset_bits": [
+      16,
+      12960,
+      12983,
+      88555,
+      89266,
+      125943
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      17
+    ],
+    "superset_bits": [
+      17,
+      11844,
+      14141,
+      15797,
+      19810,
+      125982
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      17
+    ],
+    "superset_bits": [
+      17,
+      11844,
+      14141,
+      15797,
+      89741,
+      125982
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      18
+    ],
+    "superset_bits": [
+      18,
+      8127,
+      16929,
+      92807,
+      125987,
+      126022
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      18
+    ],
+    "superset_bits": [
+      18,
+      8127,
+      16929,
+      125987,
+      126022,
+      126076
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      18
+    ],
+    "superset_bits": [
+      18,
+      8127,
+      16929,
+      125987,
+      126022,
+      126259
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      19
+    ],
+    "superset_bits": [
+      19,
+      13021,
+      15568,
+      15571,
+      88827,
+      90855
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      19
+    ],
+    "superset_bits": [
+      19,
+      13021,
+      15571,
+      88827,
+      90855,
+      92098
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      19
+    ],
+    "superset_bits": [
+      19,
+      13021,
+      15571,
+      88827,
+      90855,
+      92100
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      20
+    ],
+    "superset_bits": [
+      20,
+      21,
+      18406,
+      19872,
+      93489,
+      126139
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      21
+    ],
+    "superset_bits": [
+      20,
+      21,
+      18406,
+      19872,
+      93489,
+      126139
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      20
+    ],
+    "superset_bits": [
+      20,
+      21,
+      18406,
+      19872,
+      94968,
+      126139
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      21
+    ],
+    "superset_bits": [
+      20,
+      21,
+      18406,
+      19872,
+      94968,
+      126139
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      22
+    ],
+    "superset_bits": [
+      22,
+      2135,
+      21405,
+      26473,
+      92093,
+      93492
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      22
+    ],
+    "superset_bits": [
+      22,
+      2135,
+      21405,
+      92093,
+      93492,
+      125812
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      24
+    ],
+    "superset_bits": [
+      24,
+      16863,
+      16974,
+      23005,
+      89751,
+      125942
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      27
+    ],
+    "superset_bits": [
+      27,
+      16909,
+      18404,
+      24730,
+      30481,
+      94976
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      28
+    ],
+    "superset_bits": [
+      28,
+      7915,
+      7916,
+      7917,
+      125699,
+      125700
+    ],
+    "rows_removed": 12
+  },
+  {
+    "subset_bits": [
+      28,
+      7917
+    ],
+    "superset_bits": [
+      28,
+      7915,
+      7916,
+      7917,
+      125699,
+      125700
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7915,
+      7916
+    ],
+    "superset_bits": [
+      28,
+      7915,
+      7916,
+      7917,
+      125699,
+      125700
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      28,
+      7915,
+      7916
+    ],
+    "superset_bits": [
+      28,
+      7915,
+      7916,
+      7917,
+      125699,
+      125700
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      7915,
+      7916,
+      125699,
+      125700
+    ],
+    "superset_bits": [
+      28,
+      7915,
+      7916,
+      7917,
+      125699,
+      125700
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      7915,
+      7916,
+      7917,
+      125699,
+      125700
+    ],
+    "superset_bits": [
+      28,
+      7915,
+      7916,
+      7917,
+      125699,
+      125700
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "rows_removed": 24
+  },
+  {
+    "subset_bits": [
+      29,
+      7776
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "rows_removed": 12
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      29,
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      7776,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      665,
+      11378,
+      12407
+    ],
+    "superset_bits": [
+      665,
+      10513,
+      11378,
+      11379,
+      12407,
+      12408
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      10513,
+      11379,
+      12408
+    ],
+    "superset_bits": [
+      665,
+      10513,
+      11378,
+      11379,
+      12407,
+      12408
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      4089,
+      37194,
+      37195
+    ],
+    "superset_bits": [
+      1936,
+      4089,
+      37194,
+      37195,
+      119104,
+      126142
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      1936,
+      37194,
+      37195,
+      119104,
+      126142
+    ],
+    "superset_bits": [
+      1936,
+      4089,
+      37194,
+      37195,
+      119104,
+      126142
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7541,
+      55603,
+      79453
+    ],
+    "superset_bits": [
+      6330,
+      7541,
+      55600,
+      55603,
+      79453,
+      127310
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      6330,
+      55600,
+      55603,
+      79453,
+      127310
+    ],
+    "superset_bits": [
+      6330,
+      7541,
+      55600,
+      55603,
+      79453,
+      127310
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7469,
+      57833,
+      77180
+    ],
+    "superset_bits": [
+      6857,
+      7469,
+      57020,
+      57833,
+      77180,
+      127528
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      6857,
+      57020,
+      57833,
+      77180,
+      127528
+    ],
+    "superset_bits": [
+      6857,
+      7469,
+      57020,
+      57833,
+      77180,
+      127528
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      7770,
+      7930
+    ],
+    "superset_bits": [
+      7713,
+      7768,
+      7770,
+      7772,
+      7927,
+      7930
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7768,
+      7770,
+      7930
+    ],
+    "superset_bits": [
+      7713,
+      7768,
+      7770,
+      7772,
+      7927,
+      7930
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7782,
+      7846,
+      87773
+    ],
+    "superset_bits": [
+      7720,
+      7780,
+      7782,
+      7846,
+      7897,
+      87773
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7780,
+      7782,
+      7846,
+      87773
+    ],
+    "superset_bits": [
+      7720,
+      7780,
+      7782,
+      7846,
+      7897,
+      87773
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7720,
+      7780,
+      7782,
+      7846,
+      87773
+    ],
+    "superset_bits": [
+      7720,
+      7780,
+      7782,
+      7846,
+      7897,
+      87773
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7754,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7927
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7927
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7835,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7927
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7835,
+      7837,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7927
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "superset_bits": [
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "superset_bits": [
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      7845,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "superset_bits": [
+      7845,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "superset_bits": [
+      7845,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908
+    ],
+    "superset_bits": [
+      7872,
+      7907,
+      7908,
+      87776,
+      125690,
+      125698
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908,
+      87776
+    ],
+    "superset_bits": [
+      7872,
+      7907,
+      7908,
+      87776,
+      125690,
+      125698
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908,
+      87776,
+      125698
+    ],
+    "superset_bits": [
+      7872,
+      7907,
+      7908,
+      87776,
+      125690,
+      125698
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908,
+      87776,
+      125690,
+      125698
+    ],
+    "superset_bits": [
+      7872,
+      7907,
+      7908,
+      87776,
+      125690,
+      125698
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      5
+    ],
+    "superset_bits": [
+      5,
+      10,
+      9493,
+      9494,
+      10118,
+      10457,
+      125872
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      10
+    ],
+    "superset_bits": [
+      5,
+      10,
+      9493,
+      9494,
+      10118,
+      10457,
+      125872
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      6
+    ],
+    "superset_bits": [
+      6,
+      8450,
+      8801,
+      9730,
+      9734,
+      10467,
+      10479
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      6
+    ],
+    "superset_bits": [
+      6,
+      8450,
+      9730,
+      9734,
+      10467,
+      10479,
+      128071
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      9
+    ],
+    "superset_bits": [
+      9,
+      667,
+      10449,
+      10450,
+      10452,
+      88694,
+      89027
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      9
+    ],
+    "superset_bits": [
+      9,
+      667,
+      10449,
+      10450,
+      10452,
+      88694,
+      89986
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      11
+    ],
+    "superset_bits": [
+      11,
+      10489,
+      12442,
+      13648,
+      13649,
+      88715,
+      90007
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      12
+    ],
+    "superset_bits": [
+      12,
+      939,
+      11839,
+      12899,
+      88818,
+      89229,
+      89244
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      12
+    ],
+    "superset_bits": [
+      12,
+      939,
+      12899,
+      88818,
+      89229,
+      89244,
+      89245
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      12
+    ],
+    "superset_bits": [
+      12,
+      939,
+      12899,
+      88818,
+      89229,
+      89244,
+      90273
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      23
+    ],
+    "superset_bits": [
+      23,
+      1937,
+      4089,
+      15563,
+      19892,
+      28719,
+      126021
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      25
+    ],
+    "superset_bits": [
+      25,
+      9465,
+      14143,
+      23007,
+      93490,
+      94975,
+      125981
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      6823,
+      6824
+    ],
+    "superset_bits": [
+      6722,
+      6823,
+      6824,
+      15308,
+      31391,
+      58187,
+      67625
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      7782,
+      7846,
+      87773
+    ],
+    "superset_bits": [
+      7720,
+      7764,
+      7780,
+      7782,
+      7846,
+      7929,
+      87773
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      7780,
+      7782,
+      7846,
+      87773
+    ],
+    "superset_bits": [
+      7720,
+      7764,
+      7780,
+      7782,
+      7846,
+      7929,
+      87773
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7720,
+      7780,
+      7782,
+      7846,
+      87773
+    ],
+    "superset_bits": [
+      7720,
+      7764,
+      7780,
+      7782,
+      7846,
+      7929,
+      87773
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7754,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7894,
+      7927
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7894,
+      7927
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7835,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7894,
+      7927
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7835,
+      7837,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7894,
+      7927
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7894,
+      7927
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7754,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7927,
+      87778
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7927,
+      87778
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7835,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7927,
+      87778
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7835,
+      7837,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7927,
+      87778
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7927
+    ],
+    "superset_bits": [
+      7754,
+      7756,
+      7758,
+      7835,
+      7837,
+      7927,
+      87778
+    ],
+    "rows_removed": 2
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908
+    ],
+    "superset_bits": [
+      7871,
+      7907,
+      7908,
+      87776,
+      124876,
+      125690,
+      125698
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908,
+      87776
+    ],
+    "superset_bits": [
+      7871,
+      7907,
+      7908,
+      87776,
+      124876,
+      125690,
+      125698
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908,
+      87776,
+      125698
+    ],
+    "superset_bits": [
+      7871,
+      7907,
+      7908,
+      87776,
+      124876,
+      125690,
+      125698
+    ],
+    "rows_removed": 8
+  },
+  {
+    "subset_bits": [
+      7907,
+      7908,
+      87776,
+      125690,
+      125698
+    ],
+    "superset_bits": [
+      7871,
+      7907,
+      7908,
+      87776,
+      124876,
+      125690,
+      125698
+    ],
+    "rows_removed": 4
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      7931,
+      7932,
+      85985,
+      86591,
+      87691,
+      125701,
+      127961
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "superset_bits": [
+      7931,
+      7932,
+      85985,
+      86591,
+      87691,
+      125701,
+      127961
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      19582,
+      19584,
+      21076
+    ],
+    "superset_bits": [
+      13994,
+      17593,
+      19582,
+      19584,
+      21076,
+      24332,
+      90761
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      19582,
+      19584,
+      21076
+    ],
+    "superset_bits": [
+      13994,
+      19582,
+      19584,
+      21076,
+      24332,
+      89569,
+      90761
+    ],
+    "rows_removed": 32
+  },
+  {
+    "subset_bits": [
+      34147,
+      77684,
+      79325
+    ],
+    "superset_bits": [
+      34147,
+      77684,
+      78007,
+      79325,
+      85260,
+      85957,
+      121048
+    ],
+    "rows_removed": 40
+  },
+  {
+    "subset_bits": [
+      78007,
+      85260,
+      85957,
+      121048
+    ],
+    "superset_bits": [
+      34147,
+      77684,
+      78007,
+      79325,
+      85260,
+      85957,
+      121048
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      6
+    ],
+    "superset_bits": [
+      6,
+      8450,
+      9730,
+      9734,
+      10467,
+      10479,
+      87937,
+      88428
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      23
+    ],
+    "superset_bits": [
+      23,
+      1937,
+      4089,
+      15563,
+      18420,
+      19892,
+      28719,
+      92815
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      23
+    ],
+    "superset_bits": [
+      23,
+      1937,
+      4089,
+      15563,
+      19892,
+      28719,
+      91458,
+      92815
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      29
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 112
+  },
+  {
+    "subset_bits": [
+      29,
+      7776
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 56
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 16
+  },
+  {
+    "subset_bits": [
+      29,
+      7776,
+      7844
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 12
+  },
+  {
+    "subset_bits": [
+      29,
+      7931,
+      7932
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      7776,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      29,
+      7776,
+      7931,
+      7932,
+      85985,
+      125701
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "superset_bits": [
+      29,
+      7776,
+      7844,
+      7931,
+      7932,
+      85985,
+      87765,
+      125701
+    ],
+    "rows_removed": 0
+  },
+  {
+    "subset_bits": [
+      11472,
+      14467,
+      88667,
+      88668,
+      91003,
+      91004
+    ],
+    "superset_bits": [
+      10538,
+      11284,
+      11472,
+      14467,
+      88667,
+      88668,
+      91003,
+      91004
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      11472,
+      14467,
+      88667,
+      88668,
+      91003,
+      91004
+    ],
+    "superset_bits": [
+      11284,
+      11472,
+      14467,
+      88667,
+      88668,
+      89463,
+      91003,
+      91004
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      14191,
+      74770,
+      78207,
+      79613,
+      121176,
+      121179
+    ],
+    "superset_bits": [
+      14191,
+      74770,
+      78207,
+      79613,
+      81196,
+      84874,
+      121176,
+      121179
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      14521,
+      49140,
+      51059,
+      55776,
+      107158,
+      109472
+    ],
+    "superset_bits": [
+      14521,
+      49140,
+      51059,
+      53215,
+      55343,
+      55776,
+      107158,
+      109472
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      15374,
+      44403,
+      63064,
+      67295,
+      113104,
+      116133
+    ],
+    "superset_bits": [
+      15374,
+      44403,
+      49123,
+      63064,
+      67295,
+      70885,
+      113104,
+      116133
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      18191,
+      45978,
+      67622,
+      69353,
+      116269,
+      116272
+    ],
+    "superset_bits": [
+      18191,
+      45978,
+      67622,
+      69353,
+      71076,
+      76233,
+      116269,
+      116272
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      21089,
+      52802,
+      60542,
+      111996,
+      114320,
+      114321
+    ],
+    "superset_bits": [
+      21089,
+      52802,
+      60141,
+      60542,
+      67610,
+      111996,
+      114320,
+      114321
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      21168,
+      93403,
+      93404,
+      97183,
+      98828,
+      98829
+    ],
+    "superset_bits": [
+      21168,
+      22776,
+      27921,
+      93403,
+      93404,
+      97183,
+      98828,
+      98829
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      21168,
+      93403,
+      93404,
+      97183,
+      98828,
+      98829
+    ],
+    "superset_bits": [
+      21168,
+      22776,
+      93403,
+      93404,
+      96472,
+      97183,
+      98828,
+      98829
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      21589,
+      79645,
+      120423,
+      120424,
+      123089,
+      123090
+    ],
+    "superset_bits": [
+      21589,
+      79633,
+      79645,
+      83861,
+      120423,
+      120424,
+      123089,
+      123090
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      23616,
+      94472,
+      94473,
+      96754,
+      98406,
+      98407
+    ],
+    "superset_bits": [
+      21943,
+      23616,
+      25382,
+      94472,
+      94473,
+      96754,
+      98406,
+      98407
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      22481,
+      47278,
+      60051,
+      60052,
+      111737,
+      112893
+    ],
+    "superset_bits": [
+      22481,
+      47278,
+      60051,
+      60052,
+      62569,
+      65035,
+      111737,
+      112893
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      23616,
+      94472,
+      94473,
+      96754,
+      98406,
+      98407
+    ],
+    "superset_bits": [
+      23616,
+      25382,
+      94472,
+      94473,
+      96127,
+      96754,
+      98406,
+      98407
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      24725,
+      70232,
+      76207,
+      77785,
+      119460,
+      120498
+    ],
+    "superset_bits": [
+      24725,
+      70232,
+      76207,
+      76383,
+      77785,
+      79769,
+      119460,
+      120498
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      24985,
+      68158,
+      77244,
+      79610,
+      119552,
+      122005
+    ],
+    "superset_bits": [
+      24985,
+      68158,
+      77244,
+      77486,
+      79610,
+      82660,
+      119552,
+      122005
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      26475,
+      75612,
+      77238,
+      77672,
+      119161,
+      120792
+    ],
+    "superset_bits": [
+      26475,
+      74983,
+      75612,
+      77238,
+      77672,
+      80379,
+      119161,
+      120792
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      27736,
+      49368,
+      62651,
+      65033,
+      111514,
+      112892
+    ],
+    "superset_bits": [
+      27736,
+      49368,
+      62158,
+      62651,
+      65033,
+      111514,
+      112892,
+      114320
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      27766,
+      51050,
+      63142,
+      66838,
+      114370,
+      114941
+    ],
+    "superset_bits": [
+      27766,
+      51050,
+      63142,
+      66838,
+      67693,
+      68738,
+      114370,
+      114941
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      28728,
+      70175,
+      122015,
+      122016,
+      123791,
+      124307
+    ],
+    "superset_bits": [
+      28728,
+      70175,
+      82671,
+      120754,
+      122015,
+      122016,
+      123791,
+      124307
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      29926,
+      70196,
+      75384,
+      75509,
+      119035,
+      119100
+    ],
+    "superset_bits": [
+      29926,
+      70196,
+      75384,
+      75509,
+      76986,
+      79164,
+      119035,
+      119100
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      31405,
+      52804,
+      58172,
+      60661,
+      110729,
+      113155
+    ],
+    "superset_bits": [
+      31405,
+      52804,
+      58172,
+      60661,
+      65501,
+      66802,
+      110729,
+      113155
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      31666,
+      74707,
+      77775,
+      79427,
+      120005,
+      121935
+    ],
+    "superset_bits": [
+      31666,
+      74707,
+      77775,
+      79427,
+      81026,
+      82539,
+      120005,
+      121935
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      32136,
+      72517,
+      80373,
+      84878,
+      122356,
+      124101
+    ],
+    "superset_bits": [
+      32136,
+      72517,
+      77915,
+      80373,
+      83184,
+      84878,
+      122356,
+      124101
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      32399,
+      68574,
+      81842,
+      82516,
+      122725,
+      122728
+    ],
+    "superset_bits": [
+      32399,
+      68574,
+      81842,
+      82516,
+      83754,
+      86278,
+      122725,
+      122728
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      33086,
+      98840,
+      98841,
+      101987,
+      103575,
+      103576
+    ],
+    "superset_bits": [
+      33086,
+      34808,
+      38064,
+      98840,
+      98841,
+      101987,
+      103575,
+      103576
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      33086,
+      98840,
+      98841,
+      101987,
+      103575,
+      103576
+    ],
+    "superset_bits": [
+      33086,
+      34808,
+      98840,
+      98841,
+      100425,
+      101987,
+      103575,
+      103576
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      33379,
+      74423,
+      78940,
+      80269,
+      120882,
+      121669
+    ],
+    "superset_bits": [
+      33379,
+      74423,
+      78940,
+      80269,
+      80945,
+      82033,
+      120882,
+      121669
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      33662,
+      72441,
+      76149,
+      77734,
+      119440,
+      119992
+    ],
+    "superset_bits": [
+      33662,
+      72441,
+      76149,
+      77734,
+      78749,
+      82514,
+      119440,
+      119992
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      35359,
+      68967,
+      79426,
+      79578,
+      121171,
+      121937
+    ],
+    "superset_bits": [
+      35359,
+      68967,
+      79426,
+      79578,
+      80966,
+      82032,
+      121171,
+      121937
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      37393,
+      70203,
+      79406,
+      83821,
+      121927,
+      123480
+    ],
+    "superset_bits": [
+      37393,
+      70203,
+      79406,
+      82530,
+      83821,
+      85612,
+      121927,
+      123480
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      38508,
+      73859,
+      76352,
+      119531,
+      120754,
+      120755
+    ],
+    "superset_bits": [
+      38508,
+      73859,
+      76352,
+      80281,
+      82617,
+      119531,
+      120754,
+      120755
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      38761,
+      100741,
+      100742,
+      103675,
+      105175,
+      105176
+    ],
+    "superset_bits": [
+      38761,
+      38768,
+      42270,
+      100741,
+      100742,
+      103675,
+      105175,
+      105176
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      38761,
+      100741,
+      100742,
+      103675,
+      105175,
+      105176
+    ],
+    "superset_bits": [
+      38761,
+      38768,
+      100741,
+      100742,
+      103148,
+      103675,
+      105175,
+      105176
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      38947,
+      74045,
+      78602,
+      80168,
+      120998,
+      121494
+    ],
+    "superset_bits": [
+      38947,
+      74045,
+      75408,
+      78602,
+      80168,
+      80794,
+      120998,
+      121494
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      40103,
+      70816,
+      77903,
+      79552,
+      119446,
+      120386
+    ],
+    "superset_bits": [
+      40103,
+      70816,
+      77765,
+      77903,
+      79552,
+      82533,
+      119446,
+      120386
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      40205,
+      76037,
+      80071,
+      80255,
+      121440,
+      121547
+    ],
+    "superset_bits": [
+      40205,
+      76037,
+      80071,
+      80255,
+      80926,
+      81624,
+      121440,
+      121547
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      40282,
+      71902,
+      79418,
+      81019,
+      121088,
+      121091
+    ],
+    "superset_bits": [
+      40282,
+      71902,
+      79418,
+      81019,
+      81022,
+      84811,
+      121088,
+      121091
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      40551,
+      74753,
+      78409,
+      120188,
+      120189,
+      120591
+    ],
+    "superset_bits": [
+      40551,
+      74753,
+      77958,
+      78409,
+      79166,
+      120188,
+      120189,
+      120591
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      40566,
+      74094,
+      80457,
+      86281,
+      121912,
+      124813
+    ],
+    "superset_bits": [
+      40566,
+      74094,
+      80457,
+      80928,
+      82496,
+      86281,
+      121912,
+      124813
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      41955,
+      68579,
+      81003,
+      82524,
+      120308,
+      123457
+    ],
+    "superset_bits": [
+      41955,
+      68579,
+      81003,
+      82524,
+      84805,
+      120188,
+      120308,
+      123457
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      43667,
+      71966,
+      79576,
+      81158,
+      119988,
+      121167
+    ],
+    "superset_bits": [
+      43667,
+      71966,
+      78747,
+      79576,
+      81158,
+      83222,
+      119988,
+      121167
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      43930,
+      71240,
+      80268,
+      80795,
+      121551,
+      122352
+    ],
+    "superset_bits": [
+      43930,
+      71240,
+      80268,
+      80795,
+      83175,
+      119052,
+      121551,
+      122352
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      45052,
+      68814,
+      78789,
+      80377,
+      120006,
+      120795
+    ],
+    "superset_bits": [
+      45052,
+      68814,
+      78789,
+      78801,
+      79574,
+      80377,
+      120006,
+      120795
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      47028,
+      105414,
+      105415,
+      108699,
+      111097,
+      111098
+    ],
+    "superset_bits": [
+      47028,
+      48686,
+      54617,
+      105414,
+      105415,
+      108699,
+      111097,
+      111098
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      47028,
+      105414,
+      105415,
+      108699,
+      111097,
+      111098
+    ],
+    "superset_bits": [
+      47028,
+      48686,
+      105414,
+      105415,
+      106904,
+      108699,
+      111097,
+      111098
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      48079,
+      48950,
+      62150,
+      62649,
+      112886,
+      112889
+    ],
+    "superset_bits": [
+      48079,
+      48950,
+      62150,
+      62649,
+      65034,
+      70883,
+      112886,
+      112889
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      48955,
+      51894,
+      60546,
+      65392,
+      111997,
+      114315
+    ],
+    "superset_bits": [
+      48955,
+      51894,
+      60546,
+      63063,
+      65392,
+      67617,
+      111997,
+      114315
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      49663,
+      106586,
+      106587,
+      110831,
+      113250,
+      113251
+    ],
+    "superset_bits": [
+      49663,
+      51671,
+      58358,
+      106586,
+      106587,
+      110831,
+      113250,
+      113251
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      49663,
+      106586,
+      106587,
+      110831,
+      113250,
+      113251
+    ],
+    "superset_bits": [
+      49663,
+      51671,
+      106586,
+      106587,
+      110808,
+      110831,
+      113250,
+      113251
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      72618,
+      112563,
+      112564,
+      112565,
+      117759,
+      118568
+    ],
+    "superset_bits": [
+      56293,
+      64319,
+      72618,
+      112563,
+      112564,
+      112565,
+      117759,
+      118568
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      109301,
+      109302,
+      109303,
+      110906,
+      112172,
+      112173
+    ],
+    "superset_bits": [
+      57676,
+      65071,
+      109301,
+      109302,
+      109303,
+      110906,
+      112172,
+      112173
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      58002,
+      109441,
+      111931,
+      113044,
+      113045,
+      113046
+    ],
+    "superset_bits": [
+      58002,
+      62959,
+      69286,
+      109441,
+      111931,
+      113044,
+      113045,
+      113046
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      61916,
+      110161,
+      110162,
+      110163,
+      112587,
+      113769
+    ],
+    "superset_bits": [
+      59474,
+      61916,
+      62594,
+      110161,
+      110162,
+      110163,
+      112587,
+      113769
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      65942,
+      110191,
+      110192,
+      110193,
+      114530,
+      115482
+    ],
+    "superset_bits": [
+      59509,
+      65942,
+      66762,
+      110191,
+      110192,
+      110193,
+      114530,
+      115482
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      71029,
+      110366,
+      110367,
+      115267,
+      115268,
+      115269
+    ],
+    "superset_bits": [
+      59966,
+      62140,
+      71029,
+      110366,
+      110367,
+      115267,
+      115268,
+      115269
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      65756,
+      110431,
+      110432,
+      113313,
+      115401,
+      115402
+    ],
+    "superset_bits": [
+      60089,
+      65756,
+      67024,
+      110431,
+      110432,
+      113313,
+      115401,
+      115402
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      65756,
+      110431,
+      110432,
+      113313,
+      115401,
+      115402
+    ],
+    "superset_bits": [
+      60089,
+      65756,
+      67317,
+      110431,
+      110432,
+      113313,
+      115401,
+      115402
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      60357,
+      111801,
+      111802,
+      111803,
+      111884,
+      112999
+    ],
+    "superset_bits": [
+      60357,
+      62777,
+      65226,
+      111801,
+      111802,
+      111803,
+      111884,
+      112999
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      110564,
+      110565,
+      110566,
+      112997,
+      114194,
+      115226
+    ],
+    "superset_bits": [
+      60411,
+      64457,
+      110564,
+      110565,
+      110566,
+      112997,
+      114194,
+      115226
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      77815,
+      110680,
+      110681,
+      114837,
+      114838,
+      114839
+    ],
+    "superset_bits": [
+      60607,
+      67673,
+      77815,
+      110680,
+      110681,
+      114837,
+      114838,
+      114839
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      110699,
+      110700,
+      110701,
+      115168,
+      116152,
+      116914
+    ],
+    "superset_bits": [
+      60626,
+      67681,
+      110699,
+      110700,
+      110701,
+      115168,
+      116152,
+      116914
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      111516,
+      111517,
+      111518,
+      116730,
+      117515,
+      117516
+    ],
+    "superset_bits": [
+      62162,
+      63040,
+      111516,
+      111517,
+      111518,
+      116730,
+      117515,
+      117516
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      113157,
+      113158,
+      113159,
+      118623,
+      119483,
+      120333
+    ],
+    "superset_bits": [
+      62624,
+      69115,
+      113157,
+      113158,
+      113159,
+      118623,
+      119483,
+      120333
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      70868,
+      111950,
+      111951,
+      111952,
+      116899,
+      117768
+    ],
+    "superset_bits": [
+      62993,
+      69299,
+      70868,
+      111950,
+      111951,
+      111952,
+      116899,
+      117768
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      73822,
+      112161,
+      112162,
+      112163,
+      118297,
+      119131
+    ],
+    "superset_bits": [
+      63404,
+      67583,
+      73822,
+      112161,
+      112162,
+      112163,
+      118297,
+      119131
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      67864,
+      112227,
+      112228,
+      115398,
+      115399,
+      115400
+    ],
+    "superset_bits": [
+      63549,
+      67864,
+      69589,
+      112227,
+      112228,
+      115398,
+      115399,
+      115400
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      112621,
+      112622,
+      112623,
+      113768,
+      114862,
+      115815
+    ],
+    "superset_bits": [
+      64435,
+      66822,
+      112621,
+      112622,
+      112623,
+      113768,
+      114862,
+      115815
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      112653,
+      112654,
+      112655,
+      115483,
+      116402,
+      117148
+    ],
+    "superset_bits": [
+      64487,
+      70349,
+      112653,
+      112654,
+      112655,
+      115483,
+      116402,
+      117148
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      72068,
+      112665,
+      112666,
+      112667,
+      117499,
+      118290
+    ],
+    "superset_bits": [
+      64499,
+      67334,
+      72068,
+      112665,
+      112666,
+      112667,
+      117499,
+      118290
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      73772,
+      116684,
+      116685,
+      116686,
+      118275,
+      119118
+    ],
+    "superset_bits": [
+      64914,
+      72051,
+      73772,
+      116684,
+      116685,
+      116686,
+      118275,
+      119118
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      75562,
+      112830,
+      112831,
+      112832,
+      113346,
+      113347
+    ],
+    "superset_bits": [
+      64942,
+      65864,
+      75562,
+      112830,
+      112831,
+      112832,
+      113346,
+      113347
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      72776,
+      113161,
+      113162,
+      113163,
+      117874,
+      118622
+    ],
+    "superset_bits": [
+      65008,
+      65507,
+      72776,
+      113161,
+      113162,
+      113163,
+      117874,
+      118622
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      112723,
+      113027,
+      113028,
+      113029,
+      113914,
+      114961
+    ],
+    "superset_bits": [
+      65276,
+      71015,
+      112723,
+      113027,
+      113028,
+      113029,
+      113914,
+      114961
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      72648,
+      113145,
+      113146,
+      113147,
+      117778,
+      118572
+    ],
+    "superset_bits": [
+      65491,
+      71104,
+      72648,
+      113145,
+      113146,
+      113147,
+      117778,
+      118572
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      113376,
+      113377,
+      113378,
+      115225,
+      116204,
+      116952
+    ],
+    "superset_bits": [
+      65924,
+      69372,
+      113376,
+      113377,
+      113378,
+      115225,
+      116204,
+      116952
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      76219,
+      117143,
+      117144,
+      117145,
+      119463,
+      120325
+    ],
+    "superset_bits": [
+      66612,
+      73043,
+      76219,
+      117143,
+      117144,
+      117145,
+      119463,
+      120325
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      70283,
+      114888,
+      114889,
+      114890,
+      116672,
+      117475
+    ],
+    "superset_bits": [
+      67248,
+      68672,
+      70283,
+      114888,
+      114889,
+      114890,
+      116672,
+      117475
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      114283,
+      114284,
+      114285,
+      117769,
+      118571,
+      119444
+    ],
+    "superset_bits": [
+      67558,
+      72748,
+      114283,
+      114284,
+      114285,
+      117769,
+      118571,
+      119444
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      74553,
+      114299,
+      114300,
+      114301,
+      118609,
+      119476
+    ],
+    "superset_bits": [
+      67572,
+      68770,
+      74553,
+      114299,
+      114300,
+      114301,
+      118609,
+      119476
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      115244,
+      115245,
+      115246,
+      116953,
+      117813,
+      118597
+    ],
+    "superset_bits": [
+      68692,
+      69256,
+      115244,
+      115245,
+      115246,
+      116953,
+      117813,
+      118597
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      70573,
+      116796,
+      116797,
+      118795,
+      120452,
+      120453
+    ],
+    "superset_bits": [
+      70573,
+      72228,
+      75290,
+      116796,
+      116797,
+      118795,
+      120452,
+      120453
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      70573,
+      116796,
+      116797,
+      118795,
+      120452,
+      120453
+    ],
+    "superset_bits": [
+      70573,
+      72228,
+      116796,
+      116797,
+      118795,
+      118953,
+      120452,
+      120453
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      119201,
+      119202,
+      119203,
+      121534,
+      122340,
+      122341
+    ],
+    "superset_bits": [
+      74011,
+      77327,
+      119201,
+      119202,
+      119203,
+      121534,
+      122340,
+      122341
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      76063,
+      118818,
+      118819,
+      118820,
+      119391,
+      120231
+    ],
+    "superset_bits": [
+      76063,
+      76614,
+      80039,
+      118818,
+      118819,
+      118820,
+      119391,
+      120231
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      76856,
+      81310,
+      118943,
+      120558,
+      122073,
+      122819
+    ],
+    "superset_bits": [
+      76856,
+      79901,
+      80261,
+      81310,
+      118943,
+      120558,
+      122073,
+      122819
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      77895,
+      120367,
+      120368,
+      120369,
+      120376,
+      121132
+    ],
+    "superset_bits": [
+      77895,
+      79533,
+      83806,
+      120367,
+      120368,
+      120369,
+      120376,
+      121132
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      81878,
+      83253,
+      119553,
+      119554,
+      123109,
+      123110
+    ],
+    "superset_bits": [
+      77936,
+      79375,
+      81878,
+      83253,
+      119553,
+      119554,
+      123109,
+      123110
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      79556,
+      81138,
+      119613,
+      119614,
+      121989,
+      121990
+    ],
+    "superset_bits": [
+      78028,
+      79556,
+      81138,
+      82687,
+      119613,
+      119614,
+      121989,
+      121990
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      80225,
+      84772,
+      122335,
+      122336,
+      124032,
+      124499
+    ],
+    "superset_bits": [
+      78194,
+      80225,
+      84772,
+      122334,
+      122335,
+      122336,
+      124032,
+      124499
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      119925,
+      119926,
+      119927,
+      123059,
+      123734,
+      124279
+    ],
+    "superset_bits": [
+      78629,
+      82623,
+      119925,
+      119926,
+      119927,
+      123059,
+      123734,
+      124279
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      85653,
+      121172,
+      121173,
+      121174,
+      124533,
+      124825
+    ],
+    "superset_bits": [
+      78662,
+      81172,
+      85653,
+      121172,
+      121173,
+      121174,
+      124533,
+      124825
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      82672,
+      83854,
+      83856,
+      119972,
+      123494,
+      123495
+    ],
+    "superset_bits": [
+      78712,
+      82672,
+      83193,
+      83854,
+      83856,
+      119972,
+      123494,
+      123495
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      81253,
+      120269,
+      120270,
+      120271,
+      122039,
+      122805
+    ],
+    "superset_bits": [
+      79328,
+      81253,
+      83725,
+      120269,
+      120270,
+      120271,
+      122039,
+      122805
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      79501,
+      120543,
+      121116,
+      121117,
+      122113,
+      122114
+    ],
+    "superset_bits": [
+      79501,
+      81083,
+      83293,
+      120543,
+      121116,
+      121117,
+      122113,
+      122114
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      79501,
+      120543,
+      121116,
+      121117,
+      122113,
+      122114
+    ],
+    "superset_bits": [
+      79501,
+      81083,
+      84841,
+      120543,
+      121116,
+      121117,
+      122113,
+      122114
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      81008,
+      82528,
+      83762,
+      121924,
+      124049,
+      124050
+    ],
+    "superset_bits": [
+      79609,
+      81008,
+      82528,
+      83762,
+      85610,
+      121924,
+      124049,
+      124050
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      119303,
+      120140,
+      120479,
+      120480,
+      120481,
+      120937
+    ],
+    "superset_bits": [
+      79737,
+      83455,
+      119303,
+      120140,
+      120479,
+      120480,
+      120481,
+      120937
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      85284,
+      120778,
+      120779,
+      120780,
+      124301,
+      124682
+    ],
+    "superset_bits": [
+      79749,
+      80348,
+      85284,
+      120778,
+      120779,
+      120780,
+      124301,
+      124682
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      82732,
+      120560,
+      120561,
+      120562,
+      122822,
+      123521
+    ],
+    "superset_bits": [
+      79909,
+      81848,
+      82732,
+      120560,
+      120561,
+      120562,
+      122822,
+      123521
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      120046,
+      120835,
+      120839,
+      120840,
+      120841,
+      121625
+    ],
+    "superset_bits": [
+      80482,
+      80671,
+      120046,
+      120835,
+      120839,
+      120840,
+      120841,
+      121625
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      86264,
+      121908,
+      121909,
+      121910,
+      124807,
+      125063
+    ],
+    "superset_bits": [
+      80674,
+      82494,
+      86264,
+      121908,
+      121909,
+      121910,
+      124807,
+      125063
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      124131,
+      124132,
+      124133,
+      125064,
+      125267,
+      125399
+    ],
+    "superset_bits": [
+      81123,
+      85728,
+      124131,
+      124132,
+      124133,
+      125064,
+      125267,
+      125399
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      85941,
+      121529,
+      121530,
+      121531,
+      124669,
+      124948
+    ],
+    "superset_bits": [
+      81758,
+      84865,
+      85941,
+      121529,
+      121530,
+      121531,
+      124669,
+      124948
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      122860,
+      122861,
+      122862,
+      124826,
+      125073,
+      125268
+    ],
+    "superset_bits": [
+      81769,
+      83961,
+      122860,
+      122861,
+      122862,
+      124826,
+      125073,
+      125268
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      86966,
+      122949,
+      122950,
+      122951,
+      123124,
+      123125
+    ],
+    "superset_bits": [
+      81836,
+      84346,
+      86966,
+      122949,
+      122950,
+      122951,
+      123124,
+      123125
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      81937,
+      121626,
+      123135,
+      123798,
+      123799,
+      123800
+    ],
+    "superset_bits": [
+      81937,
+      83134,
+      84359,
+      121626,
+      123135,
+      123798,
+      123799,
+      123800
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      82377,
+      122057,
+      122058,
+      122059,
+      122668,
+      123414
+    ],
+    "superset_bits": [
+      82377,
+      82723,
+      85103,
+      122057,
+      122058,
+      122059,
+      122668,
+      123414
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      122123,
+      122877,
+      123544,
+      123551,
+      123552,
+      123553
+    ],
+    "superset_bits": [
+      82435,
+      84974,
+      122123,
+      122877,
+      123544,
+      123551,
+      123552,
+      123553
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      121898,
+      121899,
+      121900,
+      122731,
+      123464,
+      124055
+    ],
+    "superset_bits": [
+      82483,
+      85598,
+      121898,
+      121899,
+      121900,
+      122731,
+      123464,
+      124055
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      83882,
+      122127,
+      122128,
+      122129,
+      123520,
+      124110
+    ],
+    "superset_bits": [
+      82847,
+      83142,
+      83882,
+      122127,
+      122128,
+      122129,
+      123520,
+      124110
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      82990,
+      122954,
+      122968,
+      122969,
+      122970,
+      123647
+    ],
+    "superset_bits": [
+      82990,
+      84124,
+      86448,
+      122954,
+      122968,
+      122969,
+      122970,
+      123647
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      123542,
+      124140,
+      124548,
+      124554,
+      124555,
+      124556
+    ],
+    "superset_bits": [
+      83209,
+      86362,
+      123542,
+      124140,
+      124548,
+      124554,
+      124555,
+      124556
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      122416,
+      122417,
+      122418,
+      124683,
+      124955,
+      125172
+    ],
+    "superset_bits": [
+      83279,
+      83458,
+      122416,
+      122417,
+      122418,
+      124683,
+      124955,
+      125172
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      124314,
+      124701,
+      124704,
+      124705,
+      124706,
+      124961
+    ],
+    "superset_bits": [
+      84239,
+      86614,
+      124314,
+      124701,
+      124704,
+      124705,
+      124706,
+      124961
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      122411,
+      123118,
+      123555,
+      123556,
+      123557,
+      123795
+    ],
+    "superset_bits": [
+      84312,
+      84978,
+      122411,
+      123118,
+      123555,
+      123556,
+      123557,
+      123795
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      122537,
+      123270,
+      123300,
+      123301,
+      123302,
+      123900
+    ],
+    "superset_bits": [
+      84574,
+      86685,
+      122537,
+      123270,
+      123300,
+      123301,
+      123302,
+      123900
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      124550,
+      124856,
+      125077,
+      125085,
+      125086,
+      125087
+    ],
+    "superset_bits": [
+      84757,
+      87143,
+      124550,
+      124856,
+      125077,
+      125085,
+      125086,
+      125087
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      123543,
+      124143,
+      124549,
+      124558,
+      124559,
+      124560
+    ],
+    "superset_bits": [
+      85251,
+      86366,
+      123543,
+      124143,
+      124549,
+      124558,
+      124559,
+      124560
+    ],
+    "rows_removed": 64
+  },
+  {
+    "subset_bits": [
+      123144,
+      123807,
+      123811,
+      123812,
+      123813,
+      124313
+    ],
+    "superset_bits": [
+      85336,
+      85430,
+      123144,
+      123807,
+      123811,
+      123812,
+      123813,
+      124313
+    ],
+    "rows_removed": 64
+  }
+]

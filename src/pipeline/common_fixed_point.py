@@ -35,6 +35,7 @@ from src.utils.artifacts import (
     table_artifact,
 )
 from src.utils.paths import RAW_DIR
+from src.utils.rank_stats import summarize_table_ranks
 
 
 PipelineState = dict[str, object]
@@ -254,6 +255,7 @@ def run_reduction_pipeline(
             "input_table_count": len(tables),
             "input_bit_count": len(collect_bits(tables)),
             "input_arity_distribution": arity_distribution(tables),
+            "input_rank_summary": summarize_table_ranks(tables),
         }
 
         for step_name, step in steps:
@@ -264,6 +266,7 @@ def run_reduction_pipeline(
         round_info["output_table_count"] = len(tables)
         round_info["output_bit_count"] = len(collect_bits(tables))
         round_info["output_arity_distribution"] = arity_distribution(tables)
+        round_info["output_rank_summary"] = summarize_table_ranks(tables)
         round_info["changed"] = changed
         rounds.append(round_info)
 
@@ -370,6 +373,7 @@ def main() -> None:
 
     initial_table_count = len(tables)
     initial_bits = collect_bits(tables)
+    initial_rank_summary = summarize_table_ranks(tables)
     state = initialize_pipeline_state(tables)
     steps: list[tuple[str, PipelineStep]] = [
         ("subset_absorption", step_subset_absorption),
@@ -406,8 +410,10 @@ def main() -> None:
         "nodes_output": args.nodes,
         "initial_table_count": initial_table_count,
         "initial_bit_count": len(initial_bits),
+        "initial_rank_summary": initial_rank_summary,
         "final_table_count": len(tables),
         "final_bit_count": len(collect_bits(tables)),
+        "final_rank_summary": summarize_table_ranks(tables),
         "productive_round_count": productive_rounds,
         "round_count_including_final_check": len(rounds),
         "total_collapsed_duplicate_tables_in_subset_step": sum(

@@ -1,8 +1,8 @@
 {
   "method": "build nodes from exact pairwise bitset intersections, intersect projected subtables inside each node, and propagate node constraints until no further row deletions",
-  "input": "tables_common_fixed_point.json",
-  "output": "tables_common_fixed_point_node_filtered.json",
-  "nodes_output": "common_fixed_point_nodes.json",
+  "input": "C:\\projects\\tables\\data\\derived\\tables.common_fixed_point.json",
+  "output": "C:\\projects\\tables\\data\\derived\\tables.common_fixed_point.node_filtered.json",
+  "nodes_output": "C:\\projects\\tables\\data\\derived\\nodes.common_fixed_point.node_filtered.json",
   "initial_table_count": 124420,
   "initial_bit_count": 124496,
   "initial_row_count": 1608316,
@@ -24,6 +24,248 @@
     "6": 25842,
     "7": 1352,
     "8": 267
+  },
+  "initial_rank_summary": {
+    "metric": "rank = row_count ** (1 / bit_count)",
+    "table_count": 124420,
+    "min_rank": 1.414213562373095,
+    "max_rank": 1.8340080864093424,
+    "mean_rank": 1.6670138254141151,
+    "median_rank": 1.681792830507429,
+    "unique_signatures": 11,
+    "by_arity": [
+      {
+        "bit_count": 3,
+        "table_count": 59042,
+        "min_rank": 1.5874010519681994,
+        "max_rank": 1.5874010519681994,
+        "mean_rank": 1.5874010519681994,
+        "median_rank": 1.5874010519681994
+      },
+      {
+        "bit_count": 4,
+        "table_count": 21762,
+        "min_rank": 1.4142135623730951,
+        "max_rank": 1.681792830507429,
+        "mean_rank": 1.681780534796183,
+        "median_rank": 1.681792830507429
+      },
+      {
+        "bit_count": 5,
+        "table_count": 16155,
+        "min_rank": 1.7411011265922482,
+        "max_rank": 1.7411011265922482,
+        "mean_rank": 1.7411011265922482,
+        "median_rank": 1.7411011265922482
+      },
+      {
+        "bit_count": 6,
+        "table_count": 25842,
+        "min_rank": 1.414213562373095,
+        "max_rank": 1.7817974362806785,
+        "mean_rank": 1.7815958342019362,
+        "median_rank": 1.7817974362806785
+      },
+      {
+        "bit_count": 7,
+        "table_count": 1352,
+        "min_rank": 1.640670712015276,
+        "max_rank": 1.8114473285278132,
+        "mean_rank": 1.8110683863314099,
+        "median_rank": 1.8114473285278132
+      },
+      {
+        "bit_count": 8,
+        "table_count": 267,
+        "min_rank": 1.681792830507429,
+        "max_rank": 1.8340080864093424,
+        "mean_rank": 1.766166830033583,
+        "median_rank": 1.8340080864093424
+      }
+    ],
+    "top_signatures": [
+      {
+        "bit_count": 3,
+        "row_count": 4,
+        "rank": 1.5874010519681994,
+        "table_count": 59042
+      },
+      {
+        "bit_count": 6,
+        "row_count": 32,
+        "rank": 1.7817974362806785,
+        "table_count": 25825
+      },
+      {
+        "bit_count": 4,
+        "row_count": 8,
+        "rank": 1.681792830507429,
+        "table_count": 21761
+      },
+      {
+        "bit_count": 5,
+        "row_count": 16,
+        "rank": 1.7411011265922482,
+        "table_count": 16155
+      },
+      {
+        "bit_count": 7,
+        "row_count": 64,
+        "rank": 1.8114473285278132,
+        "table_count": 1349
+      },
+      {
+        "bit_count": 8,
+        "row_count": 128,
+        "rank": 1.8340080864093424,
+        "table_count": 148
+      },
+      {
+        "bit_count": 8,
+        "row_count": 64,
+        "rank": 1.681792830507429,
+        "table_count": 119
+      },
+      {
+        "bit_count": 6,
+        "row_count": 8,
+        "rank": 1.414213562373095,
+        "table_count": 11
+      },
+      {
+        "bit_count": 6,
+        "row_count": 16,
+        "rank": 1.5874010519681994,
+        "table_count": 6
+      },
+      {
+        "bit_count": 7,
+        "row_count": 32,
+        "rank": 1.640670712015276,
+        "table_count": 3
+      }
+    ]
+  },
+  "final_rank_summary": {
+    "metric": "rank = row_count ** (1 / bit_count)",
+    "table_count": 124420,
+    "min_rank": 1.414213562373095,
+    "max_rank": 1.8340080864093424,
+    "mean_rank": 1.6560968105978862,
+    "median_rank": 1.6265765616977856,
+    "unique_signatures": 25,
+    "by_arity": [
+      {
+        "bit_count": 3,
+        "table_count": 59042,
+        "min_rank": 1.4422495703074083,
+        "max_rank": 1.5874010519681994,
+        "mean_rank": 1.5873863013010479,
+        "median_rank": 1.5874010519681994
+      },
+      {
+        "bit_count": 4,
+        "table_count": 21762,
+        "min_rank": 1.4142135623730951,
+        "max_rank": 1.681792830507429,
+        "mean_rank": 1.6444158619799267,
+        "median_rank": 1.6265765616977856
+      },
+      {
+        "bit_count": 5,
+        "table_count": 16155,
+        "min_rank": 1.5157165665103982,
+        "max_rank": 1.7411011265922482,
+        "mean_rank": 1.707937985040201,
+        "median_rank": 1.6952182030724354
+      },
+      {
+        "bit_count": 6,
+        "table_count": 25842,
+        "min_rank": 1.414213562373095,
+        "max_rank": 1.7817974362806785,
+        "mean_rank": 1.7812870794937652,
+        "median_rank": 1.7817974362806785
+      },
+      {
+        "bit_count": 7,
+        "table_count": 1352,
+        "min_rank": 1.640670712015276,
+        "max_rank": 1.8114473285278132,
+        "mean_rank": 1.8106507282130626,
+        "median_rank": 1.8114473285278132
+      },
+      {
+        "bit_count": 8,
+        "table_count": 267,
+        "min_rank": 1.681792830507429,
+        "max_rank": 1.8340080864093424,
+        "mean_rank": 1.766166830033583,
+        "median_rank": 1.8340080864093424
+      }
+    ],
+    "top_signatures": [
+      {
+        "bit_count": 3,
+        "row_count": 4,
+        "rank": 1.5874010519681994,
+        "table_count": 59036
+      },
+      {
+        "bit_count": 6,
+        "row_count": 32,
+        "rank": 1.7817974362806785,
+        "table_count": 25632
+      },
+      {
+        "bit_count": 4,
+        "row_count": 7,
+        "rank": 1.6265765616977856,
+        "table_count": 12881
+      },
+      {
+        "bit_count": 5,
+        "row_count": 14,
+        "rank": 1.6952182030724354,
+        "table_count": 11586
+      },
+      {
+        "bit_count": 4,
+        "row_count": 8,
+        "rank": 1.681792830507429,
+        "table_count": 8038
+      },
+      {
+        "bit_count": 5,
+        "row_count": 16,
+        "rank": 1.7411011265922482,
+        "table_count": 4533
+      },
+      {
+        "bit_count": 7,
+        "row_count": 64,
+        "rank": 1.8114473285278132,
+        "table_count": 1342
+      },
+      {
+        "bit_count": 4,
+        "row_count": 6,
+        "rank": 1.5650845800732873,
+        "table_count": 818
+      },
+      {
+        "bit_count": 6,
+        "row_count": 28,
+        "rank": 1.7425811234704864,
+        "table_count": 187
+      },
+      {
+        "bit_count": 8,
+        "row_count": 128,
+        "rank": 1.8340080864093424,
+        "table_count": 148
+      }
+    ]
   },
   "node_build": {
     "node_count": 64755,

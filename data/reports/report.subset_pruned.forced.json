@@ -1,14 +1,30 @@
 {
   "method": "iterative AND/OR-based fixed-bit detection, propagation, tautology removal, and equal-bitset intersection until no further fixed bits",
-  "input": ".\tables_pruned.json",
-  "output": ".\tables_pruned_forced.json",
-  "forced_output": ".\tables_pruned_forced_bits.json",
+  "input": "data/derived/tables.subset_pruned.json",
+  "output": "data/derived/tables.subset_pruned.forced.json",
+  "forced_output": "data/derived/bits.subset_pruned.forced.json",
   "initial_table_count": 132585,
   "initial_bit_count": 128767,
   "initial_row_count": 1692392,
+  "initial_rank_summary": {
+    "metric": "rank = row_count ** (1 / bit_count)",
+    "table_count": 132585,
+    "min_rank": 1.000000000000000,
+    "max_rank": 1.834008086409342,
+    "mean_rank": 1.661125616374200,
+    "median_rank": 1.681792830507429
+  },
   "final_table_count": 132329,
   "final_bit_count": 128509,
   "final_row_count": 1689110,
+  "final_rank_summary": {
+    "metric": "rank = row_count ** (1 / bit_count)",
+    "table_count": 132329,
+    "min_rank": 1.259921049894873,
+    "max_rank": 1.834008086409342,
+    "mean_rank": 1.661326608269468,
+    "median_rank": 1.681792830507429
+  },
   "productive_round_count": 16,
   "round_count_including_final_check": 17,
   "final_forced_bit_count": 258,
