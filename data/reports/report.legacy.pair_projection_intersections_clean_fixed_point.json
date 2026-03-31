@@ -1,0 +1,360 @@
+{
+  "method": "repeat explicit forced-bit propagation, subset inclusion merge/prune, equal/opposite pair collapse, and batch 3->2 triple reduction until no further change",
+  "input": "tables_pair_projection_intersections_fixed_point.json",
+  "output": "tables_pair_projection_intersections_clean_fixed_point.json",
+  "max_triple_output_arity": 10,
+  "initial_table_count": 100999,
+  "initial_bit_count": 101181,
+  "final_table_count": 100919,
+  "final_bit_count": 99936,
+  "productive_round_count": 3,
+  "round_count_including_final_check": 4,
+  "total_forced_bits_detected_across_rounds": 0,
+  "total_forced_occurrences": 0,
+  "total_removed_tautologies": 0,
+  "total_subset_row_deletions": 2890,
+  "total_dropped_included_tables": 77,
+  "total_pair_relation_pairs_found": 3,
+  "total_pair_replaced_bits": 3,
+  "total_triple_selected_candidates": 1242,
+  "total_triple_tautologies_dropped": 3,
+  "total_triple_duplicate_collapse": 0,
+  "final_forced_original_bits": 0,
+  "final_rewritten_original_bits": 3,
+  "final_arity_distribution": {
+    "3": 240,
+    "4": 11728,
+    "5": 22538,
+    "6": 18426,
+    "7": 18827,
+    "8": 13447,
+    "9": 8517,
+    "10": 7196
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "input_table_count": 100999,
+      "input_bit_count": 101181,
+      "input_arity_distribution": {
+        "3": 214,
+        "4": 11962,
+        "5": 22053,
+        "6": 18730,
+        "7": 19272,
+        "8": 13112,
+        "9": 8468,
+        "10": 7188
+      },
+      "forced_bits": 0,
+      "forced_occurrences": 0,
+      "forced_stats": {
+        "affected_tables": 0,
+        "changed_tables": 0,
+        "removed_rows": 0,
+        "removed_tautologies": 0,
+        "collapsed_duplicate_tables": 0
+      },
+      "collapsed_duplicate_tables": 0,
+      "canonical_table_count": 100999,
+      "subset_superset_pairs": 0,
+      "effective_subset_pairs": 0,
+      "subset_row_deletions": 0,
+      "subset_changed_tables": 0,
+      "dropped_included_tables": 0,
+      "pair_iterations": [],
+      "pair_relation_pairs_total": 0,
+      "pair_replaced_bits_total": 0,
+      "triple": {
+        "max_output_arity": 10,
+        "candidate_count": 20933,
+        "selected_candidate_count": 1239,
+        "selection": {
+          "skipped_due_to_overlap": 193,
+          "skipped_due_to_max_arity": 19501,
+          "final_max_projected_arity": 10
+        },
+        "touched_table_count": 7076,
+        "changed_table_count": 7076,
+        "dropped_tautologies": 0,
+        "restrictive_pair_tables_added": 0,
+        "collapsed_duplicate_tables": 0,
+        "row_delta_before_collapse": 210084,
+        "per_table_touch_histogram": {
+          "1": 6172,
+          "2": 904
+        },
+        "output_table_count": 100999,
+        "output_bit_count": 99942,
+        "output_arity_distribution": {
+          "3": 261,
+          "4": 11751,
+          "5": 22568,
+          "6": 18431,
+          "7": 18835,
+          "8": 13446,
+          "9": 8512,
+          "10": 7195
+        }
+      },
+      "output_table_count": 100999,
+      "output_bit_count": 99942,
+      "output_arity_distribution": {
+        "3": 261,
+        "4": 11751,
+        "5": 22568,
+        "6": 18431,
+        "7": 18835,
+        "8": 13446,
+        "9": 8512,
+        "10": 7195
+      },
+      "changed": true
+    },
+    {
+      "round": 2,
+      "input_table_count": 100999,
+      "input_bit_count": 99942,
+      "input_arity_distribution": {
+        "3": 261,
+        "4": 11751,
+        "5": 22568,
+        "6": 18431,
+        "7": 18835,
+        "8": 13446,
+        "9": 8512,
+        "10": 7195
+      },
+      "forced_bits": 0,
+      "forced_occurrences": 0,
+      "forced_stats": {
+        "affected_tables": 0,
+        "changed_tables": 0,
+        "removed_rows": 0,
+        "removed_tautologies": 0,
+        "collapsed_duplicate_tables": 0
+      },
+      "collapsed_duplicate_tables": 0,
+      "canonical_table_count": 100999,
+      "subset_superset_pairs": 81,
+      "effective_subset_pairs": 81,
+      "subset_row_deletions": 2570,
+      "subset_changed_tables": 78,
+      "dropped_included_tables": 73,
+      "pair_iterations": [
+        {
+          "iteration": 1,
+          "relation_pair_count": 3,
+          "bits_involved": 6,
+          "component_count": 3,
+          "replaced_bit_count": 3,
+          "changed_tables": 7,
+          "reduced_arity_tables": 4,
+          "same_arity_changed_tables": 3,
+          "removed_rows": 256,
+          "collapsed_duplicate_tables": 0,
+          "table_count_after_iteration": 100926,
+          "bit_count_after_iteration": 99939
+        }
+      ],
+      "pair_relation_pairs_total": 3,
+      "pair_replaced_bits_total": 3,
+      "triple": {
+        "max_output_arity": 10,
+        "candidate_count": 16663,
+        "selected_candidate_count": 3,
+        "selection": {
+          "skipped_due_to_overlap": 4,
+          "skipped_due_to_max_arity": 16656,
+          "final_max_projected_arity": 10
+        },
+        "touched_table_count": 30,
+        "changed_table_count": 30,
+        "dropped_tautologies": 3,
+        "restrictive_pair_tables_added": 0,
+        "collapsed_duplicate_tables": 0,
+        "row_delta_before_collapse": 2056,
+        "per_table_touch_histogram": {
+          "1": 30
+        },
+        "output_table_count": 100923,
+        "output_bit_count": 99936,
+        "output_arity_distribution": {
+          "3": 240,
+          "4": 11729,
+          "5": 22541,
+          "6": 18426,
+          "7": 18827,
+          "8": 13447,
+          "9": 8517,
+          "10": 7196
+        }
+      },
+      "output_table_count": 100923,
+      "output_bit_count": 99936,
+      "output_arity_distribution": {
+        "3": 240,
+        "4": 11729,
+        "5": 22541,
+        "6": 18426,
+        "7": 18827,
+        "8": 13447,
+        "9": 8517,
+        "10": 7196
+      },
+      "changed": true
+    },
+    {
+      "round": 3,
+      "input_table_count": 100923,
+      "input_bit_count": 99936,
+      "input_arity_distribution": {
+        "3": 240,
+        "4": 11729,
+        "5": 22541,
+        "6": 18426,
+        "7": 18827,
+        "8": 13447,
+        "9": 8517,
+        "10": 7196
+      },
+      "forced_bits": 0,
+      "forced_occurrences": 0,
+      "forced_stats": {
+        "affected_tables": 0,
+        "changed_tables": 0,
+        "removed_rows": 0,
+        "removed_tautologies": 0,
+        "collapsed_duplicate_tables": 0
+      },
+      "collapsed_duplicate_tables": 0,
+      "canonical_table_count": 100923,
+      "subset_superset_pairs": 4,
+      "effective_subset_pairs": 2,
+      "subset_row_deletions": 320,
+      "subset_changed_tables": 2,
+      "dropped_included_tables": 4,
+      "pair_iterations": [],
+      "pair_relation_pairs_total": 0,
+      "pair_replaced_bits_total": 0,
+      "triple": {
+        "max_output_arity": 10,
+        "candidate_count": 16657,
+        "selected_candidate_count": 0,
+        "selection": {
+          "skipped_due_to_overlap": 0,
+          "skipped_due_to_max_arity": 16657,
+          "final_max_projected_arity": 10
+        },
+        "touched_table_count": 0,
+        "changed_table_count": 0,
+        "dropped_tautologies": 0,
+        "restrictive_pair_tables_added": 0,
+        "collapsed_duplicate_tables": 0,
+        "row_delta_before_collapse": 0,
+        "per_table_touch_histogram": {},
+        "output_table_count": 100919,
+        "output_bit_count": 99936,
+        "output_arity_distribution": {
+          "3": 240,
+          "4": 11728,
+          "5": 22538,
+          "6": 18426,
+          "7": 18827,
+          "8": 13447,
+          "9": 8517,
+          "10": 7196
+        }
+      },
+      "output_table_count": 100919,
+      "output_bit_count": 99936,
+      "output_arity_distribution": {
+        "3": 240,
+        "4": 11728,
+        "5": 22538,
+        "6": 18426,
+        "7": 18827,
+        "8": 13447,
+        "9": 8517,
+        "10": 7196
+      },
+      "changed": true
+    },
+    {
+      "round": 4,
+      "input_table_count": 100919,
+      "input_bit_count": 99936,
+      "input_arity_distribution": {
+        "3": 240,
+        "4": 11728,
+        "5": 22538,
+        "6": 18426,
+        "7": 18827,
+        "8": 13447,
+        "9": 8517,
+        "10": 7196
+      },
+      "forced_bits": 0,
+      "forced_occurrences": 0,
+      "forced_stats": {
+        "affected_tables": 0,
+        "changed_tables": 0,
+        "removed_rows": 0,
+        "removed_tautologies": 0,
+        "collapsed_duplicate_tables": 0
+      },
+      "collapsed_duplicate_tables": 0,
+      "canonical_table_count": 100919,
+      "subset_superset_pairs": 0,
+      "effective_subset_pairs": 0,
+      "subset_row_deletions": 0,
+      "subset_changed_tables": 0,
+      "dropped_included_tables": 0,
+      "pair_iterations": [],
+      "pair_relation_pairs_total": 0,
+      "pair_replaced_bits_total": 0,
+      "triple": {
+        "max_output_arity": 10,
+        "candidate_count": 16657,
+        "selected_candidate_count": 0,
+        "selection": {
+          "skipped_due_to_overlap": 0,
+          "skipped_due_to_max_arity": 16657,
+          "final_max_projected_arity": 10
+        },
+        "touched_table_count": 0,
+        "changed_table_count": 0,
+        "dropped_tautologies": 0,
+        "restrictive_pair_tables_added": 0,
+        "collapsed_duplicate_tables": 0,
+        "row_delta_before_collapse": 0,
+        "per_table_touch_histogram": {},
+        "output_table_count": 100919,
+        "output_bit_count": 99936,
+        "output_arity_distribution": {
+          "3": 240,
+          "4": 11728,
+          "5": 22538,
+          "6": 18426,
+          "7": 18827,
+          "8": 13447,
+          "9": 8517,
+          "10": 7196
+        }
+      },
+      "output_table_count": 100919,
+      "output_bit_count": 99936,
+      "output_arity_distribution": {
+        "3": 240,
+        "4": 11728,
+        "5": 22538,
+        "6": 18426,
+        "7": 18827,
+        "8": 13447,
+        "9": 8517,
+        "10": 7196
+      },
+      "changed": false
+    }
+  ]
+}

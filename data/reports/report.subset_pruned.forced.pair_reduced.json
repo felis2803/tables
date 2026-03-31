@@ -1,0 +1,74 @@
+{
+  "method": "iterative extraction of equal/opposite bit pairs from pair projections, parity union-find rewriting, and table canonicalization",
+  "input": ".\\tables_pruned_forced.json",
+  "output": ".\\tables_pruned_forced_pair_collapsed.json",
+  "iteration_count": 2,
+  "iterations": [
+    {
+      "iteration": 1,
+      "input_table_count": 132329,
+      "input_arity_distribution": {
+        "2": 3980,
+        "3": 59280,
+        "4": 22569,
+        "5": 17889,
+        "6": 26976,
+        "7": 1365,
+        "8": 270
+      },
+      "relation_pair_count": 4010,
+      "bits_involved": 7888,
+      "component_count": 3880,
+      "replaced_bit_count": 4008,
+      "changed_tables": 12134,
+      "reduced_arity_tables": 4008,
+      "same_arity_changed_tables": 8126,
+      "removed_rows": 10,
+      "collapsed_duplicate_tables": 4002,
+      "output_table_count": 128327,
+      "output_arity_distribution": {
+        "1": 3860,
+        "2": 11,
+        "3": 59057,
+        "4": 21762,
+        "5": 16174,
+        "6": 25844,
+        "7": 1352,
+        "8": 267
+      }
+    },
+    {
+      "iteration": 2,
+      "input_table_count": 128327,
+      "input_arity_distribution": {
+        "1": 3860,
+        "2": 11,
+        "3": 59057,
+        "4": 21762,
+        "5": 16174,
+        "6": 25844,
+        "7": 1352,
+        "8": 267
+      },
+      "relation_pair_count": 0,
+      "bits_involved": 0,
+      "component_count": 0,
+      "replaced_bit_count": 0
+    }
+  ],
+  "final_table_count": 128327,
+  "final_arity_distribution": {
+    "1": 3860,
+    "2": 11,
+    "3": 59057,
+    "4": 21762,
+    "5": 16174,
+    "6": 25844,
+    "7": 1352,
+    "8": 267
+  },
+  "rewritten_original_bits": 4008,
+  "final_components_with_rewrites": 3880,
+  "total_relation_pairs_found": 4010,
+  "total_bits_replaced_across_iterations": 4008
+}

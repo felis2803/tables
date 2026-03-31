@@ -1,0 +1,15 @@
+{
+  "method": "canonicalize bit order, intersect equal bitsets, merge strict subset tables into supersets",
+  "original_table_count": 140419,
+  "canonical_table_count_before_prune": 133097,
+  "final_table_count": 132585,
+  "collapsed_duplicate_tables": 7322,
+  "subset_superset_pairs": 695,
+  "effective_pairs": 670,
+  "dropped_included_tables": 512,
+  "changed_tables": 608,
+  "row_deletions": 11688,
+  "emptied_tables": 0,
+  "min_rows_after_merge": 1,
+  "max_rows_after_merge": 128
+}

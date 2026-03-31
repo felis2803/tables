@@ -1,0 +1,53 @@
+{
+  "method": "build nodes from exact pairwise bitset intersections, intersect projected subtables inside each node, and propagate node constraints until no further row deletions",
+  "input": "tables_common_fixed_point.json",
+  "output": "tables_common_fixed_point_node_filtered.json",
+  "nodes_output": "common_fixed_point_nodes.json",
+  "initial_table_count": 124420,
+  "initial_bit_count": 124496,
+  "initial_row_count": 1608316,
+  "final_table_count": 124420,
+  "final_bit_count": 124496,
+  "final_row_count": 1569436,
+  "initial_arity_distribution": {
+    "3": 59042,
+    "4": 21762,
+    "5": 16155,
+    "6": 25842,
+    "7": 1352,
+    "8": 267
+  },
+  "final_arity_distribution": {
+    "3": 59042,
+    "4": 21762,
+    "5": 16155,
+    "6": 25842,
+    "7": 1352,
+    "8": 267
+  },
+  "node_build": {
+    "node_count": 64755,
+    "restrictive_node_count": 13981,
+    "support_histogram": {
+      "2": 22237,
+      "3": 36230,
+      "4": 4367,
+      "5": 1234,
+      "6": 442,
+      "7": 121,
+      "8": 48,
+      "9": 39,
+      "10": 21,
+      "11": 11,
+      "12": 3,
+      "13": 2
+    }
+  },
+  "filter": {
+    "changed_tables": 25552,
+    "row_deletions": 38880,
+    "node_recomputations": 28058,
+    "node_tightenings": 912,
+    "final_restrictive_node_count": 14893
+  }
+}

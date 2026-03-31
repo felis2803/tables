@@ -1,0 +1,108 @@
+{
+  "method": "iterative extraction of equal/opposite bit pairs from pair projections, parity union-find rewriting, and table canonicalization",
+  "input": "tables_pruned.json",
+  "output": "tables_pair_collapsed.json",
+  "iteration_count": 3,
+  "iterations": [
+    {
+      "iteration": 1,
+      "input_table_count": 132585,
+      "input_arity_distribution": {
+        "2": 3962,
+        "3": 59395,
+        "4": 22585,
+        "5": 17927,
+        "6": 27063,
+        "7": 1379,
+        "8": 274
+      },
+      "relation_pair_count": 4093,
+      "bits_involved": 7941,
+      "component_count": 3904,
+      "replaced_bit_count": 4037,
+      "changed_tables": 12221,
+      "reduced_arity_tables": 4040,
+      "same_arity_changed_tables": 8181,
+      "removed_rows": 78,
+      "collapsed_duplicate_tables": 4038,
+      "output_table_count": 128547,
+      "output_arity_distribution": {
+        "1": 3876,
+        "2": 28,
+        "3": 59166,
+        "4": 21757,
+        "5": 16183,
+        "6": 25907,
+        "7": 1360,
+        "8": 270
+      }
+    },
+    {
+      "iteration": 2,
+      "input_table_count": 128547,
+      "input_arity_distribution": {
+        "1": 3876,
+        "2": 28,
+        "3": 59166,
+        "4": 21757,
+        "5": 16183,
+        "6": 25907,
+        "7": 1360,
+        "8": 270
+      },
+      "relation_pair_count": 1,
+      "bits_involved": 2,
+      "component_count": 1,
+      "replaced_bit_count": 1,
+      "changed_tables": 6,
+      "reduced_arity_tables": 1,
+      "same_arity_changed_tables": 5,
+      "removed_rows": 0,
+      "collapsed_duplicate_tables": 2,
+      "output_table_count": 128545,
+      "output_arity_distribution": {
+        "1": 3875,
+        "2": 28,
+        "3": 59165,
+        "4": 21757,
+        "5": 16183,
+        "6": 25907,
+        "7": 1360,
+        "8": 270
+      }
+    },
+    {
+      "iteration": 3,
+      "input_table_count": 128545,
+      "input_arity_distribution": {
+        "1": 3875,
+        "2": 28,
+        "3": 59165,
+        "4": 21757,
+        "5": 16183,
+        "6": 25907,
+        "7": 1360,
+        "8": 270
+      },
+      "relation_pair_count": 0,
+      "bits_involved": 0,
+      "component_count": 0,
+      "replaced_bit_count": 0
+    }
+  ],
+  "final_table_count": 128545,
+  "final_arity_distribution": {
+    "1": 3875,
+    "2": 28,
+    "3": 59165,
+    "4": 21757,
+    "5": 16183,
+    "6": 25907,
+    "7": 1360,
+    "8": 270
+  },
+  "rewritten_original_bits": 4038,
+  "final_components_with_rewrites": 3903,
+  "total_relation_pairs_found": 4094,
+  "total_bits_replaced_across_iterations": 4038
+}

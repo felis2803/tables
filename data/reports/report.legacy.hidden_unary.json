@@ -1,0 +1,24 @@
+{
+  "method": "extract hidden unary constraints from two-bit tables, propagate constants, remove source tables and resulting tautologies",
+  "input": "tables_fixed_point.json",
+  "output": "tables_fixed_point_unary.json",
+  "input_table_count": 124506,
+  "output_table_count": 124442,
+  "forced_bits": [
+    {
+      "bit": 29,
+      "value": 1
+    },
+    {
+      "bit": 87690,
+      "value": 0
+    }
+  ],
+  "source_table_count": 60,
+  "removed_source_tables": 60,
+  "removed_tautologies": 4,
+  "affected_tables": 86,
+  "changed_tables": 86,
+  "removed_rows": 16,
+  "collapsed_duplicate_tables": 0
+}
