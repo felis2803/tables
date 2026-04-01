@@ -31,6 +31,14 @@ If you are a new agent on this repository, read these files in order before edit
 - preserve logical equivalence unless the task explicitly asks for a new semantics-changing operation;
 - produce before/after counts for tables, bits, rows, and rank summaries.
 
+## For Performance Work
+
+If the task is about speed, throughput, or memory:
+
+1. read [PERF_WORKFLOW.md](C:/projects/tables/docs/PERF_WORKFLOW.md);
+2. read [pipeline-performance SKILL.md](C:/projects/tables/agents/skills/pipeline-performance/SKILL.md);
+3. keep the baseline and candidate runs reproducible under `runs/<run-id>/`.
+
 ## When Adding A New Step
 
 - define the step precisely in docs first;

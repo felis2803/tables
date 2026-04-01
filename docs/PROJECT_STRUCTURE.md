@@ -27,6 +27,7 @@ tables/
     OPERATIONS.md
     AGENT_ONBOARDING.md
     PIPELINE.md
+    PERF_WORKFLOW.md
     runbooks/
       experiment_checklist.md
     adr/
@@ -34,6 +35,8 @@ tables/
     prompts/
     skills/
       table-reduction/
+        SKILL.md
+      pipeline-performance/
         SKILL.md
   configs/
     pipeline/

@@ -11,5 +11,6 @@ Recommended pattern:
 Typical skills for this project:
 
 - `table-reduction`
+- `pipeline-performance`
 - `result-comparison`
 - `run-audit`

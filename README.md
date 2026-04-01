@@ -71,6 +71,7 @@ Only a small set of files should remain in the root:
 - data model: [docs/DATA_MODEL.md](C:/projects/tables/docs/DATA_MODEL.md)
 - reduction operations: [docs/OPERATIONS.md](C:/projects/tables/docs/OPERATIONS.md)
 - fixed-point pipeline: [docs/PIPELINE.md](C:/projects/tables/docs/PIPELINE.md)
+- performance workflow: [docs/PERF_WORKFLOW.md](C:/projects/tables/docs/PERF_WORKFLOW.md) for speed or memory work
 - agent onboarding: [docs/AGENT_ONBOARDING.md](C:/projects/tables/docs/AGENT_ONBOARDING.md)
 - project structure: [docs/PROJECT_STRUCTURE.md](C:/projects/tables/docs/PROJECT_STRUCTURE.md)
 
