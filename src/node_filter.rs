@@ -3,7 +3,7 @@ use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet, VecDeque};
 use anyhow::{bail, Result};
 use serde::Serialize;
 
-use crate::common::{for_each_combination, project_row, NodeArtifact, Table};
+use crate::common::{project_row, NodeArtifact, Table};
 
 #[derive(Clone, Debug)]
 pub struct Node {
@@ -37,25 +37,129 @@ pub struct NodeFilterInfo {
     pub filter: NodeFilterStats,
 }
 
-fn build_subset_support(tables: &[Table]) -> HashMap<Vec<u32>, Vec<usize>> {
-    let mut subset_to_tables: HashMap<Vec<u32>, Vec<usize>> = HashMap::new();
+fn pair_key(left: usize, right: usize) -> u64 {
+    let (left, right) = if left < right {
+        (left as u64, right as u64)
+    } else {
+        (right as u64, left as u64)
+    };
+    (left << 32) | right
+}
+
+fn build_bitpair_to_tables(tables: &[Table]) -> HashMap<(u32, u32), Vec<usize>> {
+    let mut bitpair_to_tables: HashMap<(u32, u32), Vec<usize>> = HashMap::new();
 
     for (table_index, table) in tables.iter().enumerate() {
-        for subset_size in 2..=table.bits.len() {
-            for_each_combination(table.bits.len(), subset_size, |subset_indices| {
-                let subset_bits: Vec<u32> = subset_indices
-                    .iter()
-                    .map(|&index| table.bits[index])
-                    .collect();
-                subset_to_tables
-                    .entry(subset_bits)
+        for left in 0..table.bits.len() {
+            for right in (left + 1)..table.bits.len() {
+                bitpair_to_tables
+                    .entry((table.bits[left], table.bits[right]))
                     .or_default()
                     .push(table_index);
-            });
+            }
         }
     }
 
-    subset_to_tables
+    bitpair_to_tables
+}
+
+fn collect_candidate_subsets(tables: &[Table]) -> Vec<Vec<u32>> {
+    let bitpair_to_tables = build_bitpair_to_tables(tables);
+
+    let mut seen_pairs = HashSet::new();
+    let mut candidate_subsets = HashSet::new();
+
+    for table_ids in bitpair_to_tables.values() {
+        for left_offset in 0..table_ids.len() {
+            for right_offset in (left_offset + 1)..table_ids.len() {
+                let left_index = table_ids[left_offset];
+                let right_index = table_ids[right_offset];
+                if !seen_pairs.insert(pair_key(left_index, right_index)) {
+                    continue;
+                }
+
+                let shared_bits = crate::common::intersect_sorted(
+                    &tables[left_index].bits,
+                    &tables[right_index].bits,
+                );
+                if shared_bits.len() >= 2 {
+                    candidate_subsets.insert(shared_bits);
+                }
+            }
+        }
+    }
+
+    let mut candidate_subsets: Vec<Vec<u32>> = candidate_subsets.into_iter().collect();
+    candidate_subsets.sort_by(|left_bits, right_bits| {
+        left_bits
+            .len()
+            .cmp(&right_bits.len())
+            .then_with(|| left_bits.cmp(right_bits))
+    });
+    candidate_subsets
+}
+
+fn build_bit_to_tables(tables: &[Table]) -> HashMap<u32, Vec<usize>> {
+    let mut bit_to_tables: HashMap<u32, Vec<usize>> = HashMap::new();
+
+    for (table_index, table) in tables.iter().enumerate() {
+        for &bit in &table.bits {
+            bit_to_tables.entry(bit).or_default().push(table_index);
+        }
+    }
+
+    bit_to_tables
+}
+
+fn intersect_sorted_usize(left: &[usize], right: &[usize]) -> Vec<usize> {
+    let mut output = Vec::with_capacity(left.len().min(right.len()));
+    let mut left_index = 0usize;
+    let mut right_index = 0usize;
+
+    while left_index < left.len() && right_index < right.len() {
+        match left[left_index].cmp(&right[right_index]) {
+            std::cmp::Ordering::Less => left_index += 1,
+            std::cmp::Ordering::Greater => right_index += 1,
+            std::cmp::Ordering::Equal => {
+                output.push(left[left_index]);
+                left_index += 1;
+                right_index += 1;
+            }
+        }
+    }
+
+    output
+}
+
+fn support_tables_for_subset(
+    subset_bits: &[u32],
+    bit_to_tables: &HashMap<u32, Vec<usize>>,
+) -> Vec<usize> {
+    let Some((first_bit, remaining_bits)) = subset_bits.split_first() else {
+        return Vec::new();
+    };
+
+    let Some(mut support) = bit_to_tables.get(first_bit).cloned() else {
+        return Vec::new();
+    };
+
+    let mut posting_lists: Vec<&[usize]> = remaining_bits
+        .iter()
+        .filter_map(|bit| bit_to_tables.get(bit).map(Vec::as_slice))
+        .collect();
+    if posting_lists.len() != remaining_bits.len() {
+        return Vec::new();
+    }
+    posting_lists.sort_by_key(|tables| tables.len());
+
+    for posting_list in posting_lists {
+        support = intersect_sorted_usize(&support, posting_list);
+        if support.len() < 2 {
+            break;
+        }
+    }
+
+    support
 }
 
 fn sorted_difference(full: &[u32], subset: &[u32]) -> Vec<u32> {
@@ -156,21 +260,15 @@ fn compute_allowed_rows(node: &Node, tables: &[Table]) -> Result<Vec<u32>> {
 }
 
 pub fn build_nodes(tables: &[Table]) -> Result<(Vec<Node>, Vec<Vec<usize>>, NodeBuildStats)> {
-    let subset_to_tables = build_subset_support(tables);
+    let candidate_subsets = collect_candidate_subsets(tables);
+    let bit_to_tables = build_bit_to_tables(tables);
     let mut table_to_nodes = vec![Vec::new(); tables.len()];
     let mut nodes = Vec::new();
     let mut support_histogram: BTreeMap<String, usize> = BTreeMap::new();
     let mut restrictive_nodes = 0usize;
 
-    let mut subset_entries: Vec<_> = subset_to_tables.into_iter().collect();
-    subset_entries.sort_by(|(left_bits, _), (right_bits, _)| {
-        left_bits
-            .len()
-            .cmp(&right_bits.len())
-            .then_with(|| left_bits.cmp(right_bits))
-    });
-
-    for (subset_bits, support_tables) in subset_entries {
+    for subset_bits in candidate_subsets {
+        let support_tables = support_tables_for_subset(&subset_bits, &bit_to_tables);
         if support_tables.len() < 2 {
             continue;
         }
@@ -326,7 +424,180 @@ pub fn serialize_nodes(nodes: &[Node]) -> Vec<NodeArtifact> {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::{BTreeSet, HashMap};
+
     use super::*;
+
+    fn legacy_build_subset_support(tables: &[Table]) -> HashMap<Vec<u32>, Vec<usize>> {
+        let mut subset_to_tables: HashMap<Vec<u32>, Vec<usize>> = HashMap::new();
+
+        for (table_index, table) in tables.iter().enumerate() {
+            for subset_size in 2..=table.bits.len() {
+                crate::common::for_each_combination(
+                    table.bits.len(),
+                    subset_size,
+                    |subset_indices| {
+                        let subset_bits: Vec<u32> = subset_indices
+                            .iter()
+                            .map(|&index| table.bits[index])
+                            .collect();
+                        subset_to_tables
+                            .entry(subset_bits)
+                            .or_default()
+                            .push(table_index);
+                    },
+                );
+            }
+        }
+
+        subset_to_tables
+    }
+
+    fn legacy_build_nodes(
+        tables: &[Table],
+    ) -> Result<(Vec<Node>, Vec<Vec<usize>>, NodeBuildStats)> {
+        let subset_to_tables = legacy_build_subset_support(tables);
+        let mut table_to_nodes = vec![Vec::new(); tables.len()];
+        let mut nodes = Vec::new();
+        let mut support_histogram: BTreeMap<String, usize> = BTreeMap::new();
+        let mut restrictive_nodes = 0usize;
+
+        let mut subset_entries: Vec<_> = subset_to_tables.into_iter().collect();
+        subset_entries.sort_by(|(left_bits, _), (right_bits, _)| {
+            left_bits
+                .len()
+                .cmp(&right_bits.len())
+                .then_with(|| left_bits.cmp(right_bits))
+        });
+
+        for (subset_bits, support_tables) in subset_entries {
+            if support_tables.len() < 2 {
+                continue;
+            }
+
+            let members = exact_intersection_members(&subset_bits, &support_tables, tables);
+            if members.len() < 2 {
+                continue;
+            }
+
+            let member_indices: Vec<Vec<usize>> = members
+                .iter()
+                .map(|&table_index| {
+                    subset_bits
+                        .iter()
+                        .map(|bit| tables[table_index].bits.binary_search(bit).unwrap())
+                        .collect()
+                })
+                .collect();
+
+            let mut node = Node {
+                bits: subset_bits,
+                members,
+                member_indices,
+                rows: Vec::new(),
+                full_row_count: 0,
+                is_restrictive: false,
+            };
+            node.rows = compute_allowed_rows(&node, tables)?;
+            node.full_row_count = 1usize << node.bits.len();
+            node.is_restrictive = node.rows.len() < node.full_row_count;
+            if node.is_restrictive {
+                restrictive_nodes += 1;
+            }
+
+            let node_index = nodes.len();
+            for &table_index in &node.members {
+                table_to_nodes[table_index].push(node_index);
+            }
+            *support_histogram
+                .entry(node.members.len().to_string())
+                .or_insert(0) += 1;
+            nodes.push(node);
+        }
+
+        Ok((
+            nodes,
+            table_to_nodes,
+            NodeBuildStats {
+                node_count: support_histogram.values().sum(),
+                restrictive_node_count: restrictive_nodes,
+                support_histogram,
+            },
+        ))
+    }
+
+    #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+    struct NodeSnapshot {
+        bits: Vec<u32>,
+        members: Vec<usize>,
+        rows: Vec<u32>,
+        is_restrictive: bool,
+    }
+
+    fn snapshot_nodes(nodes: &[Node]) -> Vec<NodeSnapshot> {
+        let mut snapshots: Vec<_> = nodes
+            .iter()
+            .map(|node| NodeSnapshot {
+                bits: node.bits.clone(),
+                members: node.members.clone(),
+                rows: node.rows.clone(),
+                is_restrictive: node.is_restrictive,
+            })
+            .collect();
+        snapshots.sort();
+        snapshots
+    }
+
+    struct XorShift64 {
+        state: u64,
+    }
+
+    impl XorShift64 {
+        fn new(seed: u64) -> Self {
+            Self { state: seed.max(1) }
+        }
+
+        fn next_u32(&mut self) -> u32 {
+            let mut x = self.state;
+            x ^= x << 13;
+            x ^= x >> 7;
+            x ^= x << 17;
+            self.state = x;
+            (x >> 16) as u32
+        }
+
+        fn gen_range(&mut self, bound: u32) -> u32 {
+            if bound == 0 {
+                0
+            } else {
+                self.next_u32() % bound
+            }
+        }
+    }
+
+    fn random_bits(
+        rng: &mut XorShift64,
+        universe: usize,
+        min_len: usize,
+        max_len: usize,
+    ) -> Vec<u32> {
+        let target_len = min_len + rng.gen_range((max_len - min_len + 1) as u32) as usize;
+        let mut set = BTreeSet::new();
+        while set.len() < target_len {
+            set.insert(rng.gen_range(universe as u32));
+        }
+        set.into_iter().collect()
+    }
+
+    fn random_rows(rng: &mut XorShift64, arity: usize) -> Vec<u32> {
+        let full = 1u32 << arity;
+        let target_len = 1 + rng.gen_range(full.min(8));
+        let mut set = BTreeSet::new();
+        while set.len() < target_len as usize {
+            set.insert(rng.gen_range(full));
+        }
+        set.into_iter().collect()
+    }
 
     #[test]
     fn node_filter_builds_shared_node() {
@@ -344,5 +615,43 @@ mod tests {
         let (nodes, _, stats) = build_nodes(&tables).unwrap();
         assert!(!nodes.is_empty());
         assert!(stats.node_count >= 1);
+    }
+
+    #[test]
+    fn build_nodes_matches_legacy_subset_materialization() {
+        let mut rng = XorShift64::new(0xBAD5EED);
+
+        for _case in 0..50 {
+            let table_count = 2 + rng.gen_range(4) as usize;
+            let mut tables = Vec::with_capacity(table_count);
+            for _ in 0..table_count {
+                let bits = random_bits(&mut rng, 7, 2, 5);
+                let rows = random_rows(&mut rng, bits.len());
+                tables.push(Table { bits, rows });
+            }
+
+            let new_result = build_nodes(&tables);
+            let legacy_result = legacy_build_nodes(&tables);
+            match (new_result, legacy_result) {
+                (Ok((new_nodes, _, new_stats)), Ok((legacy_nodes, _, legacy_stats))) => {
+                    assert_eq!(snapshot_nodes(&new_nodes), snapshot_nodes(&legacy_nodes));
+                    assert_eq!(new_stats.node_count, legacy_stats.node_count);
+                    assert_eq!(
+                        new_stats.restrictive_node_count,
+                        legacy_stats.restrictive_node_count
+                    );
+                    assert_eq!(new_stats.support_histogram, legacy_stats.support_histogram);
+                }
+                (Err(new_error), Err(legacy_error)) => {
+                    assert_eq!(new_error.to_string(), legacy_error.to_string());
+                }
+                (new_result, legacy_result) => {
+                    panic!(
+                        "new and legacy build_nodes disagree: new={:?}, legacy={:?}",
+                        new_result, legacy_result
+                    );
+                }
+            }
+        }
     }
 }
