@@ -5,3 +5,9 @@ target/
 
 pipeline_stdout.log
 pipeline_stderr.log
+
+# Experimental pairwise-merge artifacts
+data/derived/*.pairwise_merges.json
+data/derived/*.with_pairwise_merges*.json
+data/reports/report.*pairwise_merges.json
+data/reports/report.*with_pairwise_merges*.json
