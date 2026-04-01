@@ -37,55 +37,69 @@ pub struct NodeFilterInfo {
     pub filter: NodeFilterStats,
 }
 
-fn pair_key(left: usize, right: usize) -> u64 {
-    let (left, right) = if left < right {
-        (left as u64, right as u64)
-    } else {
-        (right as u64, left as u64)
-    };
-    (left << 32) | right
+#[derive(Clone, Debug, Default)]
+struct ProjectionScratch {
+    seen_epoch: Vec<u32>,
+    count_epoch: Vec<u32>,
+    counts: Vec<u32>,
+    touched: Vec<u32>,
+    epoch: u32,
 }
 
-fn build_bitpair_to_tables(tables: &[Table]) -> HashMap<(u32, u32), Vec<usize>> {
-    let mut bitpair_to_tables: HashMap<(u32, u32), Vec<usize>> = HashMap::new();
-
-    for (table_index, table) in tables.iter().enumerate() {
-        for left in 0..table.bits.len() {
-            for right in (left + 1)..table.bits.len() {
-                bitpair_to_tables
-                    .entry((table.bits[left], table.bits[right]))
-                    .or_default()
-                    .push(table_index);
-            }
+impl ProjectionScratch {
+    fn ensure_capacity(&mut self, full_row_count: usize) {
+        if self.seen_epoch.len() < full_row_count {
+            self.seen_epoch.resize(full_row_count, 0);
+            self.count_epoch.resize(full_row_count, 0);
+            self.counts.resize(full_row_count, 0);
         }
+        self.touched.clear();
     }
 
-    bitpair_to_tables
+    fn next_epoch(&mut self) -> u32 {
+        if self.epoch == u32::MAX {
+            self.seen_epoch.fill(0);
+            self.count_epoch.fill(0);
+            self.epoch = 1;
+        } else {
+            self.epoch += 1;
+        }
+        self.epoch
+    }
 }
 
 fn collect_candidate_subsets(tables: &[Table]) -> Vec<Vec<u32>> {
-    let bitpair_to_tables = build_bitpair_to_tables(tables);
-
-    let mut seen_pairs = HashSet::new();
+    let bit_to_tables = build_bit_to_tables(tables);
     let mut candidate_subsets = HashSet::new();
+    let mut overlap_counts: HashMap<usize, u8> = HashMap::new();
 
-    for table_ids in bitpair_to_tables.values() {
-        for left_offset in 0..table_ids.len() {
-            for right_offset in (left_offset + 1)..table_ids.len() {
-                let left_index = table_ids[left_offset];
-                let right_index = table_ids[right_offset];
-                if !seen_pairs.insert(pair_key(left_index, right_index)) {
+    for (left_index, left_table) in tables.iter().enumerate() {
+        overlap_counts.clear();
+
+        for &bit in &left_table.bits {
+            let Some(table_ids) = bit_to_tables.get(&bit) else {
+                continue;
+            };
+            for &right_index in table_ids {
+                if right_index <= left_index {
                     continue;
                 }
-
-                let shared_bits = crate::common::intersect_sorted(
-                    &tables[left_index].bits,
-                    &tables[right_index].bits,
-                );
-                if shared_bits.len() >= 2 {
-                    candidate_subsets.insert(shared_bits);
+                let entry = overlap_counts.entry(right_index).or_insert(0);
+                if *entry < u8::MAX {
+                    *entry += 1;
                 }
             }
+        }
+
+        for (right_index, shared_bit_count) in overlap_counts.drain() {
+            if shared_bit_count < 2 {
+                continue;
+            }
+
+            let shared_bits =
+                crate::common::intersect_sorted(&left_table.bits, &tables[right_index].bits);
+            debug_assert!(shared_bits.len() >= 2);
+            candidate_subsets.insert(shared_bits);
         }
     }
 
@@ -241,7 +255,7 @@ fn projected_rows(table: &Table, subset_indices: &[usize]) -> Vec<u32> {
     rows
 }
 
-fn compute_allowed_rows(node: &Node, tables: &[Table]) -> Result<Vec<u32>> {
+fn compute_allowed_rows_legacy(node: &Node, tables: &[Table]) -> Result<Vec<u32>> {
     let mut member_iter = node.members.iter().zip(node.member_indices.iter());
     let Some((&first_table_index, first_subset_indices)) = member_iter.next() else {
         bail!("node without members for bits {:?}", node.bits);
@@ -259,6 +273,76 @@ fn compute_allowed_rows(node: &Node, tables: &[Table]) -> Result<Vec<u32>> {
     Ok(allowed_rows)
 }
 
+fn compute_allowed_rows_with_scratch(
+    node: &Node,
+    tables: &[Table],
+    scratch: &mut ProjectionScratch,
+) -> Result<Vec<u32>> {
+    let Some(full_row_count) = 1usize.checked_shl(node.bits.len() as u32) else {
+        return compute_allowed_rows_legacy(node, tables);
+    };
+    if node.bits.len() > 16 {
+        return compute_allowed_rows_legacy(node, tables);
+    }
+    if node.members.is_empty() {
+        bail!("node without members for bits {:?}", node.bits);
+    }
+
+    scratch.ensure_capacity(full_row_count);
+    let call_epoch = scratch.next_epoch();
+
+    for (member_index, (&table_index, subset_indices)) in node
+        .members
+        .iter()
+        .zip(node.member_indices.iter())
+        .enumerate()
+    {
+        let member_epoch = scratch.next_epoch();
+        let mut matched_here = 0usize;
+
+        for &row in &tables[table_index].rows {
+            let projected = project_row(row, subset_indices) as usize;
+            if scratch.seen_epoch[projected] == member_epoch {
+                continue;
+            }
+            scratch.seen_epoch[projected] = member_epoch;
+
+            if member_index == 0 {
+                if scratch.count_epoch[projected] != call_epoch {
+                    scratch.count_epoch[projected] = call_epoch;
+                    scratch.counts[projected] = 1;
+                    scratch.touched.push(projected as u32);
+                    matched_here += 1;
+                }
+                continue;
+            }
+
+            if scratch.count_epoch[projected] == call_epoch
+                && scratch.counts[projected] == member_index as u32
+            {
+                scratch.counts[projected] += 1;
+                matched_here += 1;
+            }
+        }
+
+        if matched_here == 0 {
+            bail!("empty node intersection for bits {:?}", node.bits);
+        }
+    }
+
+    let target_count = node.members.len() as u32;
+    let mut allowed_rows = Vec::with_capacity(scratch.touched.len());
+    for &projected in &scratch.touched {
+        let projected = projected as usize;
+        if scratch.count_epoch[projected] == call_epoch && scratch.counts[projected] == target_count
+        {
+            allowed_rows.push(projected as u32);
+        }
+    }
+    allowed_rows.sort_unstable();
+    Ok(allowed_rows)
+}
+
 pub fn build_nodes(tables: &[Table]) -> Result<(Vec<Node>, Vec<Vec<usize>>, NodeBuildStats)> {
     let candidate_subsets = collect_candidate_subsets(tables);
     let bit_to_tables = build_bit_to_tables(tables);
@@ -266,6 +350,7 @@ pub fn build_nodes(tables: &[Table]) -> Result<(Vec<Node>, Vec<Vec<usize>>, Node
     let mut nodes = Vec::new();
     let mut support_histogram: BTreeMap<String, usize> = BTreeMap::new();
     let mut restrictive_nodes = 0usize;
+    let mut projection_scratch = ProjectionScratch::default();
 
     for subset_bits in candidate_subsets {
         let support_tables = support_tables_for_subset(&subset_bits, &bit_to_tables);
@@ -296,7 +381,7 @@ pub fn build_nodes(tables: &[Table]) -> Result<(Vec<Node>, Vec<Vec<usize>>, Node
             full_row_count: 0,
             is_restrictive: false,
         };
-        node.rows = compute_allowed_rows(&node, tables)?;
+        node.rows = compute_allowed_rows_with_scratch(&node, tables, &mut projection_scratch)?;
         node.full_row_count = 1usize << node.bits.len();
         node.is_restrictive = node.rows.len() < node.full_row_count;
         if node.is_restrictive {
@@ -340,6 +425,7 @@ pub fn filter_tables_with_nodes(
 
     let mut touched_tables = HashSet::new();
     let mut stats = NodeFilterStats::default();
+    let mut projection_scratch = ProjectionScratch::default();
 
     while let Some(node_index) = queue.pop_front() {
         queued[node_index] = false;
@@ -390,7 +476,11 @@ pub fn filter_tables_with_nodes(
         }
 
         for affected_node_index in affected_nodes {
-            let new_rows = compute_allowed_rows(&nodes[affected_node_index], tables)?;
+            let new_rows = compute_allowed_rows_with_scratch(
+                &nodes[affected_node_index],
+                tables,
+                &mut projection_scratch,
+            )?;
             stats.node_recomputations += 1;
             if new_rows != nodes[affected_node_index].rows {
                 let full_row_count = nodes[affected_node_index].full_row_count;
@@ -498,7 +588,7 @@ mod tests {
                 full_row_count: 0,
                 is_restrictive: false,
             };
-            node.rows = compute_allowed_rows(&node, tables)?;
+            node.rows = compute_allowed_rows_legacy(&node, tables)?;
             node.full_row_count = 1usize << node.bits.len();
             node.is_restrictive = node.rows.len() < node.full_row_count;
             if node.is_restrictive {
@@ -522,6 +612,7 @@ mod tests {
                 node_count: support_histogram.values().sum(),
                 restrictive_node_count: restrictive_nodes,
                 support_histogram,
+                ..Default::default()
             },
         ))
     }
@@ -653,5 +744,38 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[test]
+    fn compute_allowed_rows_fast_path_matches_legacy() {
+        let tables = vec![
+            Table {
+                bits: vec![1, 2, 3, 4],
+                rows: vec![0b0000, 0b0011, 0b1010, 0b1111],
+            },
+            Table {
+                bits: vec![1, 2, 5, 6],
+                rows: vec![0b0000, 0b0011, 0b0101, 0b1111],
+            },
+            Table {
+                bits: vec![1, 2, 7, 8],
+                rows: vec![0b0000, 0b0011, 0b1001, 0b1111],
+            },
+        ];
+
+        let node = Node {
+            bits: vec![1, 2],
+            members: vec![0, 1, 2],
+            member_indices: vec![vec![0, 1], vec![0, 1], vec![0, 1]],
+            rows: Vec::new(),
+            full_row_count: 4,
+            is_restrictive: false,
+        };
+
+        let mut scratch = ProjectionScratch::default();
+        let fast = compute_allowed_rows_with_scratch(&node, &tables, &mut scratch).unwrap();
+        let legacy = compute_allowed_rows_legacy(&node, &tables).unwrap();
+
+        assert_eq!(fast, legacy);
     }
 }

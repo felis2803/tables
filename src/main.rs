@@ -21,7 +21,9 @@ use tables::pair_reduction::{
     relation_history_rows, rewrite_tables, update_original_mapping, PairReductionInfo,
     PairReductionIterationInfo,
 };
-use tables::pairwise_merge::{run_pairwise_merge, PairwiseMergeStats};
+use tables::pairwise_merge::{
+    run_pairwise_merge_with_previous_input, CanonicalTableMap, PairwiseMergeStats,
+};
 use tables::rank_stats::{summarize_table_ranks, RankSummary};
 use tables::subset_absorption::{
     collapse_equal_bitsets, merge_subsets, prune_included_tables, to_tables, SubsetAbsorptionInfo,
@@ -110,6 +112,7 @@ impl Args {
 #[derive(Clone, Debug)]
 struct PipelineState {
     max_merge_arity: usize,
+    previous_pairwise_input: Option<CanonicalTableMap>,
     original_mapping: BTreeMap<u32, (u32, u8)>,
     original_forced: BTreeMap<u32, u8>,
     dropped_tables_history: Vec<DroppedTableRecord>,
@@ -145,6 +148,7 @@ fn initialize_pipeline_state(tables: &[Table], max_merge_arity: usize) -> Pipeli
         .collect();
     PipelineState {
         max_merge_arity,
+        previous_pairwise_input: None,
         original_mapping,
         original_forced: BTreeMap::new(),
         dropped_tables_history: Vec::new(),
@@ -155,9 +159,14 @@ fn initialize_pipeline_state(tables: &[Table], max_merge_arity: usize) -> Pipeli
 
 fn step_pairwise_merge(
     tables: &[Table],
-    state: &PipelineState,
+    state: &mut PipelineState,
 ) -> Result<(Vec<Table>, PairwiseMergeStats, bool)> {
-    let (output_tables, info) = run_pairwise_merge(tables, state.max_merge_arity)?;
+    let (output_tables, info, canonical_input) = run_pairwise_merge_with_previous_input(
+        tables,
+        state.max_merge_arity,
+        state.previous_pairwise_input.as_ref(),
+    )?;
+    state.previous_pairwise_input = Some(canonical_input);
     let changed = info.collapsed_duplicate_tables_before_merge > 0
         || info.produced_nonempty_merges > 0
         || info.dropped_source_tables > 0
