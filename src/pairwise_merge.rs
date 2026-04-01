@@ -1,14 +1,15 @@
-use std::collections::{BTreeMap, BTreeSet, HashMap};
+use std::collections::{BTreeMap, HashMap, HashSet};
 
 use anyhow::{anyhow, Result};
 use serde::Serialize;
 
 use crate::common::{
-    arity_distribution, collect_bits, is_full_row_set, tables_from_canonical_map, total_rows, Table,
+    arity_distribution, collect_bits, intersect_sorted, is_full_row_set, tables_from_canonical_map,
+    total_rows, Table,
 };
 use crate::rank_stats::{summarize_table_ranks, RankSummary};
 use crate::subset_absorption::collapse_equal_bitsets;
-use crate::table_merge_fast::{merge_tables_fast, Table32};
+use crate::table_merge_fast::merge_tables_fast_from_slices;
 
 #[derive(Clone, Debug, Serialize)]
 pub struct PairwiseMergeStats {
@@ -72,7 +73,16 @@ fn fits_merge_arity(left_bits: &[u32], right_bits: &[u32], max_result_arity: usi
     true
 }
 
-fn generate_candidate_pairs(tables: &[Table]) -> (Vec<(usize, usize)>, usize, usize) {
+fn pair_key(left: usize, right: usize) -> u64 {
+    let (left, right) = if left < right {
+        (left as u64, right as u64)
+    } else {
+        (right as u64, left as u64)
+    };
+    (left << 32) | right
+}
+
+fn generate_bitpair_to_tables(tables: &[Table]) -> (HashMap<(u32, u32), Vec<usize>>, usize) {
     let mut bitpair_to_tables: HashMap<(u32, u32), Vec<usize>> = HashMap::new();
     for (table_index, table) in tables.iter().enumerate() {
         for left in 0..table.bits.len() {
@@ -84,25 +94,8 @@ fn generate_candidate_pairs(tables: &[Table]) -> (Vec<(usize, usize)>, usize, us
             }
         }
     }
-
-    let mut raw_pair_hits = 0usize;
-    let mut candidate_pairs = BTreeSet::new();
-    for table_ids in bitpair_to_tables.values() {
-        raw_pair_hits += table_ids.len() * table_ids.len().saturating_sub(1) / 2;
-        for left in 0..table_ids.len() {
-            for right in (left + 1)..table_ids.len() {
-                let a = table_ids[left];
-                let b = table_ids[right];
-                candidate_pairs.insert(if a < b { (a, b) } else { (b, a) });
-            }
-        }
-    }
-
-    (
-        candidate_pairs.into_iter().collect(),
-        bitpair_to_tables.len(),
-        raw_pair_hits,
-    )
+    let bitpair_key_count = bitpair_to_tables.len();
+    (bitpair_to_tables, bitpair_key_count)
 }
 
 pub fn run_pairwise_merge(
@@ -114,62 +107,81 @@ pub fn run_pairwise_merge(
     let input_bit_count = collect_bits(&canonical_tables).len();
     let input_row_count = total_rows(&canonical_tables);
 
-    let (candidate_pairs, bitpair_key_count, raw_pair_hits) =
-        generate_candidate_pairs(&canonical_tables);
-    let mut merged_tables = Vec::new();
-    let mut merged_source_indices = BTreeSet::new();
+    let (bitpair_to_tables, bitpair_key_count) = generate_bitpair_to_tables(&canonical_tables);
+    let mut raw_pair_hits = 0usize;
+    let mut candidate_pair_count = 0usize;
+    let mut seen_pairs = HashSet::new();
+    let mut merged_by_bits: BTreeMap<Vec<u32>, Vec<u32>> = BTreeMap::new();
+    let mut merged_duplicate_tables = 0usize;
+    let mut merged_table_input_count = 0usize;
+    let mut merged_source_flags = vec![false; canonical_tables.len()];
     let mut skipped_by_arity = 0usize;
     let mut empty_merges = 0usize;
     let mut tautology_merges = 0usize;
 
-    for (left_index, right_index) in candidate_pairs.iter().copied() {
-        let left = &canonical_tables[left_index];
-        let right = &canonical_tables[right_index];
-        if !fits_merge_arity(&left.bits, &right.bits, max_result_arity) {
-            skipped_by_arity += 1;
-            continue;
-        }
+    for table_ids in bitpair_to_tables.values() {
+        raw_pair_hits += table_ids.len() * table_ids.len().saturating_sub(1) / 2;
+        for left_offset in 0..table_ids.len() {
+            for right_offset in (left_offset + 1)..table_ids.len() {
+                let left_index = table_ids[left_offset];
+                let right_index = table_ids[right_offset];
+                if !seen_pairs.insert(pair_key(left_index, right_index)) {
+                    continue;
+                }
+                candidate_pair_count += 1;
 
-        let merged = merge_tables_fast(
-            &Table32 {
-                bits: left.bits.clone(),
-                rows: left.rows.clone(),
-            },
-            &Table32 {
-                bits: right.bits.clone(),
-                rows: right.rows.clone(),
-            },
-        )
-        .map_err(|error| anyhow!(error))?;
-        if merged.rows.is_empty() {
-            empty_merges += 1;
-            continue;
-        }
-        if is_full_row_set(merged.rows.len(), merged.bits.len()) {
-            tautology_merges += 1;
-            continue;
-        }
+                let left = &canonical_tables[left_index];
+                let right = &canonical_tables[right_index];
+                if !fits_merge_arity(&left.bits, &right.bits, max_result_arity) {
+                    skipped_by_arity += 1;
+                    continue;
+                }
 
-        merged_tables.push(Table {
-            bits: merged.bits,
-            rows: merged.rows,
-        });
-        merged_source_indices.insert(left_index);
-        merged_source_indices.insert(right_index);
+                let merged =
+                    merge_tables_fast_from_slices(&left.bits, &left.rows, &right.bits, &right.rows)
+                        .map_err(|error| anyhow!(error))?;
+                if merged.rows.is_empty() {
+                    empty_merges += 1;
+                    continue;
+                }
+                if is_full_row_set(merged.rows.len(), merged.bits.len()) {
+                    tautology_merges += 1;
+                    continue;
+                }
+
+                merged_table_input_count += 1;
+                merged_source_flags[left_index] = true;
+                merged_source_flags[right_index] = true;
+
+                if let Some(existing_rows) = merged_by_bits.get_mut(&merged.bits) {
+                    *existing_rows = intersect_sorted(existing_rows, &merged.rows);
+                    merged_duplicate_tables += 1;
+                } else {
+                    merged_by_bits.insert(merged.bits, merged.rows);
+                }
+            }
+        }
     }
 
-    let (merged_by_bits, merged_duplicate_tables) = collapse_equal_bitsets(&merged_tables);
     let merged_tables_canonical = tables_from_canonical_map(&merged_by_bits);
+    let dropped_source_tables = merged_source_flags.iter().filter(|&&flag| flag).count();
+    let retained_original_tables = canonical_tables.len() - dropped_source_tables;
 
-    let retained_originals: Vec<Table> = canonical_tables
+    let mut combined_by_bits: BTreeMap<Vec<u32>, Vec<u32>> = canonical_tables
         .iter()
         .enumerate()
-        .filter(|(table_index, _)| !merged_source_indices.contains(table_index))
-        .map(|(_, table)| table.clone())
+        .filter(|(table_index, _)| !merged_source_flags[*table_index])
+        .map(|(_, table)| (table.bits.clone(), table.rows.clone()))
         .collect();
-    let mut combined_source = retained_originals.clone();
-    combined_source.extend(merged_tables_canonical.clone());
-    let (combined_by_bits, combined_duplicate_tables) = collapse_equal_bitsets(&combined_source);
+    let mut combined_duplicate_tables = 0usize;
+    for (bits, rows) in merged_by_bits {
+        if let Some(existing_rows) = combined_by_bits.get_mut(&bits) {
+            *existing_rows = intersect_sorted(existing_rows, &rows);
+            combined_duplicate_tables += 1;
+        } else {
+            combined_by_bits.insert(bits, rows);
+        }
+    }
     let output_tables = tables_from_canonical_map(&combined_by_bits);
 
     let stats = PairwiseMergeStats {
@@ -181,16 +193,16 @@ pub fn run_pairwise_merge(
         collapsed_duplicate_tables_before_merge: collapsed_duplicate_tables,
         bitpair_key_count,
         raw_pair_hits_over_bitpairs: raw_pair_hits,
-        candidate_pair_count: candidate_pairs.len(),
+        candidate_pair_count,
         skipped_by_arity,
         empty_merge_count: empty_merges,
         skipped_tautology_merges: tautology_merges,
-        produced_nonempty_merges: merged_tables.len(),
+        produced_nonempty_merges: merged_table_input_count,
         merged_table_count: merged_tables_canonical.len(),
         merged_row_count: total_rows(&merged_tables_canonical),
         merged_duplicate_tables_collapsed: merged_duplicate_tables,
-        dropped_source_tables: merged_source_indices.len(),
-        retained_original_tables: retained_originals.len(),
+        dropped_source_tables,
+        retained_original_tables,
         combined_duplicate_tables_collapsed: combined_duplicate_tables,
         final_table_count: output_tables.len(),
         final_bit_count: collect_bits(&output_tables).len(),

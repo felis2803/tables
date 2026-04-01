@@ -38,43 +38,44 @@ fn full_mask(width: usize) -> Result<u32, String> {
     })
 }
 
-fn validate_table(table: &Table32) -> Result<(), String> {
-    if table.bits.is_empty() {
+fn validate_table_slices(bits: &[u32], rows: &[u32]) -> Result<(), String> {
+    if bits.is_empty() {
         return Err("table must contain at least one bit".to_string());
     }
-    if table.bits.len() > 32 {
+    if bits.len() > 32 {
         return Err(format!(
             "table arity {} exceeds uint32 row width limit",
-            table.bits.len()
+            bits.len()
         ));
     }
-    if table.bits.windows(2).any(|window| window[0] >= window[1]) {
-        return Err(format!(
-            "bits are not strictly increasing: {:?}",
-            table.bits
-        ));
+    if bits.windows(2).any(|window| window[0] >= window[1]) {
+        return Err(format!("bits are not strictly increasing: {:?}", bits));
     }
 
-    let mask = full_mask(table.bits.len())?;
+    let mask = full_mask(bits.len())?;
     let mut previous: Option<u32> = None;
-    for &row in &table.rows {
+    for &row in rows {
         if row & !mask != 0 {
             return Err(format!(
                 "row value {row} exceeds arity {} mask {mask}",
-                table.bits.len()
+                bits.len()
             ));
         }
         if previous == Some(row) {
-            return Err(format!("rows are not deduplicated in {:?}", table.bits));
+            return Err(format!("rows are not deduplicated in {:?}", bits));
         }
         if let Some(prev) = previous {
             if row < prev {
-                return Err(format!("rows are not sorted in {:?}", table.bits));
+                return Err(format!("rows are not sorted in {:?}", bits));
             }
         }
         previous = Some(row);
     }
     Ok(())
+}
+
+fn validate_table(table: &Table32) -> Result<(), String> {
+    validate_table_slices(&table.bits, &table.rows)
 }
 
 fn build_merge_shape(left_bits: &[u32], right_bits: &[u32]) -> Result<MergeShape, String> {
@@ -232,52 +233,57 @@ fn merge_with_sparse_buckets(
     merged_rows
 }
 
-pub fn merge_tables_fast(left: &Table32, right: &Table32) -> Result<Table32, String> {
-    validate_table(left)?;
-    validate_table(right)?;
+pub fn merge_tables_fast_from_slices(
+    left_bits: &[u32],
+    left_rows: &[u32],
+    right_bits: &[u32],
+    right_rows: &[u32],
+) -> Result<Table32, String> {
+    validate_table_slices(left_bits, left_rows)?;
+    validate_table_slices(right_bits, right_rows)?;
 
-    let shape = build_merge_shape(&left.bits, &right.bits)?;
+    let shape = build_merge_shape(left_bits, right_bits)?;
     let shared_count = shape.left_shared_indices.len();
 
-    let mut rows = if left.rows.len() <= right.rows.len() {
+    let mut rows = if left_rows.len() <= right_rows.len() {
         if shared_count <= 16 {
             merge_with_dense_buckets(
-                &left.rows,
+                left_rows,
                 &shape.left_shared_indices,
                 shape.left_unique_mask,
                 &shape.left_to_union,
-                &right.rows,
+                right_rows,
                 &shape.right_shared_indices,
                 &shape.right_to_union,
             )
         } else {
             merge_with_sparse_buckets(
-                &left.rows,
+                left_rows,
                 &shape.left_shared_indices,
                 shape.left_unique_mask,
                 &shape.left_to_union,
-                &right.rows,
+                right_rows,
                 &shape.right_shared_indices,
                 &shape.right_to_union,
             )
         }
     } else if shared_count <= 16 {
         merge_with_dense_buckets(
-            &right.rows,
+            right_rows,
             &shape.right_shared_indices,
             shape.right_unique_mask,
             &shape.right_to_union,
-            &left.rows,
+            left_rows,
             &shape.left_shared_indices,
             &shape.left_to_union,
         )
     } else {
         merge_with_sparse_buckets(
-            &right.rows,
+            right_rows,
             &shape.right_shared_indices,
             shape.right_unique_mask,
             &shape.right_to_union,
-            &left.rows,
+            left_rows,
             &shape.left_shared_indices,
             &shape.left_to_union,
         )
@@ -290,6 +296,12 @@ pub fn merge_tables_fast(left: &Table32, right: &Table32) -> Result<Table32, Str
         bits: shape.union_bits,
         rows,
     })
+}
+
+pub fn merge_tables_fast(left: &Table32, right: &Table32) -> Result<Table32, String> {
+    validate_table(left)?;
+    validate_table(right)?;
+    merge_tables_fast_from_slices(&left.bits, &left.rows, &right.bits, &right.rows)
 }
 
 #[cfg(test)]

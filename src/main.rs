@@ -210,20 +210,20 @@ fn step_subset_absorption(
 }
 
 fn step_forced_bits(
-    tables: &[Table],
+    tables: Vec<Table>,
     state: &mut PipelineState,
 ) -> Result<(Vec<Table>, ForcedBitsInfo, bool)> {
-    let (forced_current, forced_occurrences) = collect_forced_bits_bitwise(tables)?;
+    let (forced_current, forced_occurrences) = collect_forced_bits_bitwise(&tables)?;
 
     let (output_tables, forced_stats) = if forced_current.is_empty() {
-        (tables.to_vec(), ForcedPropagationStats::default())
+        (tables, ForcedPropagationStats::default())
     } else {
         update_original_forced(
             &state.original_mapping,
             &mut state.original_forced,
             &forced_current,
         )?;
-        propagate_forced_bits(tables, &forced_current)?
+        propagate_forced_bits(&tables, &forced_current)?
     };
 
     let info = ForcedBitsInfo {
@@ -290,12 +290,11 @@ fn step_pair_reduction(
 }
 
 fn step_node_filter(
-    tables: &[Table],
+    mut tables: Vec<Table>,
     state: &mut PipelineState,
 ) -> Result<(Vec<Table>, NodeFilterInfo, bool)> {
-    let mut mutable_tables = tables.to_vec();
-    let (mut nodes, table_to_nodes, node_build_stats) = build_nodes(&mutable_tables)?;
-    let filter_stats = filter_tables_with_nodes(&mut mutable_tables, &mut nodes, &table_to_nodes)?;
+    let (mut nodes, table_to_nodes, node_build_stats) = build_nodes(&tables)?;
+    let filter_stats = filter_tables_with_nodes(&mut tables, &mut nodes, &table_to_nodes)?;
     state.final_nodes = serialize_nodes(&nodes);
 
     let info = NodeFilterInfo {
@@ -303,7 +302,7 @@ fn step_node_filter(
         filter: filter_stats,
     };
     let changed = info.filter.row_deletions > 0 || info.filter.changed_tables > 0;
-    Ok((mutable_tables, info, changed))
+    Ok((tables, info, changed))
 }
 
 fn run_reduction_pipeline(
@@ -326,11 +325,11 @@ fn run_reduction_pipeline(
             step_pairwise_merge(&tables, state)?;
         let (after_subset, subset_info, subset_changed) =
             step_subset_absorption(&after_pairwise, state, round_index);
-        let (after_forced, forced_info, forced_changed) = step_forced_bits(&after_subset, state)?;
+        let (after_forced, forced_info, forced_changed) = step_forced_bits(after_subset, state)?;
         let (after_pair_reduction, pair_reduction_info, pair_reduction_changed) =
             step_pair_reduction(after_forced, state, round_index)?;
         let (output_tables, node_filter_info, node_filter_changed) =
-            step_node_filter(&after_pair_reduction, state)?;
+            step_node_filter(after_pair_reduction, state)?;
 
         let changed = pairwise_changed
             || subset_changed

@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, BTreeSet, HashSet, VecDeque};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet, VecDeque};
 
 use anyhow::{bail, Result};
 use serde::Serialize;
@@ -37,8 +37,8 @@ pub struct NodeFilterInfo {
     pub filter: NodeFilterStats,
 }
 
-fn build_subset_support(tables: &[Table]) -> BTreeMap<Vec<u32>, Vec<usize>> {
-    let mut subset_to_tables: BTreeMap<Vec<u32>, Vec<usize>> = BTreeMap::new();
+fn build_subset_support(tables: &[Table]) -> HashMap<Vec<u32>, Vec<usize>> {
+    let mut subset_to_tables: HashMap<Vec<u32>, Vec<usize>> = HashMap::new();
 
     for (table_index, table) in tables.iter().enumerate() {
         for subset_size in 2..=table.bits.len() {
@@ -58,22 +58,46 @@ fn build_subset_support(tables: &[Table]) -> BTreeMap<Vec<u32>, Vec<usize>> {
     subset_to_tables
 }
 
+fn sorted_difference(full: &[u32], subset: &[u32]) -> Vec<u32> {
+    let mut difference = Vec::with_capacity(full.len().saturating_sub(subset.len()));
+    let mut subset_index = 0usize;
+
+    for &bit in full {
+        if subset_index < subset.len() && subset[subset_index] == bit {
+            subset_index += 1;
+        } else {
+            difference.push(bit);
+        }
+    }
+
+    difference
+}
+
+fn sorted_slices_are_disjoint(left: &[u32], right: &[u32]) -> bool {
+    let mut left_index = 0usize;
+    let mut right_index = 0usize;
+
+    while left_index < left.len() && right_index < right.len() {
+        match left[left_index].cmp(&right[right_index]) {
+            std::cmp::Ordering::Less => left_index += 1,
+            std::cmp::Ordering::Greater => right_index += 1,
+            std::cmp::Ordering::Equal => return false,
+        }
+    }
+
+    true
+}
+
 fn exact_intersection_members(
     subset_bits: &[u32],
     support_tables: &[usize],
     tables: &[Table],
 ) -> Vec<usize> {
-    let subset_bit_set: BTreeSet<u32> = subset_bits.iter().copied().collect();
     let mut extras = Vec::with_capacity(support_tables.len());
     let mut has_exact_table = false;
 
     for &table_index in support_tables {
-        let extra_bits: BTreeSet<u32> = tables[table_index]
-            .bits
-            .iter()
-            .copied()
-            .filter(|bit| !subset_bit_set.contains(bit))
-            .collect();
+        let extra_bits = sorted_difference(&tables[table_index].bits, subset_bits);
         if extra_bits.is_empty() {
             has_exact_table = true;
         }
@@ -91,7 +115,7 @@ fn exact_intersection_members(
     for left_index in 0..extras.len() {
         let (left_table, left_extra) = &extras[left_index];
         for (right_table, right_extra) in extras.iter().skip(left_index + 1) {
-            if left_extra.is_disjoint(right_extra) {
+            if sorted_slices_are_disjoint(left_extra, right_extra) {
                 members.insert(*left_table);
                 members.insert(*right_table);
             }
@@ -113,32 +137,21 @@ fn projected_rows(table: &Table, subset_indices: &[usize]) -> Vec<u32> {
     rows
 }
 
-fn intersect_many_row_sets(row_sets: &[Vec<u32>]) -> Vec<u32> {
-    let mut iter = row_sets.iter();
-    let Some(first) = iter.next() else {
-        return Vec::new();
+fn compute_allowed_rows(node: &Node, tables: &[Table]) -> Result<Vec<u32>> {
+    let mut member_iter = node.members.iter().zip(node.member_indices.iter());
+    let Some((&first_table_index, first_subset_indices)) = member_iter.next() else {
+        bail!("node without members for bits {:?}", node.bits);
     };
-    let mut intersection = first.clone();
-    for rows in iter {
-        intersection = crate::common::intersect_sorted(&intersection, rows);
-        if intersection.is_empty() {
-            break;
+
+    let mut allowed_rows = projected_rows(&tables[first_table_index], first_subset_indices);
+    for (&table_index, subset_indices) in member_iter {
+        let projected = projected_rows(&tables[table_index], subset_indices);
+        allowed_rows = crate::common::intersect_sorted(&allowed_rows, &projected);
+        if allowed_rows.is_empty() {
+            bail!("empty node intersection for bits {:?}", node.bits);
         }
     }
-    intersection
-}
 
-fn compute_allowed_rows(node: &Node, tables: &[Table]) -> Result<Vec<u32>> {
-    let row_sets: Vec<Vec<u32>> = node
-        .members
-        .iter()
-        .zip(node.member_indices.iter())
-        .map(|(&table_index, subset_indices)| projected_rows(&tables[table_index], subset_indices))
-        .collect();
-    let allowed_rows = intersect_many_row_sets(&row_sets);
-    if allowed_rows.is_empty() {
-        bail!("empty node intersection for bits {:?}", node.bits);
-    }
     Ok(allowed_rows)
 }
 
@@ -233,34 +246,37 @@ pub fn filter_tables_with_nodes(
     while let Some(node_index) = queue.pop_front() {
         queued[node_index] = false;
 
-        let allowed_rows = nodes[node_index].rows.clone();
-        let members = nodes[node_index].members.clone();
-        let member_indices = nodes[node_index].member_indices.clone();
         let mut changed_here = Vec::new();
 
-        for (table_index, subset_indices) in members.into_iter().zip(member_indices.into_iter()) {
-            let rows = tables[table_index].rows.clone();
-            let filtered_rows: Vec<u32> = rows
-                .iter()
-                .copied()
-                .filter(|&row| {
-                    allowed_rows
-                        .binary_search(&project_row(row, &subset_indices))
-                        .is_ok()
-                })
-                .collect();
-            if filtered_rows.is_empty() {
-                bail!(
-                    "node filtering emptied table {} for node bits {:?}",
-                    table_index,
-                    nodes[node_index].bits
-                );
-            }
-            if filtered_rows.len() != rows.len() {
-                tables[table_index].rows = filtered_rows;
-                stats.row_deletions += rows.len() - tables[table_index].rows.len();
-                changed_here.push(table_index);
-                touched_tables.insert(table_index);
+        {
+            let node = &nodes[node_index];
+            for (&table_index, subset_indices) in
+                node.members.iter().zip(node.member_indices.iter())
+            {
+                let original_len = tables[table_index].rows.len();
+                let filtered_rows: Vec<u32> = tables[table_index]
+                    .rows
+                    .iter()
+                    .copied()
+                    .filter(|&row| {
+                        node.rows
+                            .binary_search(&project_row(row, subset_indices))
+                            .is_ok()
+                    })
+                    .collect();
+                if filtered_rows.is_empty() {
+                    bail!(
+                        "node filtering emptied table {} for node bits {:?}",
+                        table_index,
+                        node.bits
+                    );
+                }
+                if filtered_rows.len() != original_len {
+                    tables[table_index].rows = filtered_rows;
+                    stats.row_deletions += original_len - tables[table_index].rows.len();
+                    changed_here.push(table_index);
+                    touched_tables.insert(table_index);
+                }
             }
         }
 
@@ -276,10 +292,9 @@ pub fn filter_tables_with_nodes(
         }
 
         for affected_node_index in affected_nodes {
-            let old_rows = nodes[affected_node_index].rows.clone();
             let new_rows = compute_allowed_rows(&nodes[affected_node_index], tables)?;
             stats.node_recomputations += 1;
-            if new_rows != old_rows {
+            if new_rows != nodes[affected_node_index].rows {
                 let full_row_count = nodes[affected_node_index].full_row_count;
                 nodes[affected_node_index].rows = new_rows;
                 nodes[affected_node_index].is_restrictive =
