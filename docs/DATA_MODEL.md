@@ -89,6 +89,8 @@ Interpretation:
 
 ## Reduction Invariants
 
+- pairwise merge creates a new table on the union of two schemas and may immediately replace the source tables when the merge is retained;
+- in the active pipeline, pairwise merge is only attempted when the resulting arity does not exceed `max_merge_arity`, which defaults to `16`;
 - subset absorption only removes rows or entire included tables;
 - forced-bit propagation removes fixed bits from tables and records them separately;
 - pair reduction rewrites equivalent or opposite bits to one representative;

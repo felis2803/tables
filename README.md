@@ -17,7 +17,16 @@ A table is a constraint over an ordered local set of bit identifiers:
 - `rows` stores allowed assignments as integer masks over local positions in `bits`;
 - for `bits[i]`, the row value is `((row >> i) & 1)`.
 
-The active system is reduced by repeatedly applying semantic operations such as subset absorption, forced-bit propagation, pair reduction, and node filtering until a fixed point is reached.
+The active system is reduced by repeatedly applying semantic operations such as pairwise merge, subset absorption, forced-bit propagation, pair reduction, and node filtering until a fixed point is reached.
+
+In the active baseline pipeline:
+
+- `pairwise_merge` runs first;
+- it only keeps merges whose resulting arity does not exceed `max_merge_arity`;
+- `max_merge_arity` defaults to `16`;
+- the supported production runner is the crate's default binary;
+- `pairwise_merge`, `subset_absorption`, and `pair_reduction` also have dedicated step CLIs under `src/bin/`;
+- once a retained merged table is created, source tables covered by that merge can be dropped immediately.
 
 The repository also uses the derived metric `rank` for tables:
 
@@ -34,11 +43,13 @@ Only a small set of files should remain in the root:
 
 ## Target Layout
 
+- `src/` for the crate library and the main fixed-point pipeline binary;
+- `src/bin/` for standalone step CLIs;
+- `examples/` for exploratory or retained one-off Rust utilities;
+- `archive/` for retired scripts and one-off experiments that are no longer part of the active pipeline;
 - `data/raw/` for immutable inputs;
 - `data/derived/` for intermediate and final JSON artifacts;
 - `data/reports/` for machine-readable and human-readable reports;
-- `src/steps/` for individual reduction operations;
-- `src/pipeline/` for common fixed-point runners;
 - `docs/` for data model and pipeline documentation;
 - `agents/skills/` for project-specific AI agent skills;
 - `runs/` for reproducible run folders;
@@ -46,11 +57,14 @@ Only a small set of files should remain in the root:
 
 ## Main Entrypoints
 
-- main fixed-point pipeline: [src/pipeline/common_fixed_point.py](C:/projects/tables/src/pipeline/common_fixed_point.py)
-- subset absorption step: [src/steps/subset_absorption.py](C:/projects/tables/src/steps/subset_absorption.py)
-- forced-bit step helpers: [src/steps/forced_bits.py](C:/projects/tables/src/steps/forced_bits.py)
-- pair reduction step: [src/steps/pair_reduction.py](C:/projects/tables/src/steps/pair_reduction.py)
-- node filtering step: [src/steps/node_filter.py](C:/projects/tables/src/steps/node_filter.py)
+- official fixed-point pipeline CLI: `cargo run --release -- ...`
+- official fixed-point pipeline implementation: [src/main.rs](C:/projects/tables/src/main.rs)
+- shared library modules: [src/lib.rs](C:/projects/tables/src/lib.rs)
+- standalone pairwise merge CLI: `cargo run --release --bin tables-pairwise-merge -- ...`
+- standalone subset absorption CLI: `cargo run --release --bin tables-subset-absorption -- ...`
+- standalone pair reduction CLI: `cargo run --release --bin tables-pair-reduction -- ...`
+- forced-bit implementation module: [src/forced_bits.rs](C:/projects/tables/src/forced_bits.rs)
+- node filtering implementation module: [src/node_filter.rs](C:/projects/tables/src/node_filter.rs)
 
 ## Read First
 
@@ -78,7 +92,9 @@ Stage reports should also include rank summaries for the input and output table 
 ## Run Examples
 
 ```powershell
-python .\src\pipeline\common_fixed_point.py
-python .\src\steps\subset_absorption.py --prune-included
-python .\src\steps\node_filter.py
+cargo run --release --
+cargo run --release -- --max-rounds 1 --max-merge-arity 12
+cargo run --release --bin tables-pairwise-merge -- --help
+cargo run --release --bin tables-subset-absorption -- --help
+cargo run --release --bin tables-pair-reduction -- --help
 ```

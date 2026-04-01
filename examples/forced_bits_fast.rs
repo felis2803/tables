@@ -99,7 +99,10 @@ impl<'a> Parser<'a> {
         let start = self.index;
         while self.index < self.bytes.len() && self.bytes[self.index] != b'"' {
             if self.bytes[self.index] == b'\\' {
-                return Err(format!("unsupported escape sequence at byte {}", self.index));
+                return Err(format!(
+                    "unsupported escape sequence at byte {}",
+                    self.index
+                ));
             }
             self.index += 1;
         }
@@ -286,10 +289,26 @@ fn parse_args() -> Result<(String, String, String, String), String> {
     let mut args = env::args().skip(1);
     while let Some(arg) = args.next() {
         match arg.as_str() {
-            "--input" => input = args.next().ok_or_else(|| "missing value for --input".to_string())?,
-            "--output" => output = args.next().ok_or_else(|| "missing value for --output".to_string())?,
-            "--report" => report = args.next().ok_or_else(|| "missing value for --report".to_string())?,
-            "--forced" => forced = args.next().ok_or_else(|| "missing value for --forced".to_string())?,
+            "--input" => {
+                input = args
+                    .next()
+                    .ok_or_else(|| "missing value for --input".to_string())?
+            }
+            "--output" => {
+                output = args
+                    .next()
+                    .ok_or_else(|| "missing value for --output".to_string())?
+            }
+            "--report" => {
+                report = args
+                    .next()
+                    .ok_or_else(|| "missing value for --report".to_string())?
+            }
+            "--forced" => {
+                forced = args
+                    .next()
+                    .ok_or_else(|| "missing value for --forced".to_string())?
+            }
             "--help" | "-h" => {
                 return Err(
                     "usage: reduce_forced_bits --input <path> --output <path> --report <path> --forced <path>"
@@ -467,36 +486,38 @@ fn collect_forced_bits(tables: &[Table]) -> Result<(HashMap<u32, u8>, usize), St
         let mut handles = Vec::new();
         for (start, end) in ranges {
             let slice = &tables[start..end];
-            handles.push(scope.spawn(move || -> Result<(Vec<(u32, u8)>, usize), String> {
-                let mut assignments = Vec::new();
-                let mut local_occurrences = 0usize;
+            handles.push(
+                scope.spawn(move || -> Result<(Vec<(u32, u8)>, usize), String> {
+                    let mut assignments = Vec::new();
+                    let mut local_occurrences = 0usize;
 
-                for table in slice {
-                    let width = table.bits.len();
-                    if width == 0 {
-                        continue;
-                    }
-                    let mut and_mask = full_mask(width)?;
-                    let mut or_mask = 0u32;
-                    for &row in &table.rows {
-                        and_mask &= row;
-                        or_mask |= row;
-                    }
-                    let zero_mask = full_mask(width)? & !or_mask;
-                    for offset in 0..width {
-                        let mask = 1u32 << offset;
-                        if (and_mask & mask) != 0 {
-                            assignments.push((table.bits[offset], 1));
-                            local_occurrences += 1;
-                        } else if (zero_mask & mask) != 0 {
-                            assignments.push((table.bits[offset], 0));
-                            local_occurrences += 1;
+                    for table in slice {
+                        let width = table.bits.len();
+                        if width == 0 {
+                            continue;
+                        }
+                        let mut and_mask = full_mask(width)?;
+                        let mut or_mask = 0u32;
+                        for &row in &table.rows {
+                            and_mask &= row;
+                            or_mask |= row;
+                        }
+                        let zero_mask = full_mask(width)? & !or_mask;
+                        for offset in 0..width {
+                            let mask = 1u32 << offset;
+                            if (and_mask & mask) != 0 {
+                                assignments.push((table.bits[offset], 1));
+                                local_occurrences += 1;
+                            } else if (zero_mask & mask) != 0 {
+                                assignments.push((table.bits[offset], 0));
+                                local_occurrences += 1;
+                            }
                         }
                     }
-                }
 
-                Ok((assignments, local_occurrences))
-            }));
+                    Ok((assignments, local_occurrences))
+                }),
+            );
         }
 
         for handle in handles {
@@ -535,92 +556,94 @@ fn propagate_forced_bits(
         let mut handles = Vec::new();
         for (start, end) in ranges {
             let slice = &tables[start..end];
-            handles.push(scope.spawn(move || -> Result<(Vec<Table>, PropagationStats), String> {
-                let mut partial_tables = Vec::with_capacity(slice.len());
-                let mut partial_stats = PropagationStats::default();
+            handles.push(
+                scope.spawn(move || -> Result<(Vec<Table>, PropagationStats), String> {
+                    let mut partial_tables = Vec::with_capacity(slice.len());
+                    let mut partial_stats = PropagationStats::default();
 
-                for table in slice {
-                    let touches_forced = table.bits.iter().any(|bit| forced.contains_key(bit));
-                    if touches_forced {
-                        partial_stats.affected_tables += 1;
-                    } else {
-                        partial_tables.push(table.clone());
-                        continue;
-                    }
-
-                    let mut kept_bits = Vec::with_capacity(table.bits.len());
-                    let mut kept_indices = Vec::with_capacity(table.bits.len());
-                    for (index, &bit) in table.bits.iter().enumerate() {
-                        if !forced.contains_key(&bit) {
-                            kept_bits.push(bit);
-                            kept_indices.push(index);
-                        }
-                    }
-
-                    let mut new_rows = Vec::with_capacity(table.rows.len());
-                    for &row in &table.rows {
-                        let mut consistent = true;
-                        for (index, &bit) in table.bits.iter().enumerate() {
-                            if let Some(&forced_value) = forced.get(&bit) {
-                                if ((row >> index) & 1) != forced_value as u32 {
-                                    consistent = false;
-                                    break;
-                                }
-                            }
-                        }
-                        if !consistent {
+                    for table in slice {
+                        let touches_forced = table.bits.iter().any(|bit| forced.contains_key(bit));
+                        if touches_forced {
+                            partial_stats.affected_tables += 1;
+                        } else {
+                            partial_tables.push(table.clone());
                             continue;
                         }
 
-                        let mut projected_row = 0u32;
-                        for (new_index, &old_index) in kept_indices.iter().enumerate() {
-                            if ((row >> old_index) & 1) != 0 {
-                                projected_row |= 1u32 << new_index;
+                        let mut kept_bits = Vec::with_capacity(table.bits.len());
+                        let mut kept_indices = Vec::with_capacity(table.bits.len());
+                        for (index, &bit) in table.bits.iter().enumerate() {
+                            if !forced.contains_key(&bit) {
+                                kept_bits.push(bit);
+                                kept_indices.push(index);
                             }
                         }
-                        new_rows.push(projected_row);
-                    }
 
-                    if new_rows.is_empty() {
-                        return Err(format!(
-                            "contradiction after forcing table with bits {:?}",
-                            table.bits
-                        ));
-                    }
+                        let mut new_rows = Vec::with_capacity(table.rows.len());
+                        for &row in &table.rows {
+                            let mut consistent = true;
+                            for (index, &bit) in table.bits.iter().enumerate() {
+                                if let Some(&forced_value) = forced.get(&bit) {
+                                    if ((row >> index) & 1) != forced_value as u32 {
+                                        consistent = false;
+                                        break;
+                                    }
+                                }
+                            }
+                            if !consistent {
+                                continue;
+                            }
 
-                    new_rows.sort_unstable();
-                    new_rows.dedup();
-                    partial_stats.removed_rows += table.rows.len() - new_rows.len();
+                            let mut projected_row = 0u32;
+                            for (new_index, &old_index) in kept_indices.iter().enumerate() {
+                                if ((row >> old_index) & 1) != 0 {
+                                    projected_row |= 1u32 << new_index;
+                                }
+                            }
+                            new_rows.push(projected_row);
+                        }
 
-                    if kept_bits != table.bits || new_rows != table.rows {
-                        partial_stats.changed_tables += 1;
-                    }
+                        if new_rows.is_empty() {
+                            return Err(format!(
+                                "contradiction after forcing table with bits {:?}",
+                                table.bits
+                            ));
+                        }
 
-                    if kept_bits.is_empty() {
-                        if new_rows == [0] {
+                        new_rows.sort_unstable();
+                        new_rows.dedup();
+                        partial_stats.removed_rows += table.rows.len() - new_rows.len();
+
+                        if kept_bits != table.bits || new_rows != table.rows {
+                            partial_stats.changed_tables += 1;
+                        }
+
+                        if kept_bits.is_empty() {
+                            if new_rows == [0] {
+                                partial_stats.removed_tautologies += 1;
+                                continue;
+                            }
+                            return Err(format!(
+                                "non-tautological zero-bit table after forcing {:?}",
+                                table.bits
+                            ));
+                        }
+
+                        let full_count = 1usize << kept_bits.len();
+                        if new_rows.len() == full_count {
                             partial_stats.removed_tautologies += 1;
                             continue;
                         }
-                        return Err(format!(
-                            "non-tautological zero-bit table after forcing {:?}",
-                            table.bits
-                        ));
+
+                        partial_tables.push(Table {
+                            bits: kept_bits,
+                            rows: new_rows,
+                        });
                     }
 
-                    let full_count = 1usize << kept_bits.len();
-                    if new_rows.len() == full_count {
-                        partial_stats.removed_tautologies += 1;
-                        continue;
-                    }
-
-                    partial_tables.push(Table {
-                        bits: kept_bits,
-                        rows: new_rows,
-                    });
-                }
-
-                Ok((partial_tables, partial_stats))
-            }));
+                    Ok((partial_tables, partial_stats))
+                }),
+            );
         }
 
         for handle in handles {
@@ -712,7 +735,12 @@ fn write_round_json(output: &mut String, round: &RoundInfo, indent: usize) {
     push_indent(output, indent + 2);
     writeln!(output, "\"round\": {},", round.round).unwrap();
     push_indent(output, indent + 2);
-    writeln!(output, "\"input_table_count\": {},", round.input.table_count).unwrap();
+    writeln!(
+        output,
+        "\"input_table_count\": {},",
+        round.input.table_count
+    )
+    .unwrap();
     push_indent(output, indent + 2);
     writeln!(output, "\"input_bit_count\": {},", round.input.bit_count).unwrap();
     push_indent(output, indent + 2);
@@ -728,7 +756,12 @@ fn write_round_json(output: &mut String, round: &RoundInfo, indent: usize) {
     push_indent(output, indent + 2);
     writeln!(output, "\"forced_zero_bits\": {},", round.forced_zero_bits).unwrap();
     push_indent(output, indent + 2);
-    writeln!(output, "\"forced_occurrences\": {},", round.forced_occurrences).unwrap();
+    writeln!(
+        output,
+        "\"forced_occurrences\": {},",
+        round.forced_occurrences
+    )
+    .unwrap();
     push_indent(output, indent + 2);
     writeln!(
         output,
@@ -765,7 +798,12 @@ fn write_round_json(output: &mut String, round: &RoundInfo, indent: usize) {
     )
     .unwrap();
     push_indent(output, indent + 2);
-    writeln!(output, "\"output_table_count\": {},", round.output.table_count).unwrap();
+    writeln!(
+        output,
+        "\"output_table_count\": {},",
+        round.output.table_count
+    )
+    .unwrap();
     push_indent(output, indent + 2);
     writeln!(output, "\"output_bit_count\": {},", round.output.bit_count).unwrap();
     push_indent(output, indent + 2);
@@ -784,7 +822,11 @@ fn write_round_json(output: &mut String, round: &RoundInfo, indent: usize) {
 fn write_rank_summary_json(output: &mut String, summary: &RankSummary, indent: usize) {
     output.push_str("{\n");
     push_indent(output, indent + 2);
-    writeln!(output, "\"metric\": \"rank = row_count ** (1 / bit_count)\",").unwrap();
+    writeln!(
+        output,
+        "\"metric\": \"rank = row_count ** (1 / bit_count)\","
+    )
+    .unwrap();
     push_indent(output, indent + 2);
     writeln!(output, "\"table_count\": {},", summary.table_count).unwrap();
     push_indent(output, indent + 2);
@@ -815,11 +857,22 @@ fn write_report_json(
     let zero_count = forced.len() - one_count;
     let productive_rounds = rounds.iter().filter(|round| round.changed).count();
     let total_forced_occurrences: usize = rounds.iter().map(|round| round.forced_occurrences).sum();
-    let total_affected_tables: usize = rounds.iter().map(|round| round.propagation.affected_tables).sum();
-    let total_changed_tables: usize = rounds.iter().map(|round| round.propagation.changed_tables).sum();
-    let total_removed_rows: usize = rounds.iter().map(|round| round.propagation.removed_rows).sum();
-    let total_removed_tautologies: usize =
-        rounds.iter().map(|round| round.propagation.removed_tautologies).sum();
+    let total_affected_tables: usize = rounds
+        .iter()
+        .map(|round| round.propagation.affected_tables)
+        .sum();
+    let total_changed_tables: usize = rounds
+        .iter()
+        .map(|round| round.propagation.changed_tables)
+        .sum();
+    let total_removed_rows: usize = rounds
+        .iter()
+        .map(|round| round.propagation.removed_rows)
+        .sum();
+    let total_removed_tautologies: usize = rounds
+        .iter()
+        .map(|round| round.propagation.removed_tautologies)
+        .sum();
     let total_collapsed_duplicate_tables: usize = rounds
         .iter()
         .map(|round| round.propagation.collapsed_duplicate_tables)
@@ -833,19 +886,44 @@ fn write_report_json(
     writeln!(output, "  \"input\": \"{input_path}\",").unwrap();
     writeln!(output, "  \"output\": \"{output_path}\",").unwrap();
     writeln!(output, "  \"forced_output\": \"{forced_path}\",").unwrap();
-    writeln!(output, "  \"initial_table_count\": {},", initial.table_count).unwrap();
+    writeln!(
+        output,
+        "  \"initial_table_count\": {},",
+        initial.table_count
+    )
+    .unwrap();
     writeln!(output, "  \"initial_bit_count\": {},", initial.bit_count).unwrap();
     writeln!(output, "  \"initial_row_count\": {},", initial.row_count).unwrap();
     output.push_str("  \"initial_rank_summary\": ");
     write_rank_summary_json(&mut output, initial_rank_summary, 2);
     output.push_str(",\n");
-    writeln!(output, "  \"final_table_count\": {},", final_summary.table_count).unwrap();
-    writeln!(output, "  \"final_bit_count\": {},", final_summary.bit_count).unwrap();
-    writeln!(output, "  \"final_row_count\": {},", final_summary.row_count).unwrap();
+    writeln!(
+        output,
+        "  \"final_table_count\": {},",
+        final_summary.table_count
+    )
+    .unwrap();
+    writeln!(
+        output,
+        "  \"final_bit_count\": {},",
+        final_summary.bit_count
+    )
+    .unwrap();
+    writeln!(
+        output,
+        "  \"final_row_count\": {},",
+        final_summary.row_count
+    )
+    .unwrap();
     output.push_str("  \"final_rank_summary\": ");
     write_rank_summary_json(&mut output, final_rank_summary, 2);
     output.push_str(",\n");
-    writeln!(output, "  \"productive_round_count\": {},", productive_rounds).unwrap();
+    writeln!(
+        output,
+        "  \"productive_round_count\": {},",
+        productive_rounds
+    )
+    .unwrap();
     writeln!(
         output,
         "  \"round_count_including_final_check\": {},",
@@ -861,8 +939,18 @@ fn write_report_json(
         total_forced_occurrences
     )
     .unwrap();
-    writeln!(output, "  \"total_affected_tables\": {},", total_affected_tables).unwrap();
-    writeln!(output, "  \"total_changed_tables\": {},", total_changed_tables).unwrap();
+    writeln!(
+        output,
+        "  \"total_affected_tables\": {},",
+        total_affected_tables
+    )
+    .unwrap();
+    writeln!(
+        output,
+        "  \"total_changed_tables\": {},",
+        total_changed_tables
+    )
+    .unwrap();
     writeln!(output, "  \"total_removed_rows\": {},", total_removed_rows).unwrap();
     writeln!(
         output,
@@ -903,7 +991,8 @@ fn main() {
 
 fn run() -> Result<(), String> {
     let (input_path, output_path, report_path, forced_path) = parse_args()?;
-    let bytes = fs::read(&input_path).map_err(|err| format!("failed to read {input_path}: {err}"))?;
+    let bytes =
+        fs::read(&input_path).map_err(|err| format!("failed to read {input_path}: {err}"))?;
     let mut parser = Parser::new(&bytes);
     let mut tables = parser.parse_tables()?;
 

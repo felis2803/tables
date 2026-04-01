@@ -2,20 +2,22 @@
 
 Current baseline pipeline:
 
-1. `subset_absorption`
-2. `forced_bits`
-3. `pair_reduction`
-4. `node_filter`
+1. `pairwise_merge`
+2. `subset_absorption`
+3. `forced_bits`
+4. `pair_reduction`
+5. `node_filter`
 
 This step list is executed until a fixed point is reached.
 
 Code entrypoint:
 
-- [common_fixed_point.py](C:/projects/tables/src/pipeline/common_fixed_point.py)
+- official runner: `cargo run --release -- ...`
+- implementation: [src/main.rs](C:/projects/tables/src/main.rs)
 
-Artifact naming helper:
+Artifact naming and default output paths:
 
-- [artifacts.py](C:/projects/tables/src/utils/artifacts.py)
+- active stage names and default output paths are defined in [main.rs](C:/projects/tables/src/main.rs)
 
 ## Step Intent
 
@@ -23,7 +25,16 @@ Artifact naming helper:
 
 - canonicalize tables;
 - use smaller tables to remove incompatible rows from larger tables that contain their bit sets;
+- the supported implementation path for this step is the crate pipeline and the `tables-subset-absorption` CLI;
 - drop included subset tables after absorption.
+
+### `pairwise_merge`
+
+- merge every pair of tables that shares more than one bit;
+- keep only merges whose resulting arity does not exceed `max_merge_arity`;
+- in the active pipeline, `max_merge_arity` defaults to `16`;
+- the supported implementation path for this step is the crate pipeline and the `tables-pairwise-merge` CLI;
+- after retaining merged tables, immediately drop source tables implied by those merges.
 
 ### `forced_bits`
 
@@ -36,6 +47,7 @@ Artifact naming helper:
 - detect equal or opposite bit pairs from table row patterns;
 - build transitive parity components;
 - rewrite all bits in each component to one representative.
+- the supported implementation path for this step is the crate pipeline and the `tables-pair-reduction` CLI;
 
 ### `node_filter`
 

@@ -1,13 +1,13 @@
-# Structure Migration Verification
+# Baseline Validation
 
 ## Purpose
 
-Verify that the active pipeline still runs after moving code and artifacts into the structured repository layout.
+Record a baseline validation run for the default fixed-point pipeline binary.
 
 ## Command
 
 ```powershell
-python .\src\pipeline\common_fixed_point.py
+cargo run --release --
 ```
 
 ## Outputs

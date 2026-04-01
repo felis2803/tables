@@ -1,18 +1,7 @@
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-
 .DS_Store
 Thumbs.db
 
-.venv/
-venv/
-env/
-
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
+target/
 
 pipeline_stdout.log
 pipeline_stderr.log

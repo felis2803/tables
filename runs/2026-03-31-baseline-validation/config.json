@@ -1,11 +1,11 @@
 {
-  "run_id": "2026-03-31-structure-migration",
-  "command": "python .\\\\src\\\\pipeline\\\\common_fixed_point.py",
+  "run_id": "2026-03-31-baseline-validation",
+  "command": "cargo run --release --",
   "input": "data/raw/tables.json",
   "output": "data/derived/tables.common_node_fixed_point.json",
   "report": "data/reports/report.common_node_fixed_point.json",
   "notes": [
-    "Verification run after migrating active code and artifacts into the structured repository layout.",
+    "Baseline validation run for the default fixed-point pipeline binary.",
     "Pipeline includes subset absorption, forced bits, pair reduction, and node filtering."
   ]
 }

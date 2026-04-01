@@ -22,6 +22,46 @@ Canonicalization is not a separate research step, but it is a required normaliza
 
 This is the baseline normalization expected after projection-heavy steps.
 
+## Table Merge
+
+Table merge is different from subset absorption.
+
+Input:
+
+- table `A` with bits `Ba`;
+- table `B` with bits `Bb`.
+
+Output:
+
+- a new table on the union of the bit sets `Ba` and `Bb`.
+
+Semantics:
+
+- a row of the merged table is valid if its projection onto `Ba` is a row of `A`;
+- and its projection onto `Bb` is a row of `B`.
+
+Equivalent view:
+
+- this is the natural join of the two row sets over their shared bits.
+
+Practical consequences:
+
+- if `Ba` and `Bb` are disjoint, merge is a Cartesian product of rows;
+- if `Ba = Bb`, merge is row intersection;
+- if shared bits are inconsistent for all row pairs, the merged table is empty.
+
+Implementation note:
+
+- the fast path should bucket rows by assignments on shared bits, then combine only matching buckets;
+- row construction should stay in integer-mask form and avoid per-bit object-heavy joins.
+
+Pipeline note:
+
+- in the active common pipeline, pairwise merge only considers pairs with more than one shared bit;
+- when pairwise merge is used as a pipeline step, it may immediately drop source tables that are implied by retained merged tables;
+- in the active common pipeline, pairwise merge is limited by a maximum merged arity parameter;
+- the default merged-arity limit is `16`.
+
 ## Subset Absorption
 
 Input:
@@ -118,10 +158,11 @@ Effect:
 
 The active baseline pipeline applies:
 
-1. subset absorption
-2. forced bits
-3. pair reduction
-4. node filtering
+1. pairwise merge
+2. subset absorption
+3. forced bits
+4. pair reduction
+5. node filtering
 
 The loop stops only when a full round makes no change.
 

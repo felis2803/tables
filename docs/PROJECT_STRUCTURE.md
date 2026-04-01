@@ -2,7 +2,7 @@
 
 ## Status
 
-Migration from the flat root layout to the structured layout is complete for active code, active artifacts, and primary documentation.
+The repository uses a conventional single-crate Cargo layout centered on `src/`, `src/bin/`, and `examples/`.
 
 ## Goal
 
@@ -19,6 +19,8 @@ The repository layout should support:
 ```text
 tables/
   README.md
+  Cargo.toml
+  Cargo.lock
   docs/
     PROJECT_STRUCTURE.md
     DATA_MODEL.md
@@ -46,20 +48,28 @@ tables/
       report.common_node_fixed_point.json
       ...
   src/
-    io/
-    utils/
-    steps/
-      subset_absorption.py
-      forced_bits.py
-      pair_reduction.py
-      node_filter.py
-    pipeline/
-      common_fixed_point.py
+    lib.rs
+    main.rs
+    common.rs
+    pairwise_merge.rs
+    table_merge_fast.rs
+    subset_absorption.rs
+    forced_bits.rs
+    pair_reduction.rs
+    node_filter.rs
+    rank_stats.rs
+    bin/
+      pairwise_merge.rs
+      subset_absorption.rs
+      pair_reduction.rs
+  examples/
+    forced_bits_fast.rs
+    pairwise_merge_generate.rs
   research/
     notes/
     notebooks/
   runs/
-    2026-03-31-common-node-fixed-point/
+    2026-03-31-baseline-validation/
       config.json
       summary.md
       outputs/
@@ -144,32 +154,22 @@ Current active stages:
 - `common_fixed_point.node_filtered`
 - `common_node_fixed_point`
 
-### `src/steps/`
+### `src/`
 
-One reduction operation per module.
+Active production implementation:
 
-Examples:
+- `lib.rs` exposes the shared crate modules;
+- `main.rs` contains the default fixed-point pipeline binary;
+- one Rust module per reduction step lives directly under `src/`;
+- `src/bin/` contains operational CLIs for `pairwise_merge`, `subset_absorption`, and `pair_reduction`.
 
-- `subset_absorption.py`
-- `forced_bits.py`
-- `pair_reduction.py`
-- `node_filter.py`
+### `examples/`
 
-Recommended interface:
+Retained exploratory or one-off Rust utilities:
 
-```python
-def run_step(tables: list[dict], state: dict, round_index: int) -> tuple[list[dict], dict, bool]:
-    ...
-```
-
-### `src/pipeline/`
-
-Composition layer:
-
-- fixed-point runners;
-- pipeline profiles;
-- orchestration;
-- run-state serialization.
+- utilities that are useful enough to keep under version control;
+- not part of the default production build path;
+- runnable through `cargo run --example ...`.
 
 ### `research/`
 
@@ -195,27 +195,10 @@ This separates current best results from ordinary intermediate artifacts.
 
 For material that must be kept but should not stay in the active root:
 
-- old flat-layout files;
-- pilot scripts;
+- retired experiments;
+- imported reference material;
 - one-off experiments;
 - retired artifacts.
-
-## Migration Notes
-
-### Scripts
-
-- `merge_subset_tables.py` -> `src/steps/subset_absorption.py`
-- `collapse_bit_pairs.py` -> `src/steps/pair_reduction.py`
-- `reduce_nodes_fixed_point.py` -> `src/steps/node_filter.py`
-- `reduce_common_fixed_point.py` -> `src/pipeline/common_fixed_point.py`
-- one-off research scripts -> `archive/` or `research/`
-
-### Data
-
-- `tables.json` -> `data/raw/tables.json`
-- `tables_*.json` -> `data/derived/`
-- `*_report.json` -> `data/reports/`
-- `*_bit_components.json`, `*_bit_rewrite_map.json`, `*_forced_bits.json` -> `data/derived/`
 
 ## Recommended Next Steps
 
