@@ -20,8 +20,6 @@ pub struct PairwiseMergeStats {
     pub input_bit_count: usize,
     pub input_row_count: usize,
     pub input_arity_distribution: BTreeMap<String, usize>,
-    pub active_input_table_count: usize,
-    pub unchanged_input_table_count: usize,
     pub collapsed_duplicate_tables_before_merge: usize,
     pub bitpair_key_count: usize,
     pub raw_pair_hits_over_bitpairs: usize,
@@ -138,9 +136,7 @@ pub fn run_pairwise_merge_with_previous_input(
     let canonical_tables = tables_from_canonical_map(&canonical_by_bits);
     let input_bit_count = collect_bits(&canonical_tables).len();
     let input_row_count = total_rows(&canonical_tables);
-    let (active_flags, active_input_table_count) =
-        active_table_flags(&canonical_tables, previous_canonical_input);
-    let unchanged_input_table_count = canonical_tables.len() - active_input_table_count;
+    let (active_flags, _) = active_table_flags(&canonical_tables, previous_canonical_input);
 
     let (bitpair_to_tables, bitpair_key_count) = generate_bitpair_to_tables(&canonical_tables);
     let mut raw_pair_hits = 0usize;
@@ -247,8 +243,6 @@ pub fn run_pairwise_merge_with_previous_input(
         input_bit_count,
         input_row_count,
         input_arity_distribution: arity_distribution(&canonical_tables),
-        active_input_table_count,
-        unchanged_input_table_count,
         collapsed_duplicate_tables_before_merge: collapsed_duplicate_tables,
         bitpair_key_count,
         raw_pair_hits_over_bitpairs: raw_pair_hits,
@@ -387,8 +381,6 @@ mod tests {
         assert_eq!(incremental_output, full_output);
         assert_eq!(incremental_stats.produced_nonempty_merges, 1);
         assert_eq!(incremental_stats.candidate_pair_count, 1);
-        assert_eq!(incremental_stats.active_input_table_count, 1);
-        assert_eq!(incremental_stats.unchanged_input_table_count, 3);
         assert!(full_stats.candidate_pair_count > incremental_stats.candidate_pair_count);
     }
 }
