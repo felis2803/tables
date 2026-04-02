@@ -1,0 +1,1 @@
+metric=net_arity_gain replacements=203 total_saved_bits=203 final_bits=119501 final_tables=128784 final_rows=14561572 elapsed_ms=72362
