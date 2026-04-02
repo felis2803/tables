@@ -1,0 +1,48 @@
+{
+    "baseline":  {
+                     "final_table_count":  128791,
+                     "final_bit_count":  119704,
+                     "final_row_count":  14522216,
+                     "final_node_count":  266034,
+                     "final_forced_original_bits":  262,
+                     "final_rewritten_original_bits":  8801
+                 },
+    "variants":  [
+                     {
+                         "metric":  "bit_gain",
+                         "wall_seconds":  309.681,
+                         "peak_working_set_mib":  1698.25,
+                         "peak_private_mib":  1782.461,
+                         "final_table_count":  182176,
+                         "final_bit_count":  119497,
+                         "final_row_count":  25186574,
+                         "final_node_count":  333445,
+                         "final_forced_original_bits":  0,
+                         "final_rewritten_original_bits":  0
+                     },
+                     {
+                         "metric":  "net_arity_gain",
+                         "wall_seconds":  341.824,
+                         "peak_working_set_mib":  1696.574,
+                         "peak_private_mib":  1920.672,
+                         "final_table_count":  181904,
+                         "final_bit_count":  119501,
+                         "final_row_count":  25137366,
+                         "final_node_count":  333077,
+                         "final_forced_original_bits":  0,
+                         "final_rewritten_original_bits":  0
+                     },
+                     {
+                         "metric":  "cap_relief",
+                         "wall_seconds":  319.05,
+                         "peak_working_set_mib":  1691.711,
+                         "peak_private_mib":  1781.461,
+                         "final_table_count":  181905,
+                         "final_bit_count":  119500,
+                         "final_row_count":  25138258,
+                         "final_node_count":  333080,
+                         "final_forced_original_bits":  0,
+                         "final_rewritten_original_bits":  0
+                     }
+                 ]
+}

@@ -1,0 +1,8 @@
+productive rounds: 5
+rounds including final check: 6
+final tables: 181904
+final bits: 119501
+forced original bits: 0
+rewritten original bits: 0
+output: C:\projects\tables\runs\2026-04-02-replacement-pipeline-compare\net_arity_gain\outputs\tables.common_node_fixed_point.net_arity_gain.after_replacements.arity12.json
+report: C:\projects\tables\runs\2026-04-02-replacement-pipeline-compare\net_arity_gain\outputs\report.common_node_fixed_point.net_arity_gain.after_replacements.arity12.json
