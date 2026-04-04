@@ -21,9 +21,6 @@ use tables::pair_reduction::{
     relation_history_rows, rewrite_tables, update_original_mapping, PairReductionInfo,
     PairReductionIterationInfo,
 };
-use tables::pairwise_merge::{
-    run_pairwise_merge_with_previous_input, CanonicalTableMap, PairwiseMergeStats,
-};
 use tables::rank_stats::{summarize_table_ranks, RankSummary};
 use tables::subset_absorption::{
     collapse_equal_bitsets, merge_subsets, prune_included_tables, to_tables, SubsetAbsorptionInfo,
@@ -33,7 +30,6 @@ const STAGE_COMMON_NODE_FIXED_POINT: &str = "common_node_fixed_point";
 
 struct Args {
     input: PathBuf,
-    max_merge_arity: usize,
     max_rounds: Option<usize>,
     output: PathBuf,
     report: PathBuf,
@@ -49,7 +45,6 @@ impl Default for Args {
     fn default() -> Self {
         Self {
             input: PathBuf::from("data/raw/tables.json"),
-            max_merge_arity: 16,
             max_rounds: None,
             output: PathBuf::from("data/derived/tables.common_node_fixed_point.json"),
             report: PathBuf::from("data/reports/report.common_node_fixed_point.json"),
@@ -73,11 +68,6 @@ impl Args {
         while let Some(flag) = iter.next() {
             match flag.as_str() {
                 "--input" => args.input = PathBuf::from(expect_value(&mut iter, "--input")?),
-                "--max-merge-arity" => {
-                    args.max_merge_arity = expect_value(&mut iter, "--max-merge-arity")?
-                        .parse()
-                        .with_context(|| "invalid value for --max-merge-arity")?;
-                }
                 "--max-rounds" => {
                     args.max_rounds = Some(
                         expect_value(&mut iter, "--max-rounds")?
@@ -111,8 +101,6 @@ impl Args {
 
 #[derive(Clone, Debug)]
 struct PipelineState {
-    max_merge_arity: usize,
-    previous_pairwise_input: Option<CanonicalTableMap>,
     original_mapping: BTreeMap<u32, (u32, u8)>,
     original_forced: BTreeMap<u32, u8>,
     dropped_tables_history: Vec<DroppedTableRecord>,
@@ -128,7 +116,6 @@ struct RoundInfo {
     input_row_count: usize,
     input_arity_distribution: BTreeMap<String, usize>,
     input_rank_summary: RankSummary,
-    pairwise_merge: PairwiseMergeStats,
     subset_absorption: SubsetAbsorptionInfo,
     forced_bits: ForcedBitsInfo,
     pair_reduction: PairReductionInfo,
@@ -141,37 +128,18 @@ struct RoundInfo {
     changed: bool,
 }
 
-fn initialize_pipeline_state(tables: &[Table], max_merge_arity: usize) -> PipelineState {
+fn initialize_pipeline_state(tables: &[Table]) -> PipelineState {
     let original_mapping = collect_bits(tables)
         .into_iter()
         .map(|bit| (bit, (bit, 0u8)))
         .collect();
     PipelineState {
-        max_merge_arity,
-        previous_pairwise_input: None,
         original_mapping,
         original_forced: BTreeMap::new(),
         dropped_tables_history: Vec::new(),
         pair_relations_history: Vec::new(),
         final_nodes: Vec::new(),
     }
-}
-
-fn step_pairwise_merge(
-    tables: &[Table],
-    state: &mut PipelineState,
-) -> Result<(Vec<Table>, PairwiseMergeStats, bool)> {
-    let (output_tables, info, canonical_input) = run_pairwise_merge_with_previous_input(
-        tables,
-        state.max_merge_arity,
-        state.previous_pairwise_input.as_ref(),
-    )?;
-    state.previous_pairwise_input = Some(canonical_input);
-    let changed = info.collapsed_duplicate_tables_before_merge > 0
-        || info.produced_nonempty_merges > 0
-        || info.dropped_source_tables > 0
-        || info.combined_duplicate_tables_collapsed > 0;
-    Ok((output_tables, info, changed))
 }
 
 fn step_subset_absorption(
@@ -330,21 +298,16 @@ fn run_reduction_pipeline(
         let input_arity_distribution = arity_distribution(&tables);
         let input_rank_summary = summarize_table_ranks(&tables, 10);
 
-        let (after_pairwise, pairwise_info, pairwise_changed) =
-            step_pairwise_merge(&tables, state)?;
         let (after_subset, subset_info, subset_changed) =
-            step_subset_absorption(&after_pairwise, state, round_index);
+            step_subset_absorption(&tables, state, round_index);
         let (after_forced, forced_info, forced_changed) = step_forced_bits(after_subset, state)?;
         let (after_pair_reduction, pair_reduction_info, pair_reduction_changed) =
             step_pair_reduction(after_forced, state, round_index)?;
         let (output_tables, node_filter_info, node_filter_changed) =
             step_node_filter(after_pair_reduction, state)?;
 
-        let changed = pairwise_changed
-            || subset_changed
-            || forced_changed
-            || pair_reduction_changed
-            || node_filter_changed;
+        let changed =
+            subset_changed || forced_changed || pair_reduction_changed || node_filter_changed;
 
         let round_info = RoundInfo {
             round: round_index,
@@ -353,7 +316,6 @@ fn run_reduction_pipeline(
             input_row_count,
             input_arity_distribution,
             input_rank_summary,
-            pairwise_merge: pairwise_info,
             subset_absorption: subset_info,
             forced_bits: forced_info,
             pair_reduction: pair_reduction_info,
@@ -391,7 +353,7 @@ fn main() -> Result<()> {
     let initial_row_count = total_rows(&tables);
     let initial_rank_summary = summarize_table_ranks(&tables, 10);
 
-    let mut state = initialize_pipeline_state(&tables, args.max_merge_arity);
+    let mut state = initialize_pipeline_state(&tables);
     let (tables, rounds, productive_rounds) =
         run_reduction_pipeline(tables, &mut state, args.max_rounds)?;
 
@@ -400,9 +362,8 @@ fn main() -> Result<()> {
     let final_components = build_final_components(&state.original_mapping, &state.original_forced);
 
     let report = json!({
-        "method": "repeat pairwise merge, subset absorption, AND/OR fixed-bit propagation/removal, equal/opposite pair reduction, and node-based projection intersection filtering until no further change",
+        "method": "repeat subset absorption, AND/OR fixed-bit propagation/removal, equal/opposite pair reduction, and node-based projection intersection filtering until no further change",
         "steps": [
-            "pairwise_merge",
             "subset_absorption",
             "forced_bits",
             "pair_reduction",
@@ -412,7 +373,6 @@ fn main() -> Result<()> {
         "input": path_string(&args.input),
         "output": path_string(&args.output),
         "nodes_output": path_string(&args.nodes),
-        "max_merge_arity": args.max_merge_arity,
         "max_rounds": args.max_rounds,
         "initial_table_count": initial_table_count,
         "initial_bit_count": initial_bits.len(),
@@ -424,10 +384,6 @@ fn main() -> Result<()> {
         "final_rank_summary": summarize_table_ranks(&tables, 10),
         "productive_round_count": productive_rounds,
         "round_count_including_final_check": rounds.len(),
-        "total_pairwise_merge_candidate_pairs": rounds.iter().map(|round| round.pairwise_merge.candidate_pair_count).sum::<usize>(),
-        "total_pairwise_merge_pairs_skipped_by_arity": rounds.iter().map(|round| round.pairwise_merge.skipped_by_arity).sum::<usize>(),
-        "total_pairwise_merge_nonempty_merges": rounds.iter().map(|round| round.pairwise_merge.produced_nonempty_merges).sum::<usize>(),
-        "total_pairwise_merge_dropped_source_tables": rounds.iter().map(|round| round.pairwise_merge.dropped_source_tables).sum::<usize>(),
         "total_collapsed_duplicate_tables_in_subset_step": rounds.iter().map(|round| round.subset_absorption.collapsed_duplicate_tables).sum::<usize>(),
         "total_subset_row_deletions": rounds.iter().map(|round| round.subset_absorption.subset_row_deletions).sum::<usize>(),
         "total_dropped_included_tables": state.dropped_tables_history.len(),
@@ -482,5 +438,5 @@ fn expect_value(iter: &mut impl Iterator<Item = String>, flag: &str) -> Result<S
 }
 
 fn print_usage() {
-    println!("usage: cargo run --release -- --input <path> [--max-merge-arity <n>] [--max-rounds <n>] [--output <path>] [--report <path>] [--forced <path>] [--mapping <path>] [--components <path>] [--dropped <path>] [--relations <path>] [--nodes <path>]");
+    println!("usage: cargo run --release -- --input <path> [--max-rounds <n>] [--output <path>] [--report <path>] [--forced <path>] [--mapping <path>] [--components <path>] [--dropped <path>] [--relations <path>] [--nodes <path>]");
 }

@@ -35,7 +35,8 @@ Produce a measurable improvement without weakening result validation.
 ## Required Comparison Rules
 
 - Use the same executable mode for both sides, normally `target/release/tables.exe`.
-- Keep `max_merge_arity`, round limits, and all other flags identical.
+- Keep round limits and all other active flags identical.
+- If you are benchmarking the standalone pairwise merge CLI, keep `max_merge_arity` identical there too.
 - Save both runs under `runs/<run-id>/`.
 - Preserve both ordinary outputs and measurement logs.
 - Do not claim improvement from debug builds, partial runs, or mixed workloads.

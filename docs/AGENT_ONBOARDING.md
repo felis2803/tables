@@ -19,10 +19,9 @@ If you are a new agent on this repository, read these files in order before edit
 - Persisted artifacts should use canonical ascending bit order.
 - The active pipeline is a fixed-point loop over multiple reduction steps, not a single pass.
 - `rank` is a derived metric: `row_count ** (1 / bit_count)`.
-- pairwise merge is a natural join step and is currently bounded by `max_merge_arity = 16` by default.
 - the supported production entrypoint is the default `tables` binary in `src/main.rs`.
 - pairwise merge, subset absorption, and pair reduction each also have dedicated binaries under `src/bin/`.
-- when a retained pairwise merge is kept in the active pipeline, its source tables may be removed immediately because the merge implies them.
+- pairwise merge is a retained standalone natural-join step, but it is not part of the default fixed-point runner.
 
 ## Before You Change Anything
 

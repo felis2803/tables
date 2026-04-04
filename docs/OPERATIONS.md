@@ -57,10 +57,10 @@ Implementation note:
 
 Pipeline note:
 
-- in the active common pipeline, pairwise merge only considers pairs with more than one shared bit;
+- pairwise merge remains available as a standalone operation for experiments and targeted runs;
 - when pairwise merge is used as a pipeline step, it may immediately drop source tables that are implied by retained merged tables;
-- in the active common pipeline, pairwise merge is limited by a maximum merged arity parameter;
-- the default merged-arity limit is `16`.
+- the current fixed-point runner does not invoke pairwise merge by default;
+- the standalone pairwise merge CLI is limited by a maximum merged arity parameter, which defaults to `16`.
 
 ## Subset Absorption
 
@@ -158,11 +158,10 @@ Effect:
 
 The active baseline pipeline applies:
 
-1. pairwise merge
-2. subset absorption
-3. forced bits
-4. pair reduction
-5. node filtering
+1. subset absorption
+2. forced bits
+3. pair reduction
+4. node filtering
 
 The loop stops only when a full round makes no change.
 

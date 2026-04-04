@@ -17,16 +17,14 @@ A table is a constraint over an ordered local set of bit identifiers:
 - `rows` stores allowed assignments as integer masks over local positions in `bits`;
 - for `bits[i]`, the row value is `((row >> i) & 1)`.
 
-The active system is reduced by repeatedly applying semantic operations such as pairwise merge, subset absorption, forced-bit propagation, pair reduction, and node filtering until a fixed point is reached.
+The active system is reduced by repeatedly applying semantic operations such as subset absorption, forced-bit propagation, pair reduction, and node filtering until a fixed point is reached.
 
 In the active baseline pipeline:
 
-- `pairwise_merge` runs first;
-- it only keeps merges whose resulting arity does not exceed `max_merge_arity`;
-- `max_merge_arity` defaults to `16`;
 - the supported production runner is the crate's default binary;
+- `subset_absorption`, `forced_bits`, `pair_reduction`, and `node_filter` run in a fixed-point loop;
 - `pairwise_merge`, `subset_absorption`, and `pair_reduction` also have dedicated step CLIs under `src/bin/`;
-- once a retained merged table is created, source tables covered by that merge can be dropped immediately.
+- pairwise merge remains available as a standalone operation when we need it, but it is not part of the default pipeline.
 
 The repository also uses the derived metric `rank` for tables:
 
@@ -94,7 +92,7 @@ Stage reports should also include rank summaries for the input and output table 
 
 ```powershell
 cargo run --release --
-cargo run --release -- --max-rounds 1 --max-merge-arity 12
+cargo run --release -- --max-rounds 1
 cargo run --release --bin tables-pairwise-merge -- --help
 cargo run --release --bin tables-subset-absorption -- --help
 cargo run --release --bin tables-pair-reduction -- --help

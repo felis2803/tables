@@ -2,11 +2,10 @@
 
 Current baseline pipeline:
 
-1. `pairwise_merge`
-2. `subset_absorption`
-3. `forced_bits`
-4. `pair_reduction`
-5. `node_filter`
+1. `subset_absorption`
+2. `forced_bits`
+3. `pair_reduction`
+4. `node_filter`
 
 This step list is executed until a fixed point is reached.
 
@@ -28,14 +27,6 @@ Artifact naming and default output paths:
 - the supported implementation path for this step is the crate pipeline and the `tables-subset-absorption` CLI;
 - drop included subset tables after absorption.
 
-### `pairwise_merge`
-
-- merge every pair of tables that shares more than one bit;
-- keep only merges whose resulting arity does not exceed `max_merge_arity`;
-- in the active pipeline, `max_merge_arity` defaults to `16`;
-- the supported implementation path for this step is the crate pipeline and the `tables-pairwise-merge` CLI;
-- after retaining merged tables, immediately drop source tables implied by those merges.
-
 ### `forced_bits`
 
 - detect per-bit constants from row `AND` and `OR`;
@@ -53,6 +44,15 @@ Artifact naming and default output paths:
 
 - build shared projected subtables over bit intersections;
 - propagate node restrictions through member tables until no node tightens further.
+
+## Standalone Steps
+
+### `pairwise_merge`
+
+- merge every pair of tables that shares more than one bit;
+- keep only merges whose resulting arity does not exceed `max_merge_arity`;
+- the supported implementation path for this step is the `tables-pairwise-merge` CLI;
+- after retaining merged tables, immediately drop source tables implied by those merges.
 
 ## Adding New Steps
 
