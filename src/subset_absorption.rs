@@ -86,7 +86,8 @@ pub fn merge_subsets(
             continue;
         };
         let mut changed_here = false;
-        let candidate_subset_ids = candidate_subset_ids_for_superset(sup_bits, &sup_keys, &anchor_index);
+        let candidate_subset_ids =
+            candidate_subset_ids_for_superset(sup_bits, &sup_keys, &anchor_index);
 
         for subset_id in candidate_subset_ids {
             let subset_bits = &sup_keys[subset_id];
@@ -307,7 +308,8 @@ mod tests {
     fn legacy_merge_subsets(
         tables_by_bits: &mut BTreeMap<Vec<u32>, Vec<u32>>,
     ) -> (MergeStats, Vec<PairDetail>) {
-        let lengths_present: BTreeSet<usize> = tables_by_bits.keys().map(|bits| bits.len()).collect();
+        let lengths_present: BTreeSet<usize> =
+            tables_by_bits.keys().map(|bits| bits.len()).collect();
         let mut stats = MergeStats::default();
         let mut pair_details = Vec::new();
 
@@ -334,8 +336,10 @@ mod tests {
                         return;
                     }
 
-                    let subset_bits: Vec<u32> =
-                        subset_indices.iter().map(|&index| sup_bits[index]).collect();
+                    let subset_bits: Vec<u32> = subset_indices
+                        .iter()
+                        .map(|&index| sup_bits[index])
+                        .collect();
                     let Some(subset_rows) = tables_by_bits.get(&subset_bits) else {
                         return;
                     };
