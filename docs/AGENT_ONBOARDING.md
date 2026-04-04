@@ -21,6 +21,9 @@ If you are a new agent on this repository, read these files in order before edit
 - `rank` is a derived metric: `row_count ** (1 / bit_count)`.
 - the supported production entrypoint is the default `tables` binary in `src/main.rs`.
 - pairwise merge, subset absorption, and pair reduction each also have dedicated binaries under `src/bin/`.
+- single-table bit filtering is part of the default fixed-point runner and projects away bits that occur in exactly one active table.
+- single-table bit filtering is intentionally semantics-changing; treat it as a documented heuristic, not an equivalence-preserving reduction.
+- tautology filtering is part of the default fixed-point runner and removes full `2^arity` tables after bit rewriting.
 - pairwise merge is a retained standalone natural-join step, but it is not part of the default fixed-point runner.
 
 ## Before You Change Anything

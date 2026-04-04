@@ -58,8 +58,10 @@ tables/
     table_merge_fast.rs
     subset_absorption.rs
     forced_bits.rs
+    single_table_bit_filter.rs
     pair_reduction.rs
     node_filter.rs
+    tautology_filter.rs
     rank_stats.rs
     bin/
       pairwise_merge.rs

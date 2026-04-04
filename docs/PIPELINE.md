@@ -4,8 +4,10 @@ Current baseline pipeline:
 
 1. `subset_absorption`
 2. `forced_bits`
-3. `pair_reduction`
-4. `node_filter`
+3. `single_table_bit_filter`
+4. `pair_reduction`
+5. `tautology_filter`
+6. `node_filter`
 
 This step list is executed until a fixed point is reached.
 
@@ -33,12 +35,26 @@ Artifact naming and default output paths:
 - propagate these constants through all tables;
 - remove forced bits from the active system and record them separately.
 
+### `single_table_bit_filter`
+
+- count how many active tables contain each bit;
+- if a bit appears in exactly one active table, project that bit out of that table;
+- deduplicate projected rows and collapse any duplicate schemas created by that projection;
+- this step is intentionally lossy and does not preserve strict table-system equivalence;
+- run before `pair_reduction` and `tautology_filter`, so the simplification can expose new relations and tautologies in the same round.
+
 ### `pair_reduction`
 
 - detect equal or opposite bit pairs from table row patterns;
 - build transitive parity components;
 - rewrite all bits in each component to one representative.
 - the supported implementation path for this step is the crate pipeline and the `tables-pair-reduction` CLI;
+
+### `tautology_filter`
+
+- drop any table whose row set is the full `2^arity` assignment set for its schema;
+- run after `single_table_bit_filter` and `pair_reduction`, so it removes tautologies exposed by forcing, single-table bit removal, and bit rewriting;
+- leave non-tautological tables unchanged.
 
 ### `node_filter`
 
@@ -69,7 +85,8 @@ A new step should:
 - bit position inside `bits` matches bit position inside the row mask;
 - `rows` only contain masks valid for that table arity;
 - no step may leave an empty table behind;
-- tautologies should be removed if a step fully exposes them.
+- tautologies should be removed by the dedicated `tautology_filter` step once they are exposed.
+- `single_table_bit_filter` is the current baseline step that is explicitly allowed to change semantics.
 
 ## Expected Outputs
 

@@ -3,7 +3,7 @@ use std::collections::BTreeMap;
 use anyhow::{bail, Result};
 use serde::Serialize;
 
-use crate::common::{is_full_row_set, ForcedRow, Table};
+use crate::common::{ForcedRow, Table};
 use crate::subset_absorption::{collapse_equal_bitsets, to_tables};
 
 #[derive(Clone, Debug, Default, Serialize)]
@@ -11,7 +11,6 @@ pub struct ForcedPropagationStats {
     pub affected_tables: usize,
     pub changed_tables: usize,
     pub removed_rows: usize,
-    pub removed_tautologies: usize,
     pub collapsed_duplicate_tables: usize,
 }
 
@@ -126,15 +125,13 @@ pub fn propagate_forced_bits(
 
         if kept_bits.is_empty() {
             if new_rows == vec![0] {
-                stats.removed_tautologies += 1;
+                projected.push(Table {
+                    bits: kept_bits,
+                    rows: new_rows,
+                });
                 continue;
             }
             bail!("contradiction after forcing table {:?}", table.bits);
-        }
-
-        if is_full_row_set(new_rows.len(), kept_bits.len()) {
-            stats.removed_tautologies += 1;
-            continue;
         }
 
         projected.push(Table {
@@ -192,7 +189,8 @@ mod tests {
 
         let (projected, stats) = propagate_forced_bits(&tables, &forced).unwrap();
         assert_eq!(stats.affected_tables, 1);
-        assert_eq!(stats.removed_tautologies, 1);
-        assert!(projected.is_empty());
+        assert_eq!(projected.len(), 1);
+        assert_eq!(projected[0].bits, vec![1]);
+        assert_eq!(projected[0].rows, vec![0, 1]);
     }
 }

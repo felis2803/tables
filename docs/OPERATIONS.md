@@ -101,8 +101,31 @@ Propagation:
 
 - every table containing that bit must drop rows that disagree with the forced value;
 - the forced bit is then removed from the table schema;
-- if a table becomes a tautology after removing forced bits, it should be removed;
 - forced original bits must be recorded separately from the reduced system.
+
+## Single-Table Bit Filter
+
+Goal:
+
+- remove bits whose current support is exactly one active table.
+
+Operation:
+
+- count, for each bit, how many active tables contain it;
+- for each table, project away every bit whose count is `1`;
+- deduplicate the projected rows;
+- if projection creates duplicate schemas, intersect them in canonical form.
+
+Effect:
+
+- remove bits from the active system;
+- sometimes reduce row counts because projection can collapse duplicate rows;
+- expose new pair relations and tautologies for later steps.
+
+Semantics note:
+
+- this step is intentionally lossy;
+- unlike subset absorption, forced-bit propagation, pair reduction, and tautology filtering, it does not preserve strict logical equivalence of the table system.
 
 ## Pair Reduction
 
@@ -130,6 +153,21 @@ Agent note:
 - pair reduction is transitive;
 - if `A = B` and `B = !C`, then `A = !C`;
 - the pipeline should keep only one representative bit per connected component.
+
+## Tautology Filter
+
+Goal:
+
+- remove tables that impose no remaining restriction on their own schema.
+
+Test:
+
+- a table on `k` bits is a tautology iff it contains exactly all `2^k` local rows.
+
+Effect:
+
+- remove such tables from the active system;
+- leave all other tables unchanged.
 
 ## Node Filtering
 
@@ -160,8 +198,10 @@ The active baseline pipeline applies:
 
 1. subset absorption
 2. forced bits
-3. pair reduction
-4. node filtering
+3. single-table bit filter
+4. pair reduction
+5. tautology filter
+6. node filtering
 
 The loop stops only when a full round makes no change.
 

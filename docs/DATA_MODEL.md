@@ -93,9 +93,12 @@ Interpretation:
 - pairwise merge remains available as a standalone operation, but it is not part of the active default pipeline;
 - subset absorption only removes rows or entire included tables;
 - forced-bit propagation removes fixed bits from tables and records them separately;
+- single-table bit filtering removes bits whose support is exactly one active table by projecting them out of that table;
 - pair reduction rewrites equivalent or opposite bits to one representative;
+- tautology filtering removes tables whose row sets cover every assignment on their schemas;
 - node filtering only removes rows;
-- every persisted stage must remain logically equivalent to the previous stage.
+- all persisted stages except `single_table_bit_filter` preserve logical equivalence to the previous stage;
+- `single_table_bit_filter` is an intentional lossy heuristic in the active baseline pipeline.
 
 ## Implementation Guidance
 

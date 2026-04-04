@@ -22,9 +22,11 @@ use tables::pair_reduction::{
     PairReductionIterationInfo,
 };
 use tables::rank_stats::{summarize_table_ranks, RankSummary};
+use tables::single_table_bit_filter::{filter_single_table_bits, SingleTableBitFilterInfo};
 use tables::subset_absorption::{
     collapse_equal_bitsets, merge_subsets, prune_included_tables, to_tables, SubsetAbsorptionInfo,
 };
+use tables::tautology_filter::{filter_tautologies, TautologyFilterInfo};
 
 const STAGE_COMMON_NODE_FIXED_POINT: &str = "common_node_fixed_point";
 
@@ -118,7 +120,9 @@ struct RoundInfo {
     input_rank_summary: RankSummary,
     subset_absorption: SubsetAbsorptionInfo,
     forced_bits: ForcedBitsInfo,
+    single_table_bit_filter: SingleTableBitFilterInfo,
     pair_reduction: PairReductionInfo,
+    tautology_filter: TautologyFilterInfo,
     node_filter: NodeFilterInfo,
     output_table_count: usize,
     output_bit_count: usize,
@@ -213,6 +217,14 @@ fn step_forced_bits(
     Ok((output_tables, info, !forced_current.is_empty()))
 }
 
+fn step_single_table_bit_filter(
+    tables: Vec<Table>,
+) -> Result<(Vec<Table>, SingleTableBitFilterInfo, bool)> {
+    let (output_tables, info) = filter_single_table_bits(&tables)?;
+    let changed = info.removed_bits > 0 || info.collapsed_duplicate_tables > 0;
+    Ok((output_tables, info, changed))
+}
+
 fn step_pair_reduction(
     mut tables: Vec<Table>,
     state: &mut PipelineState,
@@ -266,6 +278,12 @@ fn step_pair_reduction(
     Ok((tables, info, changed))
 }
 
+fn step_tautology_filter(tables: Vec<Table>) -> (Vec<Table>, TautologyFilterInfo, bool) {
+    let (output_tables, info) = filter_tautologies(tables);
+    let changed = info.removed_tables > 0;
+    (output_tables, info, changed)
+}
+
 fn step_node_filter(
     mut tables: Vec<Table>,
     state: &mut PipelineState,
@@ -301,13 +319,21 @@ fn run_reduction_pipeline(
         let (after_subset, subset_info, subset_changed) =
             step_subset_absorption(&tables, state, round_index);
         let (after_forced, forced_info, forced_changed) = step_forced_bits(after_subset, state)?;
+        let (after_single_table_bit_filter, single_table_bit_filter_info, single_table_changed) =
+            step_single_table_bit_filter(after_forced)?;
         let (after_pair_reduction, pair_reduction_info, pair_reduction_changed) =
-            step_pair_reduction(after_forced, state, round_index)?;
+            step_pair_reduction(after_single_table_bit_filter, state, round_index)?;
+        let (after_tautology_filter, tautology_info, tautology_changed) =
+            step_tautology_filter(after_pair_reduction);
         let (output_tables, node_filter_info, node_filter_changed) =
-            step_node_filter(after_pair_reduction, state)?;
+            step_node_filter(after_tautology_filter, state)?;
 
-        let changed =
-            subset_changed || forced_changed || pair_reduction_changed || node_filter_changed;
+        let changed = subset_changed
+            || forced_changed
+            || single_table_changed
+            || pair_reduction_changed
+            || tautology_changed
+            || node_filter_changed;
 
         let round_info = RoundInfo {
             round: round_index,
@@ -318,7 +344,9 @@ fn run_reduction_pipeline(
             input_rank_summary,
             subset_absorption: subset_info,
             forced_bits: forced_info,
+            single_table_bit_filter: single_table_bit_filter_info,
             pair_reduction: pair_reduction_info,
+            tautology_filter: tautology_info,
             node_filter: node_filter_info,
             output_table_count: output_tables.len(),
             output_bit_count: collect_bits(&output_tables).len(),
@@ -362,11 +390,13 @@ fn main() -> Result<()> {
     let final_components = build_final_components(&state.original_mapping, &state.original_forced);
 
     let report = json!({
-        "method": "repeat subset absorption, AND/OR fixed-bit propagation/removal, equal/opposite pair reduction, and node-based projection intersection filtering until no further change",
+        "method": "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, tautology filtering, and node-based projection intersection filtering until no further change",
         "steps": [
             "subset_absorption",
             "forced_bits",
+            "single_table_bit_filter",
             "pair_reduction",
+            "tautology_filter",
             "node_filter"
         ],
         "stage": STAGE_COMMON_NODE_FIXED_POINT,
@@ -390,7 +420,12 @@ fn main() -> Result<()> {
         "total_forced_bits_detected_across_rounds": rounds.iter().map(|round| round.forced_bits.forced_bits).sum::<usize>(),
         "total_forced_occurrences": rounds.iter().map(|round| round.forced_bits.forced_occurrences).sum::<usize>(),
         "total_removed_rows_in_forced_step": rounds.iter().map(|round| round.forced_bits.stats.removed_rows).sum::<usize>(),
-        "total_removed_tautologies": rounds.iter().map(|round| round.forced_bits.stats.removed_tautologies).sum::<usize>(),
+        "total_removed_single_table_bits": rounds.iter().map(|round| round.single_table_bit_filter.removed_bits).sum::<usize>(),
+        "total_changed_tables_in_single_table_bit_filter": rounds.iter().map(|round| round.single_table_bit_filter.changed_tables).sum::<usize>(),
+        "total_removed_rows_in_single_table_bit_filter": rounds.iter().map(|round| round.single_table_bit_filter.removed_rows_after_projection_dedup).sum::<usize>(),
+        "total_collapsed_duplicate_tables_in_single_table_bit_filter": rounds.iter().map(|round| round.single_table_bit_filter.collapsed_duplicate_tables).sum::<usize>(),
+        "total_removed_tautologies": rounds.iter().map(|round| round.tautology_filter.removed_tables).sum::<usize>(),
+        "total_removed_tautology_rows": rounds.iter().map(|round| round.tautology_filter.removed_rows).sum::<usize>(),
         "final_forced_original_bits": forced_rows.len(),
         "total_pair_relation_pairs_found": state.pair_relations_history.len(),
         "total_pair_replaced_bits": rounds.iter().map(|round| round.pair_reduction.pair_replaced_bits_total).sum::<usize>(),
