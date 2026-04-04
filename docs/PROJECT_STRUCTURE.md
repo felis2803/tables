@@ -54,6 +54,7 @@ tables/
     lib.rs
     main.rs
     common.rs
+    bit_zero_collapse.rs
     pairwise_merge.rs
     table_merge_fast.rs
     subset_absorption.rs
@@ -64,6 +65,8 @@ tables/
     tautology_filter.rs
     rank_stats.rs
     bin/
+      bit_zero_collapse.rs
+      bit_zero_collapse_all.rs
       pairwise_merge.rs
       subset_absorption.rs
       pair_reduction.rs
@@ -166,7 +169,7 @@ Active production implementation:
 - `lib.rs` exposes the shared crate modules;
 - `main.rs` contains the default fixed-point pipeline binary;
 - one Rust module per reduction step lives directly under `src/`;
-- `src/bin/` contains operational CLIs for `pairwise_merge`, `subset_absorption`, and `pair_reduction`.
+- `src/bin/` contains operational CLIs for `pairwise_merge`, `subset_absorption`, and `pair_reduction`, plus retained diagnostic utilities such as `bit_zero_collapse` and `bit_zero_collapse_all`.
 
 ### `examples/`
 

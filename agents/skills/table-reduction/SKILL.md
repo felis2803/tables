@@ -33,14 +33,26 @@ Before editing code or interpreting data, read:
 - subset absorption
 - table merge as natural join over shared bits
 - forced-bit propagation via row `AND` and `OR`
+- single-table bit filtering as a documented lossy projection heuristic
 - pair reduction via equal/opposite bit relations
+- tautology filtering for full `2^arity` row sets
 - node filtering via shared projected subtables
+- zero-collapse as a per-bit diagnostic metric on one table
 
-In the active common pipeline, pairwise merge currently runs first and only keeps merges whose resulting arity does not exceed `16` unless configured otherwise.
-The supported implementation path for pairwise merge is Rust.
+In the active common pipeline, the fixed-point loop is:
+
+1. `subset_absorption`
+2. `forced_bits`
+3. `single_table_bit_filter`
+4. `pair_reduction`
+5. `tautology_filter`
+6. `node_filter`
+
+Pairwise merge is retained as a standalone Rust operation for experiments, but it is not part of the default fixed-point runner.
 The supported implementation path for subset absorption is also Rust.
 The supported implementation path for pair reduction is also Rust.
 If a retained pairwise merge is kept, the source tables covered by that merge may be dropped immediately.
+Use `src/bin/bit_zero_collapse.rs` for one-table diagnostics and `src/bin/bit_zero_collapse_all.rs --summary-only` when measuring metric throughput instead of JSON emission cost.
 
 Do not change or describe these operations loosely. Use the project docs terminology.
 

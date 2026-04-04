@@ -169,6 +169,29 @@ Effect:
 - remove such tables from the active system;
 - leave all other tables unchanged.
 
+## Zero-Collapse Diagnostic
+
+Goal:
+
+- measure how strongly a specific bit contributes to row distinctness inside one table.
+
+Definition:
+
+- zero the chosen bit in every row;
+- deduplicate the resulting projected rows;
+- compute `zero-collapse(bit) = (row_count_before - row_count_after_zeroing_and_dedup) / row_count_before`.
+
+Interpretation:
+
+- `0.0` means zeroing the bit does not collapse any rows;
+- larger values mean more row pairs differ only by that bit;
+- this is a diagnostic metric, not a reduction step.
+
+Implementation note:
+
+- the metric definition is the deduplicated projection above;
+- optimized implementations may count matching row pairs instead of materializing and sorting projected rows, but they must remain numerically identical to that definition.
+
 ## Node Filtering
 
 Nodes encode common projected subtables shared by multiple tables.

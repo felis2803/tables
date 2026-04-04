@@ -28,12 +28,14 @@ Before changing code for performance reasons, read:
 8. Compare candidate and baseline on the same workload, ideally with the baseline in a separate worktree.
 9. Verify artifact identity from hashes and a normalized `report.json`.
 10. Remove temporary diagnostics and rerun the final candidate before committing.
+11. If the workload is `zero-collapse`, benchmark `bit_zero_collapse_all --summary-only` before timing the full JSON-emitting variant, so metric compute time is not hidden by report serialization.
 
 ## Measurement Rules
 
 - Use the same flags for baseline and candidate.
 - Exclude build time from reported runtime.
 - Prefer measuring the release binary directly instead of timing `cargo run`.
+- When the measured tool can emit very large reports, separate compute-only timing from serialization timing and report both.
 - Keep run folders and comparison artifacts so the result is reproducible.
 
 ## Validation Rules

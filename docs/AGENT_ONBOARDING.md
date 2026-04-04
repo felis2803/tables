@@ -25,6 +25,8 @@ If you are a new agent on this repository, read these files in order before edit
 - single-table bit filtering is intentionally semantics-changing; treat it as a documented heuristic, not an equivalence-preserving reduction.
 - tautology filtering is part of the default fixed-point runner and removes full `2^arity` tables after bit rewriting.
 - pairwise merge is a retained standalone natural-join step, but it is not part of the default fixed-point runner.
+- `zero-collapse` is a retained diagnostic metric for one bit inside one table: it measures the relative collapsed-row share after zeroing that bit and deduplicating rows.
+- when timing the all-table zero-collapse diagnostic, prefer `bit_zero_collapse_all --summary-only` in `--release`, otherwise JSON serialization dominates the measurement.
 
 ## Before You Change Anything
 

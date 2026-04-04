@@ -32,6 +32,12 @@ The repository also uses the derived metric `rank` for tables:
 - `rank = row_count ** (1 / bit_count)`
 - equivalently, `rank ** bit_count = row_count`
 
+The repository also keeps the diagnostic metric `zero-collapse` for bits inside a table:
+
+- zero the chosen bit in every row;
+- deduplicate the projected rows;
+- compute `zero-collapse(bit) = (row_count_before - row_count_after_zeroing_and_dedup) / row_count_before`.
+
 ## What Should Stay In Root
 
 Only a small set of files should remain in the root:
@@ -62,7 +68,11 @@ Only a small set of files should remain in the root:
 - standalone pairwise merge CLI: `cargo run --release --bin tables-pairwise-merge -- ...`
 - standalone subset absorption CLI: `cargo run --release --bin tables-subset-absorption -- ...`
 - standalone pair reduction CLI: `cargo run --release --bin tables-pair-reduction -- ...`
+- standalone bit zero-collapse diagnostic CLI: `cargo run --release --bin bit_zero_collapse -- --table-index <n> ...` where `zero-collapse` is the relative collapsed-row share after zeroing a bit
+- standalone all-table bit zero-collapse CLI: `cargo run --release --bin bit_zero_collapse_all -- ...`
+- for throughput-only measurement of the batch diagnostic, prefer `cargo run --release --bin bit_zero_collapse_all -- --summary-only ...` so JSON serialization does not dominate the timing
 - forced-bit implementation module: [src/forced_bits.rs](C:/projects/tables/src/forced_bits.rs)
+- bit zero-collapse implementation module: [src/bit_zero_collapse.rs](C:/projects/tables/src/bit_zero_collapse.rs)
 - single-table bit filter implementation module: [src/single_table_bit_filter.rs](C:/projects/tables/src/single_table_bit_filter.rs)
 - tautology filter implementation module: [src/tautology_filter.rs](C:/projects/tables/src/tautology_filter.rs)
 - node filtering implementation module: [src/node_filter.rs](C:/projects/tables/src/node_filter.rs)
@@ -99,4 +109,7 @@ cargo run --release -- --max-rounds 1
 cargo run --release --bin tables-pairwise-merge -- --help
 cargo run --release --bin tables-subset-absorption -- --help
 cargo run --release --bin tables-pair-reduction -- --help
+cargo run --release --bin bit_zero_collapse -- --help
+cargo run --release --bin bit_zero_collapse_all -- --help
+cargo run --release --bin bit_zero_collapse_all -- --summary-only
 ```

@@ -70,6 +70,19 @@ Artifact naming and default output paths:
 - the supported implementation path for this step is the `tables-pairwise-merge` CLI;
 - after retaining merged tables, immediately drop source tables implied by those merges.
 
+## Diagnostic Utilities
+
+### `bit_zero_collapse`
+
+- compute per-bit `zero-collapse` for one selected table;
+- define `zero-collapse(bit)` as the relative collapsed-row share after zeroing that bit and deduplicating rows;
+- use it when comparing bits inside one table.
+
+### `bit_zero_collapse_all`
+
+- compute the same metric for every bit in every table;
+- use `--summary-only` when benchmarking the metric implementation itself, so full per-table JSON emission does not dominate the timing.
+
 ## Adding New Steps
 
 A new step should:
