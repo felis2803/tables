@@ -154,6 +154,35 @@ Agent note:
 - if `A = B` and `B = !C`, then `A = !C`;
 - the pipeline should keep only one representative bit per connected component.
 
+## Zero-Collapse Bit Filter
+
+Goal:
+
+- remove bits that do not encode any remaining restriction inside their current table.
+
+Test:
+
+- for one table bit, zero that bit in every row;
+- deduplicate the projected rows;
+- if the projected table has exactly half as many rows as before, the bit is locally unrestricted and can be removed.
+
+Equivalent criterion:
+
+- `row_count_after_zeroing_and_dedup * 2 == row_count_before`
+- equivalently, `zero-collapse(bit) == 0.5`.
+
+Effect:
+
+- remove such bits from the table schema;
+- deduplicate the projected rows after each removal;
+- if several tables collapse to the same schema, intersect them in canonical form;
+- often expose tautologies and lower-arity node constraints for later steps.
+
+Semantics note:
+
+- unlike `single_table_bit_filter`, this step preserves logical equivalence;
+- if zeroing a bit halves the row count, every surviving projection already appears with both bit values, so the bit carries no restriction.
+
 ## Tautology Filter
 
 Goal:
@@ -223,8 +252,9 @@ The active baseline pipeline applies:
 2. forced bits
 3. single-table bit filter
 4. pair reduction
-5. tautology filter
-6. node filtering
+5. zero-collapse bit filter
+6. tautology filter
+7. node filtering
 
 The loop stops only when a full round makes no change.
 

@@ -6,8 +6,9 @@ Current baseline pipeline:
 2. `forced_bits`
 3. `single_table_bit_filter`
 4. `pair_reduction`
-5. `tautology_filter`
-6. `node_filter`
+5. `zero_collapse_bit_filter`
+6. `tautology_filter`
+7. `node_filter`
 
 This step list is executed until a fixed point is reached.
 
@@ -50,10 +51,17 @@ Artifact naming and default output paths:
 - rewrite all bits in each component to one representative.
 - the supported implementation path for this step is the crate pipeline and the `tables-pair-reduction` CLI;
 
+### `zero_collapse_bit_filter`
+
+- compute per-bit `zero-collapse` on each table;
+- if zeroing a bit halves the distinct row count, project that bit away;
+- deduplicate rows after each such projection and collapse any duplicate schemas created by it;
+- this step is equivalence-preserving and runs before `tautology_filter`, so it can expose tautologies in the same round.
+
 ### `tautology_filter`
 
 - drop any table whose row set is the full `2^arity` assignment set for its schema;
-- run after `single_table_bit_filter` and `pair_reduction`, so it removes tautologies exposed by forcing, single-table bit removal, and bit rewriting;
+- run after `single_table_bit_filter`, `pair_reduction`, and `zero_collapse_bit_filter`, so it removes tautologies exposed by forcing, bit removal, and bit rewriting;
 - leave non-tautological tables unchanged.
 
 ### `node_filter`
@@ -100,6 +108,7 @@ A new step should:
 - no step may leave an empty table behind;
 - tautologies should be removed by the dedicated `tautology_filter` step once they are exposed.
 - `single_table_bit_filter` is the current baseline step that is explicitly allowed to change semantics.
+- `zero_collapse_bit_filter` is part of the baseline pipeline, but unlike `single_table_bit_filter` it preserves equivalence.
 
 ## Expected Outputs
 

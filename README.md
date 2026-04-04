@@ -17,15 +17,16 @@ A table is a constraint over an ordered local set of bit identifiers:
 - `rows` stores allowed assignments as integer masks over local positions in `bits`;
 - for `bits[i]`, the row value is `((row >> i) & 1)`.
 
-The active system is reduced by repeatedly applying reduction and heuristic operations such as subset absorption, forced-bit propagation, single-table bit filtering, pair reduction, tautology filtering, and node filtering until a fixed point is reached.
+The active system is reduced by repeatedly applying reduction and heuristic operations such as subset absorption, forced-bit propagation, single-table bit filtering, pair reduction, zero-collapse bit filtering, tautology filtering, and node filtering until a fixed point is reached.
 
 In the active baseline pipeline:
 
 - the supported production runner is the crate's default binary;
-- `subset_absorption`, `forced_bits`, `single_table_bit_filter`, `pair_reduction`, `tautology_filter`, and `node_filter` run in a fixed-point loop;
+- `subset_absorption`, `forced_bits`, `single_table_bit_filter`, `pair_reduction`, `zero_collapse_bit_filter`, `tautology_filter`, and `node_filter` run in a fixed-point loop;
 - `pairwise_merge`, `subset_absorption`, and `pair_reduction` also have dedicated step CLIs under `src/bin/`;
 - pairwise merge remains available as a standalone operation when we need it, but it is not part of the default pipeline.
 - `single_table_bit_filter` is an intentionally lossy heuristic: it removes bits that occur in exactly one active table by projecting them out of that table.
+- `zero_collapse_bit_filter` is an equivalence-preserving simplification: it removes a bit when zeroing that bit collapses the table to exactly half as many rows.
 
 The repository also uses the derived metric `rank` for tables:
 
@@ -71,8 +72,10 @@ Only a small set of files should remain in the root:
 - standalone bit zero-collapse diagnostic CLI: `cargo run --release --bin bit_zero_collapse -- --table-index <n> ...` where `zero-collapse` is the relative collapsed-row share after zeroing a bit
 - standalone all-table bit zero-collapse CLI: `cargo run --release --bin bit_zero_collapse_all -- ...`
 - for throughput-only measurement of the batch diagnostic, prefer `cargo run --release --bin bit_zero_collapse_all -- --summary-only ...` so JSON serialization does not dominate the timing
+- to compare the fixed-point pipeline with and without zero-collapse bit filtering on the same build, use `--disable-zero-collapse-bit-filter`
 - forced-bit implementation module: [src/forced_bits.rs](C:/projects/tables/src/forced_bits.rs)
 - bit zero-collapse implementation module: [src/bit_zero_collapse.rs](C:/projects/tables/src/bit_zero_collapse.rs)
+- zero-collapse bit filter implementation module: [src/zero_collapse_bit_filter.rs](C:/projects/tables/src/zero_collapse_bit_filter.rs)
 - single-table bit filter implementation module: [src/single_table_bit_filter.rs](C:/projects/tables/src/single_table_bit_filter.rs)
 - tautology filter implementation module: [src/tautology_filter.rs](C:/projects/tables/src/tautology_filter.rs)
 - node filtering implementation module: [src/node_filter.rs](C:/projects/tables/src/node_filter.rs)
@@ -106,6 +109,7 @@ Stage reports should also include rank summaries for the input and output table 
 ```powershell
 cargo run --release --
 cargo run --release -- --max-rounds 1
+cargo run --release -- --disable-zero-collapse-bit-filter
 cargo run --release --bin tables-pairwise-merge -- --help
 cargo run --release --bin tables-subset-absorption -- --help
 cargo run --release --bin tables-pair-reduction -- --help

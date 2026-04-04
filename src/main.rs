@@ -27,12 +27,14 @@ use tables::subset_absorption::{
     collapse_equal_bitsets, merge_subsets, prune_included_tables, to_tables, SubsetAbsorptionInfo,
 };
 use tables::tautology_filter::{filter_tautologies, TautologyFilterInfo};
+use tables::zero_collapse_bit_filter::{filter_zero_collapse_bits, ZeroCollapseBitFilterInfo};
 
 const STAGE_COMMON_NODE_FIXED_POINT: &str = "common_node_fixed_point";
 
 struct Args {
     input: PathBuf,
     max_rounds: Option<usize>,
+    disable_zero_collapse_bit_filter: bool,
     output: PathBuf,
     report: PathBuf,
     forced: PathBuf,
@@ -48,6 +50,7 @@ impl Default for Args {
         Self {
             input: PathBuf::from("data/raw/tables.json"),
             max_rounds: None,
+            disable_zero_collapse_bit_filter: false,
             output: PathBuf::from("data/derived/tables.common_node_fixed_point.json"),
             report: PathBuf::from("data/reports/report.common_node_fixed_point.json"),
             forced: PathBuf::from("data/derived/bits.common_node_fixed_point.forced.json"),
@@ -76,6 +79,9 @@ impl Args {
                             .parse()
                             .with_context(|| "invalid value for --max-rounds")?,
                     );
+                }
+                "--disable-zero-collapse-bit-filter" => {
+                    args.disable_zero_collapse_bit_filter = true;
                 }
                 "--output" => args.output = PathBuf::from(expect_value(&mut iter, "--output")?),
                 "--report" => args.report = PathBuf::from(expect_value(&mut iter, "--report")?),
@@ -122,6 +128,7 @@ struct RoundInfo {
     forced_bits: ForcedBitsInfo,
     single_table_bit_filter: SingleTableBitFilterInfo,
     pair_reduction: PairReductionInfo,
+    zero_collapse_bit_filter: ZeroCollapseBitFilterInfo,
     tautology_filter: TautologyFilterInfo,
     node_filter: NodeFilterInfo,
     output_table_count: usize,
@@ -278,6 +285,14 @@ fn step_pair_reduction(
     Ok((tables, info, changed))
 }
 
+fn step_zero_collapse_bit_filter(
+    tables: Vec<Table>,
+) -> Result<(Vec<Table>, ZeroCollapseBitFilterInfo, bool)> {
+    let (output_tables, info) = filter_zero_collapse_bits(&tables)?;
+    let changed = info.removed_bits > 0 || info.collapsed_duplicate_tables > 0;
+    Ok((output_tables, info, changed))
+}
+
 fn step_tautology_filter(tables: Vec<Table>) -> (Vec<Table>, TautologyFilterInfo, bool) {
     let (output_tables, info) = filter_tautologies(tables);
     let changed = info.removed_tables > 0;
@@ -304,6 +319,7 @@ fn run_reduction_pipeline(
     mut tables: Vec<Table>,
     state: &mut PipelineState,
     max_rounds: Option<usize>,
+    zero_collapse_bit_filter_enabled: bool,
 ) -> Result<(Vec<Table>, Vec<RoundInfo>, usize)> {
     let mut rounds = Vec::new();
     let mut productive_rounds = 0usize;
@@ -323,8 +339,21 @@ fn run_reduction_pipeline(
             step_single_table_bit_filter(after_forced)?;
         let (after_pair_reduction, pair_reduction_info, pair_reduction_changed) =
             step_pair_reduction(after_single_table_bit_filter, state, round_index)?;
+        let (
+            after_zero_collapse_bit_filter,
+            zero_collapse_bit_filter_info,
+            zero_collapse_bit_filter_changed,
+        ) = if zero_collapse_bit_filter_enabled {
+            step_zero_collapse_bit_filter(after_pair_reduction)?
+        } else {
+            (
+                after_pair_reduction,
+                ZeroCollapseBitFilterInfo::default(),
+                false,
+            )
+        };
         let (after_tautology_filter, tautology_info, tautology_changed) =
-            step_tautology_filter(after_pair_reduction);
+            step_tautology_filter(after_zero_collapse_bit_filter);
         let (output_tables, node_filter_info, node_filter_changed) =
             step_node_filter(after_tautology_filter, state)?;
 
@@ -332,6 +361,7 @@ fn run_reduction_pipeline(
             || forced_changed
             || single_table_changed
             || pair_reduction_changed
+            || zero_collapse_bit_filter_changed
             || tautology_changed
             || node_filter_changed;
 
@@ -346,6 +376,7 @@ fn run_reduction_pipeline(
             forced_bits: forced_info,
             single_table_bit_filter: single_table_bit_filter_info,
             pair_reduction: pair_reduction_info,
+            zero_collapse_bit_filter: zero_collapse_bit_filter_info,
             tautology_filter: tautology_info,
             node_filter: node_filter_info,
             output_table_count: output_tables.len(),
@@ -382,28 +413,43 @@ fn main() -> Result<()> {
     let initial_rank_summary = summarize_table_ranks(&tables, 10);
 
     let mut state = initialize_pipeline_state(&tables);
-    let (tables, rounds, productive_rounds) =
-        run_reduction_pipeline(tables, &mut state, args.max_rounds)?;
+    let (tables, rounds, productive_rounds) = run_reduction_pipeline(
+        tables,
+        &mut state,
+        args.max_rounds,
+        !args.disable_zero_collapse_bit_filter,
+    )?;
 
     let forced_rows = forced_rows(&state.original_forced);
     let rewrite_rows = build_rewrite_rows(&state.original_mapping, &state.original_forced);
     let final_components = build_final_components(&state.original_mapping, &state.original_forced);
 
+    let method = if args.disable_zero_collapse_bit_filter {
+        "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, tautology filtering, and node-based projection intersection filtering until no further change"
+    } else {
+        "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, zero-collapse-based removal of locally unrestricted bits, tautology filtering, and node-based projection intersection filtering until no further change"
+    };
+    let mut steps = vec![
+        "subset_absorption",
+        "forced_bits",
+        "single_table_bit_filter",
+        "pair_reduction",
+    ];
+    if !args.disable_zero_collapse_bit_filter {
+        steps.push("zero_collapse_bit_filter");
+    }
+    steps.push("tautology_filter");
+    steps.push("node_filter");
+
     let report = json!({
-        "method": "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, tautology filtering, and node-based projection intersection filtering until no further change",
-        "steps": [
-            "subset_absorption",
-            "forced_bits",
-            "single_table_bit_filter",
-            "pair_reduction",
-            "tautology_filter",
-            "node_filter"
-        ],
+        "method": method,
+        "steps": steps,
         "stage": STAGE_COMMON_NODE_FIXED_POINT,
         "input": path_string(&args.input),
         "output": path_string(&args.output),
         "nodes_output": path_string(&args.nodes),
         "max_rounds": args.max_rounds,
+        "zero_collapse_bit_filter_enabled": !args.disable_zero_collapse_bit_filter,
         "initial_table_count": initial_table_count,
         "initial_bit_count": initial_bits.len(),
         "initial_row_count": initial_row_count,
@@ -424,6 +470,11 @@ fn main() -> Result<()> {
         "total_changed_tables_in_single_table_bit_filter": rounds.iter().map(|round| round.single_table_bit_filter.changed_tables).sum::<usize>(),
         "total_removed_rows_in_single_table_bit_filter": rounds.iter().map(|round| round.single_table_bit_filter.removed_rows_after_projection_dedup).sum::<usize>(),
         "total_collapsed_duplicate_tables_in_single_table_bit_filter": rounds.iter().map(|round| round.single_table_bit_filter.collapsed_duplicate_tables).sum::<usize>(),
+        "total_removed_zero_collapse_bits": rounds.iter().map(|round| round.zero_collapse_bit_filter.removed_bits).sum::<usize>(),
+        "total_changed_tables_in_zero_collapse_bit_filter": rounds.iter().map(|round| round.zero_collapse_bit_filter.changed_tables).sum::<usize>(),
+        "total_removed_rows_in_zero_collapse_bit_filter": rounds.iter().map(|round| round.zero_collapse_bit_filter.removed_rows_after_projection_dedup).sum::<usize>(),
+        "total_projection_iterations_in_zero_collapse_bit_filter": rounds.iter().map(|round| round.zero_collapse_bit_filter.projection_iterations).sum::<usize>(),
+        "total_collapsed_duplicate_tables_in_zero_collapse_bit_filter": rounds.iter().map(|round| round.zero_collapse_bit_filter.collapsed_duplicate_tables).sum::<usize>(),
         "total_removed_tautologies": rounds.iter().map(|round| round.tautology_filter.removed_tables).sum::<usize>(),
         "total_removed_tautology_rows": rounds.iter().map(|round| round.tautology_filter.removed_rows).sum::<usize>(),
         "final_forced_original_bits": forced_rows.len(),
@@ -473,5 +524,5 @@ fn expect_value(iter: &mut impl Iterator<Item = String>, flag: &str) -> Result<S
 }
 
 fn print_usage() {
-    println!("usage: cargo run --release -- --input <path> [--max-rounds <n>] [--output <path>] [--report <path>] [--forced <path>] [--mapping <path>] [--components <path>] [--dropped <path>] [--relations <path>] [--nodes <path>]");
+    println!("usage: cargo run --release -- --input <path> [--max-rounds <n>] [--disable-zero-collapse-bit-filter] [--output <path>] [--report <path>] [--forced <path>] [--mapping <path>] [--components <path>] [--dropped <path>] [--relations <path>] [--nodes <path>]");
 }

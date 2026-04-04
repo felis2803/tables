@@ -29,6 +29,7 @@ Before changing code for performance reasons, read:
 9. Verify artifact identity from hashes and a normalized `report.json`.
 10. Remove temporary diagnostics and rerun the final candidate before committing.
 11. If the workload is `zero-collapse`, benchmark `bit_zero_collapse_all --summary-only` before timing the full JSON-emitting variant, so metric compute time is not hidden by report serialization.
+12. If you are benchmarking the pipeline impact of zero-collapse bit filtering, compare the same build with and without `--disable-zero-collapse-bit-filter`.
 
 ## Measurement Rules
 

@@ -95,6 +95,7 @@ Interpretation:
 - forced-bit propagation removes fixed bits from tables and records them separately;
 - single-table bit filtering removes bits whose support is exactly one active table by projecting them out of that table;
 - pair reduction rewrites equivalent or opposite bits to one representative;
+- zero-collapse bit filtering removes bits whose zeroed projection contains exactly half as many distinct rows as the original table;
 - tautology filtering removes tables whose row sets cover every assignment on their schemas;
 - node filtering only removes rows;
 - all persisted stages except `single_table_bit_filter` preserve logical equivalence to the previous stage;

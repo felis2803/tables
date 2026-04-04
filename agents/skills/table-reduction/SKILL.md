@@ -35,6 +35,7 @@ Before editing code or interpreting data, read:
 - forced-bit propagation via row `AND` and `OR`
 - single-table bit filtering as a documented lossy projection heuristic
 - pair reduction via equal/opposite bit relations
+- zero-collapse bit filtering for locally unrestricted bits
 - tautology filtering for full `2^arity` row sets
 - node filtering via shared projected subtables
 - zero-collapse as a per-bit diagnostic metric on one table
@@ -45,14 +46,16 @@ In the active common pipeline, the fixed-point loop is:
 2. `forced_bits`
 3. `single_table_bit_filter`
 4. `pair_reduction`
-5. `tautology_filter`
-6. `node_filter`
+5. `zero_collapse_bit_filter`
+6. `tautology_filter`
+7. `node_filter`
 
 Pairwise merge is retained as a standalone Rust operation for experiments, but it is not part of the default fixed-point runner.
 The supported implementation path for subset absorption is also Rust.
 The supported implementation path for pair reduction is also Rust.
 If a retained pairwise merge is kept, the source tables covered by that merge may be dropped immediately.
 Use `src/bin/bit_zero_collapse.rs` for one-table diagnostics and `src/bin/bit_zero_collapse_all.rs --summary-only` when measuring metric throughput instead of JSON emission cost.
+Treat `single_table_bit_filter` as lossy, but treat `zero_collapse_bit_filter` as equivalence-preserving.
 
 Do not change or describe these operations loosely. Use the project docs terminology.
 
