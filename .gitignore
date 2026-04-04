@@ -2,9 +2,15 @@
 Thumbs.db
 
 target/
+.arity*.json
 
 pipeline_stdout.log
 pipeline_stderr.log
+
+data/derived/*.json
+data/reports/*.json
+runs/*
+!runs/README.md
 
 # Experimental pairwise-merge artifacts
 data/derived/*.pairwise_merges.json
