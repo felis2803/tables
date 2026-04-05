@@ -62,6 +62,7 @@ tables/
     single_table_bit_filter.rs
     pair_reduction.rs
     zero_collapse_bit_filter.rs
+    bounded_neighborhood_join_filter.rs
     node_filter.rs
     tautology_filter.rs
     rank_stats.rs

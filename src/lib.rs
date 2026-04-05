@@ -1,4 +1,5 @@
 pub mod bit_zero_collapse;
+pub mod bounded_neighborhood_join_filter;
 pub mod common;
 pub mod forced_bits;
 pub mod node_filter;

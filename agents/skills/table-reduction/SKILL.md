@@ -37,6 +37,7 @@ Before editing code or interpreting data, read:
 - pair reduction via equal/opposite bit relations
 - zero-collapse bit filtering for locally unrestricted bits
 - tautology filtering for full `2^arity` row sets
+- bounded neighborhood join filtering for rows that fail exact join-and-project in a small local neighborhood
 - node filtering via shared projected subtables
 - zero-collapse as a per-bit diagnostic metric on one table
 
@@ -48,7 +49,8 @@ In the active common pipeline, the fixed-point loop is:
 4. `pair_reduction`
 5. `zero_collapse_bit_filter`
 6. `tautology_filter`
-7. `node_filter`
+7. `bounded_neighborhood_join_filter`
+8. `node_filter`
 
 Pairwise merge is retained as a standalone Rust operation for experiments, but it is not part of the default fixed-point runner.
 The supported implementation path for subset absorption is also Rust.
@@ -56,6 +58,7 @@ The supported implementation path for pair reduction is also Rust.
 If a retained pairwise merge is kept, the source tables covered by that merge may be dropped immediately.
 Use `src/bin/bit_zero_collapse.rs` for one-table diagnostics and `src/bin/bit_zero_collapse_all.rs --summary-only` when measuring metric throughput instead of JSON emission cost.
 Treat `single_table_bit_filter` as lossy, but treat `zero_collapse_bit_filter` as equivalence-preserving.
+The current default bounds for `bounded_neighborhood_join_filter` are `max_union_bits=32`, `max_tables_per_neighborhood=10`, and `min_tables_per_neighborhood=3`.
 
 Do not change or describe these operations loosely. Use the project docs terminology.
 

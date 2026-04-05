@@ -7,6 +7,10 @@ use std::path::{Path, PathBuf};
 use anyhow::{anyhow, bail, Context, Result};
 use serde::Serialize;
 use serde_json::json;
+use tables::bounded_neighborhood_join_filter::{
+    filter_tables_by_bounded_neighborhood_join_with_settings, BoundedNeighborhoodJoinInfo,
+    BoundedNeighborhoodJoinSettings,
+};
 use tables::common::{
     arity_distribution, collect_bits, read_tables, total_rows, write_json, DroppedTableRecord,
     NodeArtifact, PairRelationRecord, Table,
@@ -35,6 +39,9 @@ struct Args {
     input: PathBuf,
     max_rounds: Option<usize>,
     disable_zero_collapse_bit_filter: bool,
+    bounded_neighborhood_join_max_union_bits: usize,
+    bounded_neighborhood_join_max_tables_per_neighborhood: usize,
+    bounded_neighborhood_join_min_tables_per_neighborhood: usize,
     output: PathBuf,
     report: PathBuf,
     forced: PathBuf,
@@ -47,10 +54,16 @@ struct Args {
 
 impl Default for Args {
     fn default() -> Self {
+        let bounded_settings = BoundedNeighborhoodJoinSettings::default();
         Self {
             input: PathBuf::from("data/raw/tables.json"),
             max_rounds: None,
             disable_zero_collapse_bit_filter: false,
+            bounded_neighborhood_join_max_union_bits: bounded_settings.max_union_bits,
+            bounded_neighborhood_join_max_tables_per_neighborhood: bounded_settings
+                .max_tables_per_neighborhood,
+            bounded_neighborhood_join_min_tables_per_neighborhood: bounded_settings
+                .min_tables_per_neighborhood,
             output: PathBuf::from("data/derived/tables.common_node_fixed_point.json"),
             report: PathBuf::from("data/reports/report.common_node_fixed_point.json"),
             forced: PathBuf::from("data/derived/bits.common_node_fixed_point.forced.json"),
@@ -83,6 +96,36 @@ impl Args {
                 "--disable-zero-collapse-bit-filter" => {
                     args.disable_zero_collapse_bit_filter = true;
                 }
+                "--bounded-neighborhood-join-max-union-bits" => {
+                    args.bounded_neighborhood_join_max_union_bits = expect_value(
+                        &mut iter,
+                        "--bounded-neighborhood-join-max-union-bits",
+                    )?
+                    .parse()
+                    .with_context(|| {
+                        "invalid value for --bounded-neighborhood-join-max-union-bits"
+                    })?;
+                }
+                "--bounded-neighborhood-join-max-tables-per-neighborhood" => {
+                    args.bounded_neighborhood_join_max_tables_per_neighborhood = expect_value(
+                        &mut iter,
+                        "--bounded-neighborhood-join-max-tables-per-neighborhood",
+                    )?
+                    .parse()
+                    .with_context(|| {
+                        "invalid value for --bounded-neighborhood-join-max-tables-per-neighborhood"
+                    })?;
+                }
+                "--bounded-neighborhood-join-min-tables-per-neighborhood" => {
+                    args.bounded_neighborhood_join_min_tables_per_neighborhood = expect_value(
+                        &mut iter,
+                        "--bounded-neighborhood-join-min-tables-per-neighborhood",
+                    )?
+                    .parse()
+                    .with_context(|| {
+                        "invalid value for --bounded-neighborhood-join-min-tables-per-neighborhood"
+                    })?;
+                }
                 "--output" => args.output = PathBuf::from(expect_value(&mut iter, "--output")?),
                 "--report" => args.report = PathBuf::from(expect_value(&mut iter, "--report")?),
                 "--forced" => args.forced = PathBuf::from(expect_value(&mut iter, "--forced")?),
@@ -104,6 +147,14 @@ impl Args {
         }
 
         Ok(args)
+    }
+
+    fn bounded_neighborhood_join_settings(&self) -> BoundedNeighborhoodJoinSettings {
+        BoundedNeighborhoodJoinSettings {
+            max_union_bits: self.bounded_neighborhood_join_max_union_bits,
+            max_tables_per_neighborhood: self.bounded_neighborhood_join_max_tables_per_neighborhood,
+            min_tables_per_neighborhood: self.bounded_neighborhood_join_min_tables_per_neighborhood,
+        }
     }
 }
 
@@ -130,6 +181,7 @@ struct RoundInfo {
     pair_reduction: PairReductionInfo,
     zero_collapse_bit_filter: ZeroCollapseBitFilterInfo,
     tautology_filter: TautologyFilterInfo,
+    bounded_neighborhood_join_filter: BoundedNeighborhoodJoinInfo,
     node_filter: NodeFilterInfo,
     output_table_count: usize,
     output_bit_count: usize,
@@ -299,6 +351,16 @@ fn step_tautology_filter(tables: Vec<Table>) -> (Vec<Table>, TautologyFilterInfo
     (output_tables, info, changed)
 }
 
+fn step_bounded_neighborhood_join_filter(
+    tables: Vec<Table>,
+    settings: &BoundedNeighborhoodJoinSettings,
+) -> Result<(Vec<Table>, BoundedNeighborhoodJoinInfo, bool)> {
+    let (output_tables, info) =
+        filter_tables_by_bounded_neighborhood_join_with_settings(&tables, settings)?;
+    let changed = info.removed_rows > 0;
+    Ok((output_tables, info, changed))
+}
+
 fn step_node_filter(
     mut tables: Vec<Table>,
     state: &mut PipelineState,
@@ -320,6 +382,7 @@ fn run_reduction_pipeline(
     state: &mut PipelineState,
     max_rounds: Option<usize>,
     zero_collapse_bit_filter_enabled: bool,
+    bounded_neighborhood_join_settings: &BoundedNeighborhoodJoinSettings,
 ) -> Result<(Vec<Table>, Vec<RoundInfo>, usize)> {
     let mut rounds = Vec::new();
     let mut productive_rounds = 0usize;
@@ -354,8 +417,16 @@ fn run_reduction_pipeline(
         };
         let (after_tautology_filter, tautology_info, tautology_changed) =
             step_tautology_filter(after_zero_collapse_bit_filter);
+        let (
+            after_bounded_neighborhood_join_filter,
+            bounded_neighborhood_join_filter_info,
+            bounded_neighborhood_join_filter_changed,
+        ) = step_bounded_neighborhood_join_filter(
+            after_tautology_filter,
+            bounded_neighborhood_join_settings,
+        )?;
         let (output_tables, node_filter_info, node_filter_changed) =
-            step_node_filter(after_tautology_filter, state)?;
+            step_node_filter(after_bounded_neighborhood_join_filter, state)?;
 
         let changed = subset_changed
             || forced_changed
@@ -363,6 +434,7 @@ fn run_reduction_pipeline(
             || pair_reduction_changed
             || zero_collapse_bit_filter_changed
             || tautology_changed
+            || bounded_neighborhood_join_filter_changed
             || node_filter_changed;
 
         let round_info = RoundInfo {
@@ -378,6 +450,7 @@ fn run_reduction_pipeline(
             pair_reduction: pair_reduction_info,
             zero_collapse_bit_filter: zero_collapse_bit_filter_info,
             tautology_filter: tautology_info,
+            bounded_neighborhood_join_filter: bounded_neighborhood_join_filter_info,
             node_filter: node_filter_info,
             output_table_count: output_tables.len(),
             output_bit_count: collect_bits(&output_tables).len(),
@@ -411,6 +484,8 @@ fn main() -> Result<()> {
     let initial_bits = collect_bits(&tables);
     let initial_row_count = total_rows(&tables);
     let initial_rank_summary = summarize_table_ranks(&tables, 10);
+    let bounded_neighborhood_join_settings = args.bounded_neighborhood_join_settings();
+    bounded_neighborhood_join_settings.validate()?;
 
     let mut state = initialize_pipeline_state(&tables);
     let (tables, rounds, productive_rounds) = run_reduction_pipeline(
@@ -418,6 +493,7 @@ fn main() -> Result<()> {
         &mut state,
         args.max_rounds,
         !args.disable_zero_collapse_bit_filter,
+        &bounded_neighborhood_join_settings,
     )?;
 
     let forced_rows = forced_rows(&state.original_forced);
@@ -425,9 +501,9 @@ fn main() -> Result<()> {
     let final_components = build_final_components(&state.original_mapping, &state.original_forced);
 
     let method = if args.disable_zero_collapse_bit_filter {
-        "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, tautology filtering, and node-based projection intersection filtering until no further change"
+        "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, tautology filtering, bounded neighborhood exact-join projection filtering, and node-based projection intersection filtering until no further change"
     } else {
-        "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, zero-collapse-based removal of locally unrestricted bits, tautology filtering, and node-based projection intersection filtering until no further change"
+        "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, zero-collapse-based removal of locally unrestricted bits, tautology filtering, bounded neighborhood exact-join projection filtering, and node-based projection intersection filtering until no further change"
     };
     let mut steps = vec![
         "subset_absorption",
@@ -439,6 +515,7 @@ fn main() -> Result<()> {
         steps.push("zero_collapse_bit_filter");
     }
     steps.push("tautology_filter");
+    steps.push("bounded_neighborhood_join_filter");
     steps.push("node_filter");
 
     let report = json!({
@@ -450,6 +527,7 @@ fn main() -> Result<()> {
         "nodes_output": path_string(&args.nodes),
         "max_rounds": args.max_rounds,
         "zero_collapse_bit_filter_enabled": !args.disable_zero_collapse_bit_filter,
+        "bounded_neighborhood_join_settings": bounded_neighborhood_join_settings,
         "initial_table_count": initial_table_count,
         "initial_bit_count": initial_bits.len(),
         "initial_row_count": initial_row_count,
@@ -477,6 +555,13 @@ fn main() -> Result<()> {
         "total_collapsed_duplicate_tables_in_zero_collapse_bit_filter": rounds.iter().map(|round| round.zero_collapse_bit_filter.collapsed_duplicate_tables).sum::<usize>(),
         "total_removed_tautologies": rounds.iter().map(|round| round.tautology_filter.removed_tables).sum::<usize>(),
         "total_removed_tautology_rows": rounds.iter().map(|round| round.tautology_filter.removed_rows).sum::<usize>(),
+        "bounded_neighborhood_join_max_union_bits": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.max_union_bits).max().unwrap_or(0),
+        "bounded_neighborhood_join_max_tables_per_neighborhood": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.max_tables_per_neighborhood).max().unwrap_or(0),
+        "bounded_neighborhood_join_min_tables_per_neighborhood": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.min_tables_per_neighborhood).max().unwrap_or(0),
+        "total_candidate_anchor_tables_in_bounded_neighborhood_join_filter": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.candidate_anchor_tables).sum::<usize>(),
+        "total_joined_anchor_tables_in_bounded_neighborhood_join_filter": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.joined_anchor_tables).sum::<usize>(),
+        "total_changed_tables_in_bounded_neighborhood_join_filter": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.changed_tables).sum::<usize>(),
+        "total_removed_rows_in_bounded_neighborhood_join_filter": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.removed_rows).sum::<usize>(),
         "final_forced_original_bits": forced_rows.len(),
         "total_pair_relation_pairs_found": state.pair_relations_history.len(),
         "total_pair_replaced_bits": rounds.iter().map(|round| round.pair_reduction.pair_replaced_bits_total).sum::<usize>(),
@@ -524,5 +609,5 @@ fn expect_value(iter: &mut impl Iterator<Item = String>, flag: &str) -> Result<S
 }
 
 fn print_usage() {
-    println!("usage: cargo run --release -- --input <path> [--max-rounds <n>] [--disable-zero-collapse-bit-filter] [--output <path>] [--report <path>] [--forced <path>] [--mapping <path>] [--components <path>] [--dropped <path>] [--relations <path>] [--nodes <path>]");
+    println!("usage: cargo run --release -- --input <path> [--max-rounds <n>] [--disable-zero-collapse-bit-filter] [--bounded-neighborhood-join-max-union-bits <n>] [--bounded-neighborhood-join-max-tables-per-neighborhood <n>] [--bounded-neighborhood-join-min-tables-per-neighborhood <n>] [--output <path>] [--report <path>] [--forced <path>] [--mapping <path>] [--components <path>] [--dropped <path>] [--relations <path>] [--nodes <path>]");
 }

@@ -8,7 +8,8 @@ Current baseline pipeline:
 4. `pair_reduction`
 5. `zero_collapse_bit_filter`
 6. `tautology_filter`
-7. `node_filter`
+7. `bounded_neighborhood_join_filter`
+8. `node_filter`
 
 This step list is executed until a fixed point is reached.
 
@@ -64,6 +65,15 @@ Artifact naming and default output paths:
 - run after `single_table_bit_filter`, `pair_reduction`, and `zero_collapse_bit_filter`, so it removes tautologies exposed by forcing, bit removal, and bit rewriting;
 - leave non-tautological tables unchanged.
 
+### `bounded_neighborhood_join_filter`
+
+- for an anchor table, greedily choose a small local neighborhood whose exact merged schema stays within a bounded arity budget;
+- compute the exact natural join of that neighborhood;
+- project the joined rows back onto the anchor schema and drop anchor rows that never appear in that projection;
+- only apply the step when at least three tables fit inside the bounded neighborhood;
+- the current baseline defaults are `max_union_bits=32`, `max_tables_per_neighborhood=10`, `min_tables_per_neighborhood=3`;
+- this step only removes rows and preserves equivalence.
+
 ### `node_filter`
 
 - build shared projected subtables over bit intersections;
@@ -108,6 +118,7 @@ A new step should:
 - no step may leave an empty table behind;
 - tautologies should be removed by the dedicated `tautology_filter` step once they are exposed.
 - `single_table_bit_filter` is the current baseline step that is explicitly allowed to change semantics.
+- `bounded_neighborhood_join_filter` is part of the baseline pipeline and preserves equivalence.
 - `zero_collapse_bit_filter` is part of the baseline pipeline, but unlike `single_table_bit_filter` it preserves equivalence.
 
 ## Expected Outputs

@@ -97,6 +97,7 @@ Interpretation:
 - pair reduction rewrites equivalent or opposite bits to one representative;
 - zero-collapse bit filtering removes bits whose zeroed projection contains exactly half as many distinct rows as the original table;
 - tautology filtering removes tables whose row sets cover every assignment on their schemas;
+- bounded neighborhood join filtering only removes rows that do not survive exact join-and-project inside a bounded local neighborhood;
 - node filtering only removes rows;
 - all persisted stages except `single_table_bit_filter` preserve logical equivalence to the previous stage;
 - `single_table_bit_filter` is an intentional lossy heuristic in the active baseline pipeline.

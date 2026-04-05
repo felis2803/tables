@@ -198,6 +198,32 @@ Effect:
 - remove such tables from the active system;
 - leave all other tables unchanged.
 
+## Bounded Neighborhood Join Filter
+
+Goal:
+
+- remove rows that cannot be extended to a jointly consistent assignment across a bounded local neighborhood.
+
+Neighborhood selection:
+
+- start from one anchor table;
+- collect direct neighboring tables that share at least one bit with the anchor;
+- greedily keep neighbors while the merged union schema stays within a fixed bit budget and the neighborhood stays within a fixed table-count budget;
+- only run the exact join when at least three tables fit in that bounded neighborhood.
+- the current baseline defaults are `max_union_bits=32`, `max_tables_per_neighborhood=10`, `min_tables_per_neighborhood=3`.
+
+Test:
+
+- compute the exact natural join of the selected neighborhood;
+- project the joined rows back onto the anchor table bits;
+- keep only anchor rows that still appear in that projection.
+
+Effect:
+
+- only remove rows;
+- preserve logical equivalence;
+- stronger than pairwise support checks because it can remove rows that are separately compatible with each neighbor but incompatible with them jointly.
+
 ## Zero-Collapse Diagnostic
 
 Goal:
@@ -254,7 +280,8 @@ The active baseline pipeline applies:
 4. pair reduction
 5. zero-collapse bit filter
 6. tautology filter
-7. node filtering
+7. bounded neighborhood join filter
+8. node filtering
 
 The loop stops only when a full round makes no change.
 
