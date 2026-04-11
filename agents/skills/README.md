@@ -13,6 +13,9 @@ Typical skills for this project:
 
 - `table-reduction`
 - `pipeline-performance`
+- `tables-binary-format`
+- `tables-conversion`
+- `tables-artifact-verify`
 - `result-comparison`
 - `run-audit`
 - `skill-creator` (vendored from `anthropics/skills`, path `skills/skill-creator`, imported from `main` at `12ab35c2eb5668c95810e6a6066f40f4218adc39`)
