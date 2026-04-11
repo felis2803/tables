@@ -8,6 +8,7 @@ pub mod pairwise_merge;
 pub mod rank_stats;
 pub mod single_table_bit_filter;
 pub mod subset_absorption;
+pub mod tables_file;
 pub mod table_merge_fast;
 pub mod tautology_filter;
 pub mod zero_collapse_bit_filter;

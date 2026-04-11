@@ -1,5 +1,7 @@
 # Data Model
 
+For the streaming binary container that stores the same logical model, see [docs/BINARY_FORMAT.md](C:/projects/tables/docs/BINARY_FORMAT.md).
+
 ## Core Object
 
 Each table is a JSON object:

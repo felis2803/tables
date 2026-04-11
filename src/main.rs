@@ -12,8 +12,8 @@ use tables::bounded_neighborhood_join_filter::{
     BoundedNeighborhoodJoinSettings,
 };
 use tables::common::{
-    arity_distribution, collect_bits, read_tables, total_rows, write_json, DroppedTableRecord,
-    NodeArtifact, PairRelationRecord, Table,
+    arity_distribution, collect_bits, read_tables, total_rows, write_json, write_tables,
+    DroppedTableRecord, NodeArtifact, PairRelationRecord, Table,
 };
 use tables::forced_bits::{
     collect_forced_bits_bitwise, forced_rows, propagate_forced_bits, update_original_forced,
@@ -578,7 +578,7 @@ fn main() -> Result<()> {
         "rounds": rounds,
     });
 
-    write_json(&args.output, &tables)?;
+    write_tables(&args.output, &tables)?;
     write_json(&args.report, &report)?;
     write_json(&args.forced, &forced_rows)?;
     write_json(&args.mapping, &rewrite_rows)?;

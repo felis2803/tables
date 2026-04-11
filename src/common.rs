@@ -5,6 +5,8 @@ use std::path::Path;
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
 
+use crate::tables_file::{has_tables_extension, read_tables_from_tables_file, write_tables_to_tables_file};
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Table {
     pub rows: Vec<u32>,
@@ -63,14 +65,21 @@ pub struct NodeArtifact {
     pub members: Vec<usize>,
 }
 
-pub fn read_tables(path: &Path) -> Result<Vec<Table>> {
+pub fn read_tables_json(path: &Path) -> Result<Vec<Table>> {
     let bytes = fs::read(path).with_context(|| format!("failed to read {}", path.display()))?;
     let tables = serde_json::from_slice(&bytes)
         .with_context(|| format!("failed to parse {}", path.display()))?;
     Ok(tables)
 }
 
-pub fn write_json<T: Serialize>(path: &Path, payload: &T) -> Result<()> {
+pub fn read_tables(path: &Path) -> Result<Vec<Table>> {
+    if has_tables_extension(path) {
+        return read_tables_from_tables_file(path);
+    }
+    read_tables_json(path)
+}
+
+pub fn write_json<T: Serialize + ?Sized>(path: &Path, payload: &T) -> Result<()> {
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent)
             .with_context(|| format!("failed to create {}", parent.display()))?;
@@ -80,6 +89,13 @@ pub fn write_json<T: Serialize>(path: &Path, payload: &T) -> Result<()> {
     json.push(b'\n');
     fs::write(path, json).with_context(|| format!("failed to write {}", path.display()))?;
     Ok(())
+}
+
+pub fn write_tables(path: &Path, tables: &[Table]) -> Result<()> {
+    if has_tables_extension(path) {
+        return write_tables_to_tables_file(path, tables);
+    }
+    write_json(path, tables)
 }
 
 pub fn sort_dedup_rows(rows: &mut Vec<u32>) {
