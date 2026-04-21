@@ -17,17 +17,18 @@ A table is a constraint over an ordered local set of bit identifiers:
 - `rows` stores allowed assignments as integer masks over local positions in `bits`;
 - for `bits[i]`, the row value is `((row >> i) & 1)`.
 
-The active system is reduced by repeatedly applying reduction and heuristic operations such as subset absorption, forced-bit propagation, single-table bit filtering, pair reduction, zero-collapse bit filtering, tautology filtering, bounded neighborhood join filtering, and node filtering until a fixed point is reached.
+The active system is reduced by repeatedly applying reduction and heuristic operations such as subset absorption, forced-bit propagation, single-table bit filtering, pair reduction, zero-collapse bit filtering, tautology filtering, and node filtering until a fixed point is reached.
 
 In the active baseline pipeline:
 
 - the supported production runner is the crate's default binary;
-- `subset_absorption`, `forced_bits`, `single_table_bit_filter`, `pair_reduction`, `zero_collapse_bit_filter`, `tautology_filter`, `bounded_neighborhood_join_filter`, and `node_filter` run in a fixed-point loop;
+- `subset_absorption`, `forced_bits`, `single_table_bit_filter`, `pair_reduction`, `zero_collapse_bit_filter`, `tautology_filter`, and `node_filter` run in a fixed-point loop;
 - `pairwise_merge`, `subset_absorption`, and `pair_reduction` also have dedicated step CLIs under `src/bin/`;
 - pairwise merge remains available as a standalone operation when we need it, but it is not part of the default pipeline.
+- `bounded_neighborhood_join_filter` remains available as a standalone equivalence-preserving row filter, but it is not part of the default pipeline.
 - `single_table_bit_filter` is an intentionally lossy heuristic: it removes bits that occur in exactly one active table by projecting them out of that table.
 - `zero_collapse_bit_filter` is an equivalence-preserving simplification: it removes a bit when zeroing that bit collapses the table to exactly half as many rows.
-- `bounded_neighborhood_join_filter` is an equivalence-preserving row filter; the current default neighborhood budget is `max_union_bits=32`, `max_tables_per_neighborhood=10`, `min_tables_per_neighborhood=3`.
+- `bounded_neighborhood_join_filter` uses the default neighborhood budget `max_union_bits=32`, `max_tables_per_neighborhood=10`, `min_tables_per_neighborhood=3`.
 
 The repository also uses the derived metric `rank` for tables:
 
@@ -70,6 +71,8 @@ Only a small set of files should remain in the root:
 - standalone pairwise merge CLI: `cargo run --release --bin tables-pairwise-merge -- ...`
 - standalone subset absorption CLI: `cargo run --release --bin tables-subset-absorption -- ...`
 - standalone pair reduction CLI: `cargo run --release --bin tables-pair-reduction -- ...`
+- standalone bounded neighborhood join CLI: `cargo run --release --bin bounded_neighborhood_join_filter -- ...`
+- standalone subtable roundtrip CLI: `cargo run --release --bin subtable_roundtrip -- --input <tables> --table-index <n> [--strategy <exhaustive|selective>] ...`
 - standalone bit zero-collapse diagnostic CLI: `cargo run --release --bin bit_zero_collapse -- --table-index <n> ...` where `zero-collapse` is the relative collapsed-row share after zeroing a bit
 - standalone all-table bit zero-collapse CLI: `cargo run --release --bin bit_zero_collapse_all -- ...`
 - for throughput-only measurement of the batch diagnostic, prefer `cargo run --release --bin bit_zero_collapse_all -- --summary-only ...` so JSON serialization does not dominate the timing
@@ -85,7 +88,9 @@ Only a small set of files should remain in the root:
 ## Read First
 
 - data model: [docs/DATA_MODEL.md](C:/projects/tables/docs/DATA_MODEL.md)
+- binary table container format: [docs/BINARY_FORMAT.md](C:/projects/tables/docs/BINARY_FORMAT.md)
 - reduction operations: [docs/OPERATIONS.md](C:/projects/tables/docs/OPERATIONS.md)
+- subtable roundtrip workflow: [docs/SUBTABLE_ROUNDTRIP.md](C:/projects/tables/docs/SUBTABLE_ROUNDTRIP.md)
 - fixed-point pipeline: [docs/PIPELINE.md](C:/projects/tables/docs/PIPELINE.md)
 - performance workflow: [docs/PERF_WORKFLOW.md](C:/projects/tables/docs/PERF_WORKFLOW.md) for speed or memory work
 - agent onboarding: [docs/AGENT_ONBOARDING.md](C:/projects/tables/docs/AGENT_ONBOARDING.md)
@@ -115,6 +120,8 @@ cargo run --release -- --disable-zero-collapse-bit-filter
 cargo run --release --bin tables-pairwise-merge -- --help
 cargo run --release --bin tables-subset-absorption -- --help
 cargo run --release --bin tables-pair-reduction -- --help
+cargo run --release --bin subtable_roundtrip -- --help
+cargo run --release --bin subtable_roundtrip -- --strategy selective --help
 cargo run --release --bin bit_zero_collapse -- --help
 cargo run --release --bin bit_zero_collapse_all -- --help
 cargo run --release --bin bit_zero_collapse_all -- --summary-only

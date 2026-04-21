@@ -210,7 +210,7 @@ Neighborhood selection:
 - collect direct neighboring tables that share at least one bit with the anchor;
 - greedily keep neighbors while the merged union schema stays within a fixed bit budget and the neighborhood stays within a fixed table-count budget;
 - only run the exact join when at least three tables fit in that bounded neighborhood.
-- the current baseline defaults are `max_union_bits=32`, `max_tables_per_neighborhood=10`, `min_tables_per_neighborhood=3`.
+- the current standalone defaults are `max_union_bits=32`, `max_tables_per_neighborhood=10`, `min_tables_per_neighborhood=3`.
 
 Test:
 
@@ -270,6 +270,48 @@ Effect:
 - node filtering only removes rows;
 - it can expose new forced bits, new pair relations, and new subset absorptions in later rounds.
 
+## Subtable Roundtrip
+
+Goal:
+
+- factor one large table into exact lower-arity projected subtables and test whether those subtables reconstruct the source exactly.
+
+Fixed method:
+
+1. extract every exact 2-bit projection of the source table;
+2. remove the tautological 2-bit projections from that pool;
+3. reconstruct from the remaining 2-bit pool;
+4. if that fails, extract every exact 3-bit projection, remove the tautological ones, add the rest, and reconstruct again;
+5. if that still fails, do the same for exact 4-bit projections and reconstruct again.
+
+Projection rule:
+
+- keep the chosen source-bit subset in source-local order;
+- project every source row onto that subset;
+- sort and deduplicate projected rows.
+
+Reconstruction rule:
+
+- reconstruction is the exact natural join of the current factor pool;
+- the result matches only when both `bits` and `rows` match the source table exactly.
+
+Policy note:
+
+- tautological projections are removed from every arity before that layer is added to the join pool;
+- reports should still keep both the full extracted counts and the filtered selected counts.
+
+Selective variant:
+
+- a retained performance-oriented variant starts from the same 2-bit pool;
+- when source bits are still missing, it adds only higher-arity candidates that introduce those missing bits;
+- when all source bits are already present but the reconstruction still has extra rows, it adds only chosen higher-arity witnesses that cut those extra rows;
+- this variant is exact in its projections and joins, but it is heuristic in factor selection and should be reported as `selective`, not as the exhaustive baseline.
+
+Implementation note:
+
+- use the shared library module `src/subtable_roundtrip.rs` and the CLI `src/bin/subtable_roundtrip.rs` for this workflow;
+- this is a retained analysis workflow, not a baseline pipeline step.
+
 ## Fixed-Point Loop
 
 The active baseline pipeline applies:
@@ -280,8 +322,9 @@ The active baseline pipeline applies:
 4. pair reduction
 5. zero-collapse bit filter
 6. tautology filter
-7. bounded neighborhood join filter
-8. node filtering
+7. node filtering
+
+Bounded neighborhood join filter is retained as a standalone row-filtering operation, but it is not part of the baseline fixed-point runner.
 
 The loop stops only when a full round makes no change.
 

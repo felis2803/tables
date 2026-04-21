@@ -13,9 +13,10 @@ Before editing code or interpreting data, read:
 3. [OPERATIONS.md](C:/projects/tables/docs/OPERATIONS.md)
 4. [PIPELINE.md](C:/projects/tables/docs/PIPELINE.md)
 5. [AGENT_ONBOARDING.md](C:/projects/tables/docs/AGENT_ONBOARDING.md)
-6. [Cargo.toml](C:/projects/tables/Cargo.toml)
-7. [lib.rs](C:/projects/tables/src/lib.rs)
-8. [main.rs](C:/projects/tables/src/main.rs) when the task touches the pipeline runner or artifact outputs
+6. [SUBTABLE_ROUNDTRIP.md](C:/projects/tables/docs/SUBTABLE_ROUNDTRIP.md) when the task is about decomposing one large table into exact smaller subtables or checking reconstruction from them
+7. [Cargo.toml](C:/projects/tables/Cargo.toml)
+8. [lib.rs](C:/projects/tables/src/lib.rs)
+9. [main.rs](C:/projects/tables/src/main.rs) when the task touches the pipeline runner or artifact outputs
 
 ## Project Assumptions
 
@@ -40,6 +41,7 @@ Before editing code or interpreting data, read:
 - bounded neighborhood join filtering for rows that fail exact join-and-project in a small local neighborhood
 - node filtering via shared projected subtables
 - zero-collapse as a per-bit diagnostic metric on one table
+- progressive subtable roundtrip for large tables: exact `2`-bit projections, drop tautological projections before each join stage, then either use the exhaustive pools `2`, `2+3`, and `2+3+4`, or use the retained selective strategy that adds only chosen higher-arity exact projections
 
 In the active common pipeline, the fixed-point loop is:
 
@@ -49,8 +51,7 @@ In the active common pipeline, the fixed-point loop is:
 4. `pair_reduction`
 5. `zero_collapse_bit_filter`
 6. `tautology_filter`
-7. `bounded_neighborhood_join_filter`
-8. `node_filter`
+7. `node_filter`
 
 Pairwise merge is retained as a standalone Rust operation for experiments, but it is not part of the default fixed-point runner.
 The supported implementation path for subset absorption is also Rust.
@@ -58,7 +59,8 @@ The supported implementation path for pair reduction is also Rust.
 If a retained pairwise merge is kept, the source tables covered by that merge may be dropped immediately.
 Use `src/bin/bit_zero_collapse.rs` for one-table diagnostics and `src/bin/bit_zero_collapse_all.rs --summary-only` when measuring metric throughput instead of JSON emission cost.
 Treat `single_table_bit_filter` as lossy, but treat `zero_collapse_bit_filter` as equivalence-preserving.
-The current default bounds for `bounded_neighborhood_join_filter` are `max_union_bits=32`, `max_tables_per_neighborhood=10`, and `min_tables_per_neighborhood=3`.
+`bounded_neighborhood_join_filter` is retained as a standalone equivalence-preserving row filter.
+Its default bounds are `max_union_bits=32`, `max_tables_per_neighborhood=10`, and `min_tables_per_neighborhood=3`.
 
 Do not change or describe these operations loosely. Use the project docs terminology.
 
@@ -67,6 +69,7 @@ Do not change or describe these operations loosely. Use the project docs termino
 1. Start with a system summary.
 2. Check whether a similar reduction step already exists in `src/`.
 3. Add new operations as steps in the crate pipeline or as dedicated binaries under `src/bin/`.
+   For large-table factorization and reconstruction checks, prefer the shared `src/subtable_roundtrip.rs` module and the dedicated `subtable_roundtrip` CLI instead of re-implementing the workflow ad hoc.
 4. If the task changes semantics, update docs before or with the code.
 5. After each step, record:
    - table count;
