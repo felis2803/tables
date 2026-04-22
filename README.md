@@ -41,6 +41,12 @@ The repository also keeps the diagnostic metric `zero-collapse` for bits inside 
 - deduplicate the projected rows;
 - compute `zero-collapse(bit) = (row_count_before - row_count_after_zeroing_and_dedup) / row_count_before`.
 
+The repository also keeps the derived origin-reachability generation chain for bits:
+
+- generation `0` is exactly `origins`;
+- later generations contain bits that are exactly determined by already-known bits through minimal non-empty one-bit functional dependency witnesses;
+- constant bits are tracked separately and are not counted as origin-derived generations.
+
 ## What Should Stay In Root
 
 Only a small set of files should remain in the root:
@@ -75,6 +81,7 @@ Only a small set of files should remain in the root:
 - standalone subtable roundtrip CLI: `cargo run --release --bin subtable_roundtrip -- --input <tables> --table-index <n> [--strategy <exhaustive|selective>] ...`
 - standalone bit zero-collapse diagnostic CLI: `cargo run --release --bin bit_zero_collapse -- --table-index <n> ...` where `zero-collapse` is the relative collapsed-row share after zeroing a bit
 - standalone all-table bit zero-collapse CLI: `cargo run --release --bin bit_zero_collapse_all -- ...`
+- standalone bit generation chain CLI: `cargo run --release --bin bit_generations -- ...`
 - for throughput-only measurement of the batch diagnostic, prefer `cargo run --release --bin bit_zero_collapse_all -- --summary-only ...` so JSON serialization does not dominate the timing
 - to compare the fixed-point pipeline with and without zero-collapse bit filtering on the same build, use `--disable-zero-collapse-bit-filter`
 - forced-bit implementation module: [src/forced_bits.rs](C:/projects/tables/src/forced_bits.rs)
@@ -92,6 +99,7 @@ Only a small set of files should remain in the root:
 - reduction operations: [docs/OPERATIONS.md](C:/projects/tables/docs/OPERATIONS.md)
 - subtable roundtrip workflow: [docs/SUBTABLE_ROUNDTRIP.md](C:/projects/tables/docs/SUBTABLE_ROUNDTRIP.md)
 - fixed-point pipeline: [docs/PIPELINE.md](C:/projects/tables/docs/PIPELINE.md)
+- generation chain: [docs/GENERATION_CHAIN.md](C:/projects/tables/docs/GENERATION_CHAIN.md)
 - performance workflow: [docs/PERF_WORKFLOW.md](C:/projects/tables/docs/PERF_WORKFLOW.md) for speed or memory work
 - agent onboarding: [docs/AGENT_ONBOARDING.md](C:/projects/tables/docs/AGENT_ONBOARDING.md)
 - project structure: [docs/PROJECT_STRUCTURE.md](C:/projects/tables/docs/PROJECT_STRUCTURE.md)
@@ -104,10 +112,17 @@ Active artifacts use a stage-based scheme:
 - `bits.<stage>.forced.json`
 - `bits.<stage>.rewrite_map.json`
 - `bits.<stage>.components.json`
+- `bits.<stage>.generations.json`
+- `bits.<stage>.generation_by_bit.json`
+- `bits.<stage>.unreachable_from_origins.json`
+- `bits.<stage>.constant.json`
 - `pairs.<stage>.subset_superset.json`
 - `pairs.<stage>.relations.json`
 - `nodes.<stage>.json`
 - `report.<stage>.json`
+- `report.<stage>.generation_chain.json`
+- `report.<left-stage>_vs_<right-stage>.generation_chain.json`
+- `summary.<stage>.generation_chain.json`
 
 Stage reports should also include rank summaries for the input and output table systems.
 
@@ -125,4 +140,5 @@ cargo run --release --bin subtable_roundtrip -- --strategy selective --help
 cargo run --release --bin bit_zero_collapse -- --help
 cargo run --release --bin bit_zero_collapse_all -- --help
 cargo run --release --bin bit_zero_collapse_all -- --summary-only
+cargo run --release --bin bit_generations -- --help
 ```

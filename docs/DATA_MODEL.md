@@ -83,6 +83,26 @@ Interpretation:
 - for fixed arity, larger `rank` means a less restrictive table;
 - `rank` is a summary metric only and does not replace semantic checks based on actual row sets.
 
+## Generation Chain
+
+The project also uses a derived origin-reachability generation chain for bits.
+
+Base rule:
+
+- generation `0` is exactly the chosen `origins` array.
+
+Recursive rule:
+
+- generation `g > 0` contains bits that are exactly determined by bits from earlier generations through at least one minimal non-empty one-bit dependency witness found inside one table.
+
+Interpretation:
+
+- `reachable` bits are those that enter some generation;
+- `unreachable` bits are present in the system but never enter the iterative closure;
+- constant bits are tracked separately and are not counted as origin-derived generations.
+
+For the precise current project definition and canonical artifacts, see [docs/GENERATION_CHAIN.md](C:/projects/tables/docs/GENERATION_CHAIN.md).
+
 ## Normal Form
 
 - `bits` should be sorted in ascending order in persisted artifacts unless a step explicitly needs a transient order.
@@ -101,6 +121,7 @@ Interpretation:
 - tautology filtering removes tables whose row sets cover every assignment on their schemas;
 - bounded neighborhood join filtering only removes rows that do not survive exact join-and-project inside a bounded local neighborhood;
 - node filtering only removes rows;
+- generation-chain extraction is a derived analysis, not a reduction step;
 - all persisted stages except `single_table_bit_filter` preserve logical equivalence to the previous stage;
 - `single_table_bit_filter` is an intentional lossy heuristic in the active baseline pipeline.
 

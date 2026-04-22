@@ -247,6 +247,28 @@ Implementation note:
 - the metric definition is the deduplicated projection above;
 - optimized implementations may count matching row pairs instead of materializing and sorting projected rows, but they must remain numerically identical to that definition.
 
+## Generation Chain
+
+Goal:
+
+- build the origin-reachability generation chain for bits in one system.
+
+Definition:
+
+- generation `0` is exactly `origins`;
+- a later generation contains bits that are exactly determined by already-known bits through minimal non-empty one-bit dependency witnesses inside tables;
+- constants are tracked separately and are not counted as origin-derived generations.
+
+Effect:
+
+- no tables are changed;
+- the output is a derived artifact set that records generations, per-bit reachability, unreachable bits, and constants.
+
+Agent note:
+
+- this is an analysis over the current system, not a proof about any earlier system;
+- on pipeline outputs, the result inherits the semantics of that reduced system, including the effect of any lossy steps that were run earlier.
+
 ## Node Filtering
 
 Nodes encode common projected subtables shared by multiple tables.

@@ -42,15 +42,21 @@ tables/
   configs/
     pipeline/
     experiments/
-  data/
-    raw/
-      tables.json
-    derived/
-      tables.common_node_fixed_point.json
-      ...
-    reports/
-      report.common_node_fixed_point.json
-      ...
+    data/
+      raw/
+        tables.json
+      derived/
+        tables.common_node_fixed_point.json
+        bits.raw.generations.json
+        bits.raw.generation_by_bit.json
+        bits.raw.unreachable_from_origins.json
+        bits.raw.constant.json
+        ...
+      reports/
+        report.common_node_fixed_point.json
+        report.raw.generation_chain.json
+        report.raw_vs_common_node_fixed_point.generation_chain.json
+        ...
   src/
     lib.rs
     main.rs
@@ -137,6 +143,10 @@ Recommended naming:
 - `bits.<stage>.rewrite_map.json`
 - `bits.<stage>.forced.json`
 - `bits.<stage>.components.json`
+- `bits.<stage>.generations.json`
+- `bits.<stage>.generation_by_bit.json`
+- `bits.<stage>.unreachable_from_origins.json`
+- `bits.<stage>.constant.json`
 - `pairs.<stage>.subset_superset.json`
 - `pairs.<stage>.relations.json`
 - `nodes.<stage>.json`
@@ -146,6 +156,9 @@ Recommended naming:
 Reports and summaries only:
 
 - `report.<stage>.json`
+- `report.<stage>.generation_chain.json`
+- `report.<left-stage>_vs_<right-stage>.generation_chain.json`
+- `summary.<stage>.generation_chain.json`
 - `summary.<stage>.md`
 
 Stage reports should include:

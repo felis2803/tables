@@ -6,10 +6,11 @@ If you are a new agent on this repository, read these files in order before edit
 2. [DATA_MODEL.md](C:/projects/tables/docs/DATA_MODEL.md)
 3. [OPERATIONS.md](C:/projects/tables/docs/OPERATIONS.md)
 4. [PIPELINE.md](C:/projects/tables/docs/PIPELINE.md)
-5. [SKILL.md](C:/projects/tables/agents/skills/table-reduction/SKILL.md)
-6. [Cargo.toml](C:/projects/tables/Cargo.toml)
-7. [lib.rs](C:/projects/tables/src/lib.rs)
-8. [main.rs](C:/projects/tables/src/main.rs) if the task affects the runner or artifact layout
+5. [GENERATION_CHAIN.md](C:/projects/tables/docs/GENERATION_CHAIN.md) when the task is about origin reachability, dependency layers, or per-bit derivability
+6. [SKILL.md](C:/projects/tables/agents/skills/table-reduction/SKILL.md)
+7. [Cargo.toml](C:/projects/tables/Cargo.toml)
+8. [lib.rs](C:/projects/tables/src/lib.rs)
+9. [main.rs](C:/projects/tables/src/main.rs) if the task affects the runner or artifact layout
 
 ## Minimum Mental Model
 
@@ -30,6 +31,7 @@ If you are a new agent on this repository, read these files in order before edit
 - the current default bounds for that standalone step are `32` union bits, up to `10` tables per neighborhood, and at least `3` tables required to run the join.
 - pairwise merge is a retained standalone natural-join step, but it is not part of the default fixed-point runner.
 - `zero-collapse` is a retained diagnostic metric for one bit inside one table: it measures the relative collapsed-row share after zeroing that bit and deduplicating rows.
+- the generation chain is a retained derived analysis over one system: generation `0` is `origins`, later generations are exact one-bit dependency layers, and constants are tracked separately from origin-derived generations.
 - when timing the all-table zero-collapse diagnostic, prefer `bit_zero_collapse_all --summary-only` in `--release`, otherwise JSON serialization dominates the measurement.
 - use `--disable-zero-collapse-bit-filter` when you need a same-build baseline without that step.
 

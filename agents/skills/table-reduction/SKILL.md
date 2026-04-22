@@ -12,11 +12,12 @@ Before editing code or interpreting data, read:
 2. [DATA_MODEL.md](C:/projects/tables/docs/DATA_MODEL.md)
 3. [OPERATIONS.md](C:/projects/tables/docs/OPERATIONS.md)
 4. [PIPELINE.md](C:/projects/tables/docs/PIPELINE.md)
-5. [AGENT_ONBOARDING.md](C:/projects/tables/docs/AGENT_ONBOARDING.md)
-6. [SUBTABLE_ROUNDTRIP.md](C:/projects/tables/docs/SUBTABLE_ROUNDTRIP.md) when the task is about decomposing one large table into exact smaller subtables or checking reconstruction from them
-7. [Cargo.toml](C:/projects/tables/Cargo.toml)
-8. [lib.rs](C:/projects/tables/src/lib.rs)
-9. [main.rs](C:/projects/tables/src/main.rs) when the task touches the pipeline runner or artifact outputs
+5. [GENERATION_CHAIN.md](C:/projects/tables/docs/GENERATION_CHAIN.md) when the task is about origin reachability, dependency layers, or generation artifacts
+6. [AGENT_ONBOARDING.md](C:/projects/tables/docs/AGENT_ONBOARDING.md)
+7. [SUBTABLE_ROUNDTRIP.md](C:/projects/tables/docs/SUBTABLE_ROUNDTRIP.md) when the task is about decomposing one large table into exact smaller subtables or checking reconstruction from them
+8. [Cargo.toml](C:/projects/tables/Cargo.toml)
+9. [lib.rs](C:/projects/tables/src/lib.rs)
+10. [main.rs](C:/projects/tables/src/main.rs) when the task touches the pipeline runner or artifact outputs
 
 ## Project Assumptions
 
@@ -41,6 +42,7 @@ Before editing code or interpreting data, read:
 - bounded neighborhood join filtering for rows that fail exact join-and-project in a small local neighborhood
 - node filtering via shared projected subtables
 - zero-collapse as a per-bit diagnostic metric on one table
+- generation chain as a retained derived analysis from `origins` through exact one-bit dependency layers with constants tracked separately
 - progressive subtable roundtrip for large tables: exact `2`-bit projections, drop tautological projections before each join stage, then either use the exhaustive pools `2`, `2+3`, and `2+3+4`, or use the retained selective strategy that adds only chosen higher-arity exact projections
 
 In the active common pipeline, the fixed-point loop is:
@@ -58,6 +60,7 @@ The supported implementation path for subset absorption is also Rust.
 The supported implementation path for pair reduction is also Rust.
 If a retained pairwise merge is kept, the source tables covered by that merge may be dropped immediately.
 Use `src/bin/bit_zero_collapse.rs` for one-table diagnostics and `src/bin/bit_zero_collapse_all.rs --summary-only` when measuring metric throughput instead of JSON emission cost.
+Use `src/bin/bit_generations.rs` for canonical generation-chain artifacts.
 Treat `single_table_bit_filter` as lossy, but treat `zero_collapse_bit_filter` as equivalence-preserving.
 `bounded_neighborhood_join_filter` is retained as a standalone equivalence-preserving row filter.
 Its default bounds are `max_union_bits=32`, `max_tables_per_neighborhood=10`, and `min_tables_per_neighborhood=3`.
@@ -85,6 +88,7 @@ Do not change or describe these operations loosely. Use the project docs termino
 - Keep generated systems under `data/derived/`.
 - Keep machine-readable reports under `data/reports/`.
 - Keep important run metadata under `runs/<run-id>/`.
+- For generation-chain outputs, use `bits.<stage>.generations.json`, `bits.<stage>.generation_by_bit.json`, `bits.<stage>.unreachable_from_origins.json`, `bits.<stage>.constant.json`, `report.<stage>.generation_chain.json`, `summary.<stage>.generation_chain.json`, and `report.<left-stage>_vs_<right-stage>.generation_chain.json` for canonical stage-to-stage comparisons.
 
 ## Implementation Rules
 
