@@ -1,16 +1,12 @@
 #![recursion_limit = "256"]
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::env;
 use std::path::{Path, PathBuf};
 
 use anyhow::{anyhow, bail, Context, Result};
 use serde::Serialize;
 use serde_json::json;
-use tables::bounded_neighborhood_join_filter::{
-    filter_tables_by_bounded_neighborhood_join_with_settings, BoundedNeighborhoodJoinInfo,
-    BoundedNeighborhoodJoinSettings,
-};
 use tables::common::{
     arity_distribution, collect_bits, read_tables, total_rows, write_json, write_tables,
     DroppedTableRecord, NodeArtifact, PairRelationRecord, Table,
@@ -22,26 +18,28 @@ use tables::forced_bits::{
 use tables::node_filter::{build_nodes, filter_tables_with_nodes, serialize_nodes, NodeFilterInfo};
 use tables::pair_reduction::{
     build_final_components, build_rewrite_map, build_rewrite_rows, extract_relations,
-    relation_history_rows, rewrite_tables, update_original_mapping, PairReductionInfo,
-    PairReductionIterationInfo,
+    protect_bits_in_rewrite_map, relation_history_rows, rewrite_tables, update_original_mapping,
+    PairReductionInfo, PairReductionIterationInfo,
 };
 use tables::rank_stats::{summarize_table_ranks, RankSummary};
-use tables::single_table_bit_filter::{filter_single_table_bits, SingleTableBitFilterInfo};
+use tables::single_table_bit_filter::{
+    filter_single_table_bits_with_protected_bits, SingleTableBitFilterInfo,
+};
 use tables::subset_absorption::{
     collapse_equal_bitsets, merge_subsets, prune_included_tables, to_tables, SubsetAbsorptionInfo,
 };
 use tables::tautology_filter::{filter_tautologies, TautologyFilterInfo};
-use tables::zero_collapse_bit_filter::{filter_zero_collapse_bits, ZeroCollapseBitFilterInfo};
+use tables::zero_collapse_bit_filter::{
+    filter_zero_collapse_bits_with_protected_bits, ZeroCollapseBitFilterInfo,
+};
 
 const STAGE_COMMON_NODE_FIXED_POINT: &str = "common_node_fixed_point";
 
 struct Args {
     input: PathBuf,
+    origins: Option<PathBuf>,
     max_rounds: Option<usize>,
     disable_zero_collapse_bit_filter: bool,
-    bounded_neighborhood_join_max_union_bits: usize,
-    bounded_neighborhood_join_max_tables_per_neighborhood: usize,
-    bounded_neighborhood_join_min_tables_per_neighborhood: usize,
     output: PathBuf,
     report: PathBuf,
     forced: PathBuf,
@@ -54,16 +52,11 @@ struct Args {
 
 impl Default for Args {
     fn default() -> Self {
-        let bounded_settings = BoundedNeighborhoodJoinSettings::default();
         Self {
             input: PathBuf::from("data/raw/tables.json"),
+            origins: None,
             max_rounds: None,
             disable_zero_collapse_bit_filter: false,
-            bounded_neighborhood_join_max_union_bits: bounded_settings.max_union_bits,
-            bounded_neighborhood_join_max_tables_per_neighborhood: bounded_settings
-                .max_tables_per_neighborhood,
-            bounded_neighborhood_join_min_tables_per_neighborhood: bounded_settings
-                .min_tables_per_neighborhood,
             output: PathBuf::from("data/derived/tables.common_node_fixed_point.json"),
             report: PathBuf::from("data/reports/report.common_node_fixed_point.json"),
             forced: PathBuf::from("data/derived/bits.common_node_fixed_point.forced.json"),
@@ -86,6 +79,9 @@ impl Args {
         while let Some(flag) = iter.next() {
             match flag.as_str() {
                 "--input" => args.input = PathBuf::from(expect_value(&mut iter, "--input")?),
+                "--origins" => {
+                    args.origins = Some(PathBuf::from(expect_value(&mut iter, "--origins")?))
+                }
                 "--max-rounds" => {
                     args.max_rounds = Some(
                         expect_value(&mut iter, "--max-rounds")?
@@ -95,36 +91,6 @@ impl Args {
                 }
                 "--disable-zero-collapse-bit-filter" => {
                     args.disable_zero_collapse_bit_filter = true;
-                }
-                "--bounded-neighborhood-join-max-union-bits" => {
-                    args.bounded_neighborhood_join_max_union_bits = expect_value(
-                        &mut iter,
-                        "--bounded-neighborhood-join-max-union-bits",
-                    )?
-                    .parse()
-                    .with_context(|| {
-                        "invalid value for --bounded-neighborhood-join-max-union-bits"
-                    })?;
-                }
-                "--bounded-neighborhood-join-max-tables-per-neighborhood" => {
-                    args.bounded_neighborhood_join_max_tables_per_neighborhood = expect_value(
-                        &mut iter,
-                        "--bounded-neighborhood-join-max-tables-per-neighborhood",
-                    )?
-                    .parse()
-                    .with_context(|| {
-                        "invalid value for --bounded-neighborhood-join-max-tables-per-neighborhood"
-                    })?;
-                }
-                "--bounded-neighborhood-join-min-tables-per-neighborhood" => {
-                    args.bounded_neighborhood_join_min_tables_per_neighborhood = expect_value(
-                        &mut iter,
-                        "--bounded-neighborhood-join-min-tables-per-neighborhood",
-                    )?
-                    .parse()
-                    .with_context(|| {
-                        "invalid value for --bounded-neighborhood-join-min-tables-per-neighborhood"
-                    })?;
                 }
                 "--output" => args.output = PathBuf::from(expect_value(&mut iter, "--output")?),
                 "--report" => args.report = PathBuf::from(expect_value(&mut iter, "--report")?),
@@ -147,14 +113,6 @@ impl Args {
         }
 
         Ok(args)
-    }
-
-    fn bounded_neighborhood_join_settings(&self) -> BoundedNeighborhoodJoinSettings {
-        BoundedNeighborhoodJoinSettings {
-            max_union_bits: self.bounded_neighborhood_join_max_union_bits,
-            max_tables_per_neighborhood: self.bounded_neighborhood_join_max_tables_per_neighborhood,
-            min_tables_per_neighborhood: self.bounded_neighborhood_join_min_tables_per_neighborhood,
-        }
     }
 }
 
@@ -181,7 +139,6 @@ struct RoundInfo {
     pair_reduction: PairReductionInfo,
     zero_collapse_bit_filter: ZeroCollapseBitFilterInfo,
     tautology_filter: TautologyFilterInfo,
-    bounded_neighborhood_join_filter: BoundedNeighborhoodJoinInfo,
     node_filter: NodeFilterInfo,
     output_table_count: usize,
     output_bit_count: usize,
@@ -278,8 +235,10 @@ fn step_forced_bits(
 
 fn step_single_table_bit_filter(
     tables: Vec<Table>,
+    protected_bits: &BTreeSet<u32>,
 ) -> Result<(Vec<Table>, SingleTableBitFilterInfo, bool)> {
-    let (output_tables, info) = filter_single_table_bits(&tables)?;
+    let (output_tables, info) =
+        filter_single_table_bits_with_protected_bits(&tables, protected_bits)?;
     let changed = info.removed_bits > 0 || info.collapsed_duplicate_tables > 0;
     Ok((output_tables, info, changed))
 }
@@ -288,6 +247,7 @@ fn step_pair_reduction(
     mut tables: Vec<Table>,
     state: &mut PipelineState,
     round_index: usize,
+    protected_bits: &BTreeSet<u32>,
 ) -> Result<(Vec<Table>, PairReductionInfo, bool)> {
     let mut iterations = Vec::new();
     let mut iteration_index = 1usize;
@@ -300,6 +260,7 @@ fn step_pair_reduction(
         }
 
         let (rewrite_map, component_stats) = build_rewrite_map(&relations)?;
+        let rewrite_map = protect_bits_in_rewrite_map(&rewrite_map, protected_bits);
         state.original_mapping = update_original_mapping(&state.original_mapping, &rewrite_map);
         let (rewritten_tables, rewrite_stats) = rewrite_tables(&tables, &rewrite_map);
 
@@ -339,8 +300,10 @@ fn step_pair_reduction(
 
 fn step_zero_collapse_bit_filter(
     tables: Vec<Table>,
+    protected_bits: &BTreeSet<u32>,
 ) -> Result<(Vec<Table>, ZeroCollapseBitFilterInfo, bool)> {
-    let (output_tables, info) = filter_zero_collapse_bits(&tables)?;
+    let (output_tables, info) =
+        filter_zero_collapse_bits_with_protected_bits(&tables, protected_bits)?;
     let changed = info.removed_bits > 0 || info.collapsed_duplicate_tables > 0;
     Ok((output_tables, info, changed))
 }
@@ -349,16 +312,6 @@ fn step_tautology_filter(tables: Vec<Table>) -> (Vec<Table>, TautologyFilterInfo
     let (output_tables, info) = filter_tautologies(tables);
     let changed = info.removed_tables > 0;
     (output_tables, info, changed)
-}
-
-fn step_bounded_neighborhood_join_filter(
-    tables: Vec<Table>,
-    settings: &BoundedNeighborhoodJoinSettings,
-) -> Result<(Vec<Table>, BoundedNeighborhoodJoinInfo, bool)> {
-    let (output_tables, info) =
-        filter_tables_by_bounded_neighborhood_join_with_settings(&tables, settings)?;
-    let changed = info.removed_rows > 0;
-    Ok((output_tables, info, changed))
 }
 
 fn step_node_filter(
@@ -382,7 +335,7 @@ fn run_reduction_pipeline(
     state: &mut PipelineState,
     max_rounds: Option<usize>,
     zero_collapse_bit_filter_enabled: bool,
-    bounded_neighborhood_join_settings: &BoundedNeighborhoodJoinSettings,
+    protected_bits: &BTreeSet<u32>,
 ) -> Result<(Vec<Table>, Vec<RoundInfo>, usize)> {
     let mut rounds = Vec::new();
     let mut productive_rounds = 0usize;
@@ -399,15 +352,20 @@ fn run_reduction_pipeline(
             step_subset_absorption(&tables, state, round_index);
         let (after_forced, forced_info, forced_changed) = step_forced_bits(after_subset, state)?;
         let (after_single_table_bit_filter, single_table_bit_filter_info, single_table_changed) =
-            step_single_table_bit_filter(after_forced)?;
+            step_single_table_bit_filter(after_forced, protected_bits)?;
         let (after_pair_reduction, pair_reduction_info, pair_reduction_changed) =
-            step_pair_reduction(after_single_table_bit_filter, state, round_index)?;
+            step_pair_reduction(
+                after_single_table_bit_filter,
+                state,
+                round_index,
+                protected_bits,
+            )?;
         let (
             after_zero_collapse_bit_filter,
             zero_collapse_bit_filter_info,
             zero_collapse_bit_filter_changed,
         ) = if zero_collapse_bit_filter_enabled {
-            step_zero_collapse_bit_filter(after_pair_reduction)?
+            step_zero_collapse_bit_filter(after_pair_reduction, protected_bits)?
         } else {
             (
                 after_pair_reduction,
@@ -417,16 +375,8 @@ fn run_reduction_pipeline(
         };
         let (after_tautology_filter, tautology_info, tautology_changed) =
             step_tautology_filter(after_zero_collapse_bit_filter);
-        let (
-            after_bounded_neighborhood_join_filter,
-            bounded_neighborhood_join_filter_info,
-            bounded_neighborhood_join_filter_changed,
-        ) = step_bounded_neighborhood_join_filter(
-            after_tautology_filter,
-            bounded_neighborhood_join_settings,
-        )?;
         let (output_tables, node_filter_info, node_filter_changed) =
-            step_node_filter(after_bounded_neighborhood_join_filter, state)?;
+            step_node_filter(after_tautology_filter, state)?;
 
         let changed = subset_changed
             || forced_changed
@@ -434,7 +384,6 @@ fn run_reduction_pipeline(
             || pair_reduction_changed
             || zero_collapse_bit_filter_changed
             || tautology_changed
-            || bounded_neighborhood_join_filter_changed
             || node_filter_changed;
 
         let round_info = RoundInfo {
@@ -450,7 +399,6 @@ fn run_reduction_pipeline(
             pair_reduction: pair_reduction_info,
             zero_collapse_bit_filter: zero_collapse_bit_filter_info,
             tautology_filter: tautology_info,
-            bounded_neighborhood_join_filter: bounded_neighborhood_join_filter_info,
             node_filter: node_filter_info,
             output_table_count: output_tables.len(),
             output_bit_count: collect_bits(&output_tables).len(),
@@ -480,12 +428,14 @@ fn main() -> Result<()> {
     let args = Args::parse()?;
 
     let tables = read_tables(&args.input)?;
+    let protected_bits: BTreeSet<u32> = match &args.origins {
+        Some(origins_path) => read_u32_json_array(origins_path)?.into_iter().collect(),
+        None => BTreeSet::new(),
+    };
     let initial_table_count = tables.len();
     let initial_bits = collect_bits(&tables);
     let initial_row_count = total_rows(&tables);
     let initial_rank_summary = summarize_table_ranks(&tables, 10);
-    let bounded_neighborhood_join_settings = args.bounded_neighborhood_join_settings();
-    bounded_neighborhood_join_settings.validate()?;
 
     let mut state = initialize_pipeline_state(&tables);
     let (tables, rounds, productive_rounds) = run_reduction_pipeline(
@@ -493,7 +443,7 @@ fn main() -> Result<()> {
         &mut state,
         args.max_rounds,
         !args.disable_zero_collapse_bit_filter,
-        &bounded_neighborhood_join_settings,
+        &protected_bits,
     )?;
 
     let forced_rows = forced_rows(&state.original_forced);
@@ -501,9 +451,9 @@ fn main() -> Result<()> {
     let final_components = build_final_components(&state.original_mapping, &state.original_forced);
 
     let method = if args.disable_zero_collapse_bit_filter {
-        "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, tautology filtering, bounded neighborhood exact-join projection filtering, and node-based projection intersection filtering until no further change"
+        "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, tautology filtering, and node-based projection intersection filtering until no further change"
     } else {
-        "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, zero-collapse-based removal of locally unrestricted bits, tautology filtering, bounded neighborhood exact-join projection filtering, and node-based projection intersection filtering until no further change"
+        "repeat subset absorption, AND/OR fixed-bit propagation/removal, single-table bit filtering, equal/opposite pair reduction, zero-collapse-based removal of locally unrestricted bits, tautology filtering, and node-based projection intersection filtering until no further change"
     };
     let mut steps = vec![
         "subset_absorption",
@@ -515,7 +465,6 @@ fn main() -> Result<()> {
         steps.push("zero_collapse_bit_filter");
     }
     steps.push("tautology_filter");
-    steps.push("bounded_neighborhood_join_filter");
     steps.push("node_filter");
 
     let report = json!({
@@ -523,11 +472,12 @@ fn main() -> Result<()> {
         "steps": steps,
         "stage": STAGE_COMMON_NODE_FIXED_POINT,
         "input": path_string(&args.input),
+        "origins": args.origins.as_ref().map(|path| path_string(path)),
         "output": path_string(&args.output),
         "nodes_output": path_string(&args.nodes),
         "max_rounds": args.max_rounds,
         "zero_collapse_bit_filter_enabled": !args.disable_zero_collapse_bit_filter,
-        "bounded_neighborhood_join_settings": bounded_neighborhood_join_settings,
+        "protected_bit_count": protected_bits.len(),
         "initial_table_count": initial_table_count,
         "initial_bit_count": initial_bits.len(),
         "initial_row_count": initial_row_count,
@@ -555,13 +505,6 @@ fn main() -> Result<()> {
         "total_collapsed_duplicate_tables_in_zero_collapse_bit_filter": rounds.iter().map(|round| round.zero_collapse_bit_filter.collapsed_duplicate_tables).sum::<usize>(),
         "total_removed_tautologies": rounds.iter().map(|round| round.tautology_filter.removed_tables).sum::<usize>(),
         "total_removed_tautology_rows": rounds.iter().map(|round| round.tautology_filter.removed_rows).sum::<usize>(),
-        "bounded_neighborhood_join_max_union_bits": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.max_union_bits).max().unwrap_or(0),
-        "bounded_neighborhood_join_max_tables_per_neighborhood": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.max_tables_per_neighborhood).max().unwrap_or(0),
-        "bounded_neighborhood_join_min_tables_per_neighborhood": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.min_tables_per_neighborhood).max().unwrap_or(0),
-        "total_candidate_anchor_tables_in_bounded_neighborhood_join_filter": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.candidate_anchor_tables).sum::<usize>(),
-        "total_joined_anchor_tables_in_bounded_neighborhood_join_filter": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.joined_anchor_tables).sum::<usize>(),
-        "total_changed_tables_in_bounded_neighborhood_join_filter": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.changed_tables).sum::<usize>(),
-        "total_removed_rows_in_bounded_neighborhood_join_filter": rounds.iter().map(|round| round.bounded_neighborhood_join_filter.removed_rows).sum::<usize>(),
         "final_forced_original_bits": forced_rows.len(),
         "total_pair_relation_pairs_found": state.pair_relations_history.len(),
         "total_pair_replaced_bits": rounds.iter().map(|round| round.pair_reduction.pair_replaced_bits_total).sum::<usize>(),
@@ -603,11 +546,112 @@ fn path_string(path: &Path) -> String {
     path.to_string_lossy().into_owned()
 }
 
+fn read_u32_json_array(path: &Path) -> Result<Vec<u32>> {
+    let bytes =
+        std::fs::read(path).with_context(|| format!("failed to read {}", path.display()))?;
+    serde_json::from_slice(&bytes).with_context(|| format!("failed to parse {}", path.display()))
+}
+
 fn expect_value(iter: &mut impl Iterator<Item = String>, flag: &str) -> Result<String> {
     iter.next()
         .ok_or_else(|| anyhow!("missing value for {flag}"))
 }
 
 fn print_usage() {
-    println!("usage: cargo run --release -- --input <path> [--max-rounds <n>] [--disable-zero-collapse-bit-filter] [--bounded-neighborhood-join-max-union-bits <n>] [--bounded-neighborhood-join-max-tables-per-neighborhood <n>] [--bounded-neighborhood-join-min-tables-per-neighborhood <n>] [--output <path>] [--report <path>] [--forced <path>] [--mapping <path>] [--components <path>] [--dropped <path>] [--relations <path>] [--nodes <path>]");
+    println!("usage: cargo run --release -- --input <path> [--origins <path>] [--max-rounds <n>] [--disable-zero-collapse-bit-filter] [--output <path>] [--report <path>] [--forced <path>] [--mapping <path>] [--components <path>] [--dropped <path>] [--relations <path>] [--nodes <path>]");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn run_pipeline_once(
+        tables: Vec<Table>,
+        protected_bits: BTreeSet<u32>,
+    ) -> (Vec<Table>, Vec<RoundInfo>) {
+        let mut state = initialize_pipeline_state(&tables);
+        let (output_tables, rounds, _) =
+            run_reduction_pipeline(tables, &mut state, Some(1), true, &protected_bits).unwrap();
+        (output_tables, rounds)
+    }
+
+    #[test]
+    fn pipeline_keeps_protected_unique_bits() {
+        let tables = vec![
+            Table {
+                bits: vec![10, 20],
+                rows: vec![0b00, 0b01, 0b11],
+            },
+            Table {
+                bits: vec![20, 30],
+                rows: vec![0b00, 0b01, 0b10],
+            },
+        ];
+
+        let (output_tables, rounds) = run_pipeline_once(tables, BTreeSet::from([10u32]));
+
+        assert_eq!(rounds.len(), 1);
+        assert_eq!(rounds[0].single_table_bit_filter.removed_bits, 1);
+        assert!(output_tables.iter().any(|table| table.bits == vec![10, 20]));
+        let output_bits = collect_bits(&output_tables);
+        assert!(output_bits.contains(&10));
+        assert!(!output_bits.contains(&30));
+    }
+
+    #[test]
+    fn pipeline_prefers_protected_pair_reduction_representatives() {
+        let tables = vec![
+            Table {
+                bits: vec![10, 11, 12],
+                rows: vec![0b000, 0b100, 0b111],
+            },
+            Table {
+                bits: vec![11, 40],
+                rows: vec![0b00, 0b01, 0b10],
+            },
+            Table {
+                bits: vec![12, 50],
+                rows: vec![0b00, 0b01, 0b10],
+            },
+        ];
+
+        let (output_tables, rounds) = run_pipeline_once(tables, BTreeSet::from([10u32]));
+
+        assert_eq!(rounds.len(), 1);
+        assert_eq!(rounds[0].pair_reduction.pair_replaced_bits_total, 1);
+        assert!(output_tables
+            .iter()
+            .any(|table| { table.bits == vec![10, 12] && table.rows == vec![0b00, 0b10, 0b11] }));
+        let output_bits = collect_bits(&output_tables);
+        assert!(output_bits.contains(&10));
+        assert!(!output_bits.contains(&11));
+    }
+
+    #[test]
+    fn pipeline_keeps_protected_zero_collapse_bits() {
+        let tables = vec![
+            Table {
+                bits: vec![10, 20, 30],
+                rows: vec![0b000, 0b001, 0b100, 0b101, 0b110, 0b111],
+            },
+            Table {
+                bits: vec![20, 40],
+                rows: vec![0b00, 0b01, 0b10],
+            },
+            Table {
+                bits: vec![30, 50],
+                rows: vec![0b00, 0b01, 0b10],
+            },
+        ];
+
+        let (output_tables, rounds) = run_pipeline_once(tables, BTreeSet::from([10u32]));
+
+        assert_eq!(rounds.len(), 1);
+        assert_eq!(rounds[0].zero_collapse_bit_filter.removed_bits, 2);
+        assert!(output_tables.iter().any(|table| {
+            table.bits == vec![10, 20, 30]
+                && table.rows == vec![0b000, 0b001, 0b100, 0b101, 0b110, 0b111]
+        }));
+        assert!(collect_bits(&output_tables).contains(&10));
+    }
 }
