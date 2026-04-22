@@ -208,6 +208,42 @@ pub fn build_rewrite_map(
     Ok((rewrite_map, stats))
 }
 
+pub fn protect_bits_in_rewrite_map(
+    rewrite_map: &HashMap<u32, (u32, u8)>,
+    protected_bits: &BTreeSet<u32>,
+) -> HashMap<u32, (u32, u8)> {
+    let mut groups: BTreeMap<u32, Vec<(u32, u8)>> = BTreeMap::new();
+    for (&bit, &(rep, inv)) in rewrite_map {
+        groups.entry(rep).or_default().push((bit, inv));
+    }
+
+    let mut out = HashMap::new();
+    for members in groups.values() {
+        let preferred = members
+            .iter()
+            .map(|(bit, _)| *bit)
+            .filter(|bit| protected_bits.contains(bit))
+            .min()
+            .or_else(|| members.iter().map(|(bit, _)| *bit).min())
+            .unwrap();
+        let preferred_inv = members
+            .iter()
+            .find(|(bit, _)| *bit == preferred)
+            .map(|(_, inv)| *inv)
+            .unwrap_or(0);
+
+        for &(bit, inv) in members {
+            if protected_bits.contains(&bit) {
+                out.insert(bit, (bit, 0));
+            } else {
+                out.insert(bit, (preferred, inv ^ preferred_inv));
+            }
+        }
+    }
+
+    out
+}
+
 pub fn rewrite_tables(
     tables: &[Table],
     rewrite_map: &HashMap<u32, (u32, u8)>,
@@ -418,5 +454,21 @@ mod tests {
         let (rewritten, rewrite_stats) = rewrite_tables(&tables, &rewrite_map);
         assert_eq!(rewrite_stats.changed_tables, 1);
         assert_eq!(rewritten[0].bits, vec![1]);
+    }
+
+    #[test]
+    fn protect_bits_in_rewrite_map_keeps_protected_bits_identity() {
+        let rewrite_map = HashMap::from([
+            (10u32, (10u32, 0u8)),
+            (11u32, (10u32, 0u8)),
+            (12u32, (10u32, 1u8)),
+        ]);
+        let protected_bits = BTreeSet::from([10u32, 11u32]);
+
+        let protected = protect_bits_in_rewrite_map(&rewrite_map, &protected_bits);
+
+        assert_eq!(protected.get(&10), Some(&(10, 0)));
+        assert_eq!(protected.get(&11), Some(&(11, 0)));
+        assert_eq!(protected.get(&12), Some(&(10, 1)));
     }
 }

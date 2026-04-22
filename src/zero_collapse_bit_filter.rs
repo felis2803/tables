@@ -1,4 +1,4 @@
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 use anyhow::{bail, Result};
 use serde::Serialize;
@@ -21,6 +21,14 @@ pub struct ZeroCollapseBitFilterInfo {
 pub fn filter_zero_collapse_bits(
     tables: &[Table],
 ) -> Result<(Vec<Table>, ZeroCollapseBitFilterInfo)> {
+    let protected_bits = BTreeSet::new();
+    filter_zero_collapse_bits_with_protected_bits(tables, &protected_bits)
+}
+
+pub fn filter_zero_collapse_bits_with_protected_bits(
+    tables: &[Table],
+    protected_bits: &BTreeSet<u32>,
+) -> Result<(Vec<Table>, ZeroCollapseBitFilterInfo)> {
     let mut projected = Vec::with_capacity(tables.len());
     let mut info = ZeroCollapseBitFilterInfo::default();
 
@@ -29,7 +37,7 @@ pub fn filter_zero_collapse_bits(
         let mut current = table.clone();
         let mut removed_here = 0usize;
 
-        while let Some(bit_index) = removable_bit_index(&current) {
+        while let Some(bit_index) = removable_bit_index(&current, protected_bits) {
             let previous_row_count = current.rows.len();
             current = project_away_bit(&current, bit_index);
             info.removed_rows_after_projection_dedup += previous_row_count - current.rows.len();
@@ -64,10 +72,13 @@ pub fn filter_zero_collapse_bits(
     Ok((to_tables(&canonical), info))
 }
 
-fn removable_bit_index(table: &Table) -> Option<usize> {
+fn removable_bit_index(table: &Table, protected_bits: &BTreeSet<u32>) -> Option<usize> {
     compute_bit_zero_collapse_metrics(table)
         .into_iter()
-        .find(|metric| metric.row_count_after_zeroing * 2 == metric.row_count_before)
+        .find(|metric| {
+            metric.row_count_after_zeroing * 2 == metric.row_count_before
+                && !protected_bits.contains(&metric.bit)
+        })
         .map(|metric| metric.bit_index)
 }
 
@@ -180,6 +191,27 @@ mod tests {
             vec![Table {
                 bits: vec![2],
                 rows: vec![0],
+            }]
+        );
+    }
+
+    #[test]
+    fn filter_zero_collapse_bits_keeps_protected_bits() {
+        let tables = vec![Table {
+            bits: vec![1, 2],
+            rows: vec![0b00, 0b01, 0b10, 0b11],
+        }];
+        let protected = BTreeSet::from([2u32]);
+
+        let (filtered, info) =
+            filter_zero_collapse_bits_with_protected_bits(&tables, &protected).unwrap();
+
+        assert_eq!(info.removed_bits, 1);
+        assert_eq!(
+            filtered,
+            vec![Table {
+                bits: vec![2],
+                rows: vec![0, 1],
             }]
         );
     }

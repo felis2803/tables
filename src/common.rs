@@ -5,7 +5,9 @@ use std::path::Path;
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
 
-use crate::tables_file::{has_tables_extension, read_tables_from_tables_file, write_tables_to_tables_file};
+use crate::tables_file::{
+    has_tables_extension, read_tables_from_tables_file, write_tables_to_tables_file,
+};
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Table {
@@ -13,7 +15,7 @@ pub struct Table {
     pub bits: Vec<u32>,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ForcedRow {
     pub bit: u32,
     pub value: u8,

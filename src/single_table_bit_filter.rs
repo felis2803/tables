@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 
 use anyhow::{bail, Result};
 use serde::Serialize;
@@ -19,6 +19,14 @@ pub struct SingleTableBitFilterInfo {
 pub fn filter_single_table_bits(
     tables: &[Table],
 ) -> Result<(Vec<Table>, SingleTableBitFilterInfo)> {
+    let protected_bits = BTreeSet::new();
+    filter_single_table_bits_with_protected_bits(tables, &protected_bits)
+}
+
+pub fn filter_single_table_bits_with_protected_bits(
+    tables: &[Table],
+    protected_bits: &BTreeSet<u32>,
+) -> Result<(Vec<Table>, SingleTableBitFilterInfo)> {
     let mut bit_counts: HashMap<u32, usize> = HashMap::new();
     for table in tables {
         for &bit in &table.bits {
@@ -35,7 +43,7 @@ pub fn filter_single_table_bits(
         let mut removed_here = 0usize;
 
         for (index, &bit) in table.bits.iter().enumerate() {
-            if bit_counts.get(&bit).copied().unwrap_or(0) == 1 {
+            if bit_counts.get(&bit).copied().unwrap_or(0) == 1 && !protected_bits.contains(&bit) {
                 removed_here += 1;
             } else {
                 keep_indices.push(index);
@@ -184,5 +192,26 @@ mod tests {
         assert!(error
             .to_string()
             .contains("single-table bit filtering introduced contradiction"));
+    }
+
+    #[test]
+    fn filter_single_table_bits_keeps_protected_unique_bits() {
+        let tables = vec![Table {
+            bits: vec![1, 2],
+            rows: vec![0b00, 0b10],
+        }];
+        let protected = BTreeSet::from([2u32]);
+
+        let (filtered, info) =
+            filter_single_table_bits_with_protected_bits(&tables, &protected).unwrap();
+
+        assert_eq!(info.removed_bits, 1);
+        assert_eq!(
+            filtered,
+            vec![Table {
+                bits: vec![2],
+                rows: vec![0, 1],
+            }]
+        );
     }
 }
