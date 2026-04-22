@@ -7,7 +7,8 @@ target/
 pipeline_stdout.log
 pipeline_stderr.log
 
-data/derived/*.json
+# Generated derived artifacts
+data/derived/**
 data/reports/*.json
 runs/*
 !runs/README.md
