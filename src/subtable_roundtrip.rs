@@ -175,6 +175,8 @@ pub fn run_progressive_roundtrip(
         );
     }
 
+    let effective_max_subtable_arity = max_subtable_arity.min(source.bits.len());
+
     let mut extracted_by_arity = BTreeMap::new();
     let mut selected_by_arity = BTreeMap::new();
     let two_bit_all = extract_exact_subtables(source, 2);
@@ -186,7 +188,7 @@ pub fn run_progressive_roundtrip(
     let mut current_pool = two_bit_non_taut.clone();
     pools.push(build_roundtrip_check("2", source, &current_pool)?);
 
-    for subtable_arity in 3..=max_subtable_arity {
+    for subtable_arity in 3..=effective_max_subtable_arity {
         if pools.last().is_some_and(|pool| pool.check.matches_source) {
             break;
         }
@@ -220,6 +222,8 @@ pub fn run_selective_roundtrip(
         );
     }
 
+    let effective_max_subtable_arity = max_subtable_arity.min(source.bits.len());
+
     let two_bit_all = extract_exact_subtables(source, 2);
     let two_bit_non_taut = filter_non_tautologies(&two_bit_all);
 
@@ -233,7 +237,7 @@ pub fn run_selective_roundtrip(
         current_pool.iter().map(|factor| factor.bits.clone()).collect();
     let mut projection_cache = SourceProjectionCache::new(source);
 
-    for subtable_arity in 3..=max_subtable_arity {
+    for subtable_arity in 3..=effective_max_subtable_arity {
         if pools.last().is_some_and(|pool| pool.check.matches_source) {
             break;
         }
@@ -931,6 +935,16 @@ mod tests {
     }
 
     #[test]
+    fn progressive_roundtrip_caps_requested_max_at_source_arity() {
+        let source = table(&[1, 2, 3], &[0b000, 0b011, 0b101, 0b110]);
+        let result = run_progressive_roundtrip(&source, 6).unwrap();
+        assert_eq!(result.extracted_by_arity.len(), 2);
+        assert!(result.extracted_by_arity.contains_key(&2));
+        assert!(result.extracted_by_arity.contains_key(&3));
+        assert!(!result.extracted_by_arity.contains_key(&4));
+    }
+
+    #[test]
     fn selective_roundtrip_recovers_parity_with_one_three_bit_factor() {
         let source = table(&[1, 2, 3], &[0b000, 0b011, 0b101, 0b110]);
         let result = run_selective_roundtrip(&source, 4).unwrap();
@@ -949,6 +963,16 @@ mod tests {
         assert!(selective.stage_stats[0].candidate_bitset_count >= 1);
         assert!(selective.stage_stats[0].evaluated_candidate_count >= 1);
         assert!(selective.stage_stats[0].selected_factor_count >= 1);
+    }
+
+    #[test]
+    fn selective_roundtrip_caps_requested_max_at_source_arity() {
+        let source = table(&[1, 2, 3], &[0b000, 0b011, 0b101, 0b110]);
+        let result = run_selective_roundtrip(&source, 6).unwrap();
+        assert_eq!(result.selected_by_arity.len(), 2);
+        assert!(result.selected_by_arity.contains_key(&2));
+        assert!(result.selected_by_arity.contains_key(&3));
+        assert!(!result.selected_by_arity.contains_key(&4));
     }
 
     #[test]
