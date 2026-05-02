@@ -47,6 +47,11 @@ The repository also keeps the derived origin-reachability generation chain for b
 - later generations contain bits that are exactly determined by already-known bits through minimal non-empty one-bit functional dependency witnesses;
 - constant bits are tracked separately and are not counted as origin-derived generations.
 
+The repository also uses table paths as a derived graph concept:
+
+- a path between tables is a chain of tables where every adjacent pair shares at least one bit;
+- a shortest path is a path with the smallest number of unique bits across all tables in the chain.
+
 ## What Should Stay In Root
 
 Only a small set of files should remain in the root:

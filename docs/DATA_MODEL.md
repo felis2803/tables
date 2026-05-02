@@ -63,6 +63,19 @@ When schema-equal tables are merged:
 - their `rows` are intersected;
 - they do not get unioned.
 
+## Table Paths
+
+The project uses a derived graph view over the active table system:
+
+- graph nodes are tables;
+- two tables are adjacent when they share at least one bit;
+- a path between two tables is a chain of tables where every adjacent pair is adjacent in this graph.
+
+The bit set of a path is the union of all bits that occur in any table in the chain.
+
+A shortest path between two tables is any valid table path with the minimum number of unique bits in that path bit set.
+Hop count is not part of the canonical shortest-path definition; implementations may report it or use it as an explicit tie-breaker, but the primary path cost is the unique-bit count.
+
 ## Rank Metric
 
 The project uses a derived table metric called `rank`:
